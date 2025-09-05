@@ -1,70 +1,45 @@
 ﻿using System;
 using System.Globalization;
 using System.Text;
+using Chirp.CLI;
+using CsvHelper;
+using CsvHelper.Configuration;
 
-if (args[0] == "reed")
+var config = new CsvConfiguration(CultureInfo.InvariantCulture)
 {
-    String path = "/Users/tobiasnielsen/Chirp/Chirp.CLI/chirp_cli_db.csv";
-    string[] lines = File.ReadAllLines(path);
-    String Author, Message, Timestamp;
-        
-    for (int i = 1; i < 5; i++)
-    {
-        string line = lines[i];
-        string[] newline = line.Split('"');
-        Message = newline[1];
-        string[] newline2 = line.Split(',');
-        Author = newline2[0];
-        Timestamp = newline2[newline2.Length - 1];
+    NewLine = Environment.NewLine,
+};
 
-        long unixSeconds = long.Parse(Timestamp);
-        DateTimeOffset dto = DateTimeOffset.FromUnixTimeSeconds(unixSeconds);
-        string formatted = dto.ToLocalTime().ToString("MM/dd/yy HH:mm:ss");
-        Timestamp = formatted;
+List<Cheep> records;
 
-        Console.WriteLine(Author + " " + "@ " + formatted + ": " + Message);
-    }
+using (var reader = new StreamReader("/Users/tobiasnielsen/Chirp/Chirp.CLI/chirp_cli_db.csv"))
+using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+{
+    records = csv.GetRecords<Cheep>().ToList();
 }
 
-if (args[0] == "cheep")
+var newCheep = new Cheep
 {
-    // niels Linux file path. skal rives og knækkes så den passer med de andres på en cool måde - enten en hjemmeside eller noget andet pjat -TA
-    string filePath = "/Users/tobiasnielsen/Chirp/Chirp.CLI/chirp_cli_db.csv";
+    Author = Environment.UserName,
+    Message = Console.ReadLine(),
+    Timestamp = DateTimeOffset.Now.ToUnixTimeSeconds()
+};
+records.Add(newCheep);
 
-    // https://www.influxdata.com/blog/current-time-c-guide/
-    String Nowstring = DateTime.Now.ToString();
-
-    String format = "MM.dd.yyyy HH.mm.ss"; //issue der kan være forskel på tidsformat på pc enten - eller / mellem mm dd yyyy
-     
-    List<String> linesToAdd = args.ToList();
-    linesToAdd.Remove("cheep");
-   
-    String cheep = Stringformatter(linesToAdd);
-
-    // fordi det ikke virker med engelsk/dansk tid skal vi lave det om til amerikansk tid 
-    CultureInfo culture = new CultureInfo("en-US");
-
-    DateTimeOffset dateTime = DateTimeOffset.ParseExact(Nowstring, format, culture);
-    long date = dateTime.ToUnixTimeSeconds();
-    String OSusername = Environment.UserName;
-    
-    // her laves en writer der skriver i dokumentet
-    using (StreamWriter writer = new StreamWriter(filePath, append: true))
-    {
-        
-        writer.WriteLine(OSusername + ",\"" + cheep + "\"," + date);
-        Console.WriteLine("added to csv: " + OSusername + ", \"" + cheep + "\"," + date);
-
-    }
-
+using (var writer = new StreamWriter("/Users/tobiasnielsen/Chirp/Chirp.CLI/chirp_cli_db.csv"))
+using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+{
+    csv.WriteRecords(records);
+    writer.Flush();
 }
 
-// Bruges til at bygge cheep beskeden ud fra listen af strings
-String Stringformatter(List<String> strings)
+foreach (var cheep in records)
 {
-    StringBuilder Sb = new StringBuilder();
-    
-    Sb.AppendJoin(" ",strings);
-        
-    return Sb.ToString();
-} 
+    Console.WriteLine($"{cheep.Author}: {cheep.Message} {convert(cheep.Timestamp)}");
+}
+string convert(long timestamp)
+{
+    DateTimeOffset dto = DateTimeOffset.FromUnixTimeSeconds(timestamp);
+    string formatted = dto.ToLocalTime().ToString("MM/dd/yy HH:mm:ss");
+    return formatted;
+}
