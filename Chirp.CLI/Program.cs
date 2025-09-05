@@ -46,14 +46,4 @@ using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
     writer.Flush();
 }
 
-foreach (var cheep in records)
-{
-    Console.WriteLine($"{cheep.Author}: {cheep.Message} {convert(cheep.Timestamp)}");
-}
-
-string convert(long timestamp)
-{
-    DateTimeOffset dto = DateTimeOffset.FromUnixTimeSeconds(timestamp);
-    string formatted = dto.ToLocalTime().ToString("MM/dd/yy HH:mm:ss");
-    return formatted;
-}
+UserInterface.PrintCheeps(records);
