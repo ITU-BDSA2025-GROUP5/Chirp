@@ -4,7 +4,7 @@ using System.Text;
 
 if (args[0] == "reed")
 {
-    String path = "C:\\Users\\marti\\Chirp\\Chirp.CLI\\chirp_cli_db.csv";
+    String path = "/Users/tobiasnielsen/Chirp/Chirp.CLI/chirp_cli_db.csv";
     string[] lines = File.ReadAllLines(path);
     String Author, Message, Timestamp;
         
@@ -29,12 +29,12 @@ if (args[0] == "reed")
 if (args[0] == "cheep")
 {
     // niels Linux file path. skal rives og knækkes så den passer med de andres på en cool måde - enten en hjemmeside eller noget andet pjat -TA
-    string filePath = "C:\\Users\\marti\\Chirp\\Chirp.CLI\\chirp_cli_db.csv";
+    string filePath = "/Users/tobiasnielsen/Chirp/Chirp.CLI/chirp_cli_db.csv";
 
     // https://www.influxdata.com/blog/current-time-c-guide/
     String Nowstring = DateTime.Now.ToString();
 
-    String format = "MM-dd-yyyy HH:mm:ss"; //issue der kan være forskel på tidsformat på pc enten - eller / mellem mm dd yyyy
+    String format = "MM.dd.yyyy HH.mm.ss"; //issue der kan være forskel på tidsformat på pc enten - eller / mellem mm dd yyyy
      
     List<String> linesToAdd = args.ToList();
     linesToAdd.Remove("cheep");
