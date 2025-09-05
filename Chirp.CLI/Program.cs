@@ -4,29 +4,42 @@ using System.Text;
 using Chirp.CLI;
 using CsvHelper;
 using CsvHelper.Configuration;
+using DocoptNet;
 
-var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+const string usage = @"Chirp.
+Usage:
+  chirp cheep <message>
+  chirp --version
+Options:
+  -h --help     Show this screen.
+  --version     Show version.
+";
+var arguments = new Docopt().Apply(usage, args, version: "Chirp 1.0", exit: true);
+
+var csvConfig = new CsvConfiguration(CultureInfo.InvariantCulture)
 {
-    NewLine = Environment.NewLine,
+    NewLine = Environment.NewLine
 };
 
 List<Cheep> records;
-
-using (var reader = new StreamReader("/Users/tobiasnielsen/Chirp/Chirp.CLI/chirp_cli_db.csv"))
+using (var reader = new StreamReader("/Users/oscardalsgaardjakobsen/Documents/GitHub/Chirp/Chirp.CLI/chirp_cli_db.csv"))
 using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
 {
     records = csv.GetRecords<Cheep>().ToList();
 }
 
-var newCheep = new Cheep
+if (arguments["cheep"].IsTrue)
 {
-    Author = Environment.UserName,
-    Message = Console.ReadLine(),
-    Timestamp = DateTimeOffset.Now.ToUnixTimeSeconds()
-};
-records.Add(newCheep);
+    var newCheep = new Cheep
+    {
+        Author = Environment.UserName,
+        Message = arguments["<message>"].ToString(),
+        Timestamp = DateTimeOffset.Now.ToUnixTimeSeconds()
+    };
+    records.Add(newCheep);
+}
 
-using (var writer = new StreamWriter("/Users/tobiasnielsen/Chirp/Chirp.CLI/chirp_cli_db.csv"))
+using (var writer = new StreamWriter("/Users/oscardalsgaardjakobsen/Documents/GitHub/Chirp/Chirp.CLI/chirp_cli_db.csv"))
 using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
 {
     csv.WriteRecords(records);
@@ -37,6 +50,7 @@ foreach (var cheep in records)
 {
     Console.WriteLine($"{cheep.Author}: {cheep.Message} {convert(cheep.Timestamp)}");
 }
+
 string convert(long timestamp)
 {
     DateTimeOffset dto = DateTimeOffset.FromUnixTimeSeconds(timestamp);
