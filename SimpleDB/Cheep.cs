@@ -1,7 +1,5 @@
 namespace Chirp.CLI;
 
-
-
 public record Cheep
 {
     public required string Author { get; set; }

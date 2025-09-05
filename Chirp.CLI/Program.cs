@@ -4,19 +4,13 @@ using System.Text;
 using Chirp.CLI;
 using CsvHelper;
 using CsvHelper.Configuration;
+using SimpleDB;
 
-var config = new CsvConfiguration(CultureInfo.InvariantCulture)
-{
-    NewLine = Environment.NewLine,
-};
 
-List<Cheep> records;
 
-using (var reader = new StreamReader("/Users/tobiasnielsen/Chirp/Chirp.CLI/chirp_cli_db.csv"))
-using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
-{
-    records = csv.GetRecords<Cheep>().ToList();
-}
+    
+IDatabaseRepository<Cheep> database = new CSVDatabase<Cheep>();
+
 
 var newCheep = new Cheep
 {
@@ -24,19 +18,18 @@ var newCheep = new Cheep
     Message = Console.ReadLine(),
     Timestamp = DateTimeOffset.Now.ToUnixTimeSeconds()
 };
-records.Add(newCheep);
 
-using (var writer = new StreamWriter("/Users/tobiasnielsen/Chirp/Chirp.CLI/chirp_cli_db.csv"))
-using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
-{
-    csv.WriteRecords(records);
-    writer.Flush();
-}
 
-foreach (var cheep in records)
+database.Store(newCheep);
+IEnumerable<Cheep> test = database.Read();
+
+
+foreach (var cheep in test)
 {
     Console.WriteLine($"{cheep.Author}: {cheep.Message} {convert(cheep.Timestamp)}");
 }
+
+
 string convert(long timestamp)
 {
     DateTimeOffset dto = DateTimeOffset.FromUnixTimeSeconds(timestamp);
