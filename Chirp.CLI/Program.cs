@@ -6,33 +6,39 @@ using CsvHelper;
 using CsvHelper.Configuration;
 using SimpleDB;
 
+using DocoptNet;
 
+const string usage = @"Chirp.
+Usage:
+  chirp cheep <message>
+  chirp --version
+Options:
+  -h --help     Show this screen.
+  --version     Show version.
+";
+var arguments = new Docopt().Apply(usage, args, version: "Chirp 1.0", exit: true);
+
+var csvConfig = new CsvConfiguration(CultureInfo.InvariantCulture)
+{
+    NewLine = Environment.NewLine
+};
 
     
 IDatabaseRepository<Cheep> database = new CSVDatabase<Cheep>();
 
 
-var newCheep = new Cheep
+if (arguments["cheep"].IsTrue)
 {
-    Author = Environment.UserName,
-    Message = Console.ReadLine(),
-    Timestamp = DateTimeOffset.Now.ToUnixTimeSeconds()
-};
-
+    var newCheep = new Cheep
+    {
+        Author = Environment.UserName,
+        Message = arguments["<message>"].ToString(),
+        Timestamp = DateTimeOffset.Now.ToUnixTimeSeconds()
+    };
+    records.Add(newCheep);
+}
 
 database.Store(newCheep);
 IEnumerable<Cheep> test = database.Read();
 
-
-foreach (var cheep in test)
-{
-    Console.WriteLine($"{cheep.Author}: {cheep.Message} {convert(cheep.Timestamp)}");
-}
-
-
-string convert(long timestamp)
-{
-    DateTimeOffset dto = DateTimeOffset.FromUnixTimeSeconds(timestamp);
-    string formatted = dto.ToLocalTime().ToString("MM/dd/yy HH:mm:ss");
-    return formatted;
-}
+UserInterface.PrintCheeps(records);
