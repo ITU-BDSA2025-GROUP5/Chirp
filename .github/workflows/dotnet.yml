@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - 'v*.*.*'
+  workflow_dispatch: {}
 
 jobs:
   build-test:
@@ -33,12 +34,37 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
     - name: Publish for windows
       run: dotnet publish -c Release -r win-x64  -o out/windows
     - name: Publish for linux
       run: dotnet publish -c Release -r linux-x64  -o out/linux
     - name: Publish for macos
       run: dotnet publish -c Release -r osx-x64  -o out/macos
+
+    - name: Upload artifact windows
+      uses: actions/upload-artifact@v3
+      with:
+        name: app-win-x64
+        path: out/windows
+
+    - name: Upload artifact linux
+      uses: actions/upload-artifact@v3
+      with:
+        name: app-linux-x64
+        path: out/linux
+    
+    - name: Upload artifact macos
+      uses: actions/upload-artifact@v3
+      with:
+        name: app-macos-x64
+        path: out/macos
+  
+
 
 
   
