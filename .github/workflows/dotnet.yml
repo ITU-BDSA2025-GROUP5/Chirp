@@ -19,15 +19,15 @@ jobs:
         dotnet-version: 8.0.x
 
     - name: Restore dependencies
-      run: dotnet restore Chirp.sln
+      run: dotnet restore Chirp.CLI.sln
       working-directory: ./src/Chirp.CLI
 
     - name: Build 
-      run: dotnet build Chirp.sln --configuration Release --no-restore
+      run: dotnet build Chirp.CLI.sln --configuration Release --no-restore
       working-directory: ./src/Chirp.CLI
 
     - name: Test
-      run: dotnet test Chirp.sln --configuration Release --no-build  --verbosity normal
+      run: dotnet test Chirp.CLI.sln --configuration Release --no-build  --verbosity normal
       working-directory: ./src/Chirp.CLI
     
   publish:
