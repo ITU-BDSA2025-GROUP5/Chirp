@@ -43,11 +43,16 @@ jobs:
         dotnet-version: 8.0.x
 
     - name: Publish for windows
-      run: dotnet publish -c Release -r win-x64  -o out/windows
+      run: dotnet publish Chirp.CLI.sln -c Release -r win-x64  -o out/windows
+      working-directory: ./src/Chirp.CLI
+
     - name: Publish for linux
-      run: dotnet publish -c Release -r linux-x64  -o out/linux
+      run: dotnet publish Chirp.CLI.sln -c Release -r linux-x64  -o out/linux
+      working-directory: ./src/Chirp.CLI
+
     - name: Publish for macos
-      run: dotnet publish -c Release -r osx-x64  -o out/macos
+      run: dotnet publish Chirp.CLI.sln -c Release -r osx-x64  -o out/macos
+      working-directory: ./src/Chirp.CLI
 
     - name: Upload artifact windows
       uses: actions/upload-artifact@v4
