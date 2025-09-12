@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Chirp.CLI.test\Chirp.CLI.Tests.csproj" />
+    <ProjectReference Include="..\..\src\SimpleDB\SimpleDB.csproj" />
   </ItemGroup>
 
 </Project>
