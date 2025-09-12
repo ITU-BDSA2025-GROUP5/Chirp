@@ -19,13 +19,16 @@ jobs:
         dotnet-version: 8.0.x
 
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore Chirp.CLI.sln
+      working-directory: ./src/Chirp.CLI
 
     - name: Build 
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build Chirp.CLI.sln --configuration Release --no-restore
+      working-directory: ./src/Chirp.CLI
 
     - name: Test
-      run: dotnet test --configuration Release --no-build  --verbosity normal
+      run: dotnet test Chirp.CLI.sln --configuration Release --no-build  --verbosity normal
+      working-directory: ./src/Chirp.CLI
     
   publish:
     runs-on: ubuntu-latest
@@ -40,26 +43,31 @@ jobs:
         dotnet-version: 8.0.x
 
     - name: Publish for windows
-      run: dotnet publish -c Release -r win-x64  -o out/windows
+      run: dotnet publish Chirp.CLI.sln -c Release -r win-x64  -o out/windows
+      working-directory: ./src/Chirp.CLI
+
     - name: Publish for linux
-      run: dotnet publish -c Release -r linux-x64  -o out/linux
+      run: dotnet publish Chirp.CLI.sln -c Release -r linux-x64  -o out/linux
+      working-directory: ./src/Chirp.CLI
+
     - name: Publish for macos
-      run: dotnet publish -c Release -r osx-x64  -o out/macos
+      run: dotnet publish Chirp.CLI.sln -c Release -r osx-x64  -o out/macos
+      working-directory: ./src/Chirp.CLI
 
     - name: Upload artifact windows
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: app-win-x64
         path: out/windows
 
     - name: Upload artifact linux
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: app-linux-x64
         path: out/linux
     
     - name: Upload artifact macos
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: app-macos-x64
         path: out/macos
