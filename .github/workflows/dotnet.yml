@@ -7,73 +7,50 @@ on:
   workflow_dispatch: {}
 
 jobs:
-  build-test:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.x
-
-    - name: Restore dependencies
-      run: dotnet restore Chirp.CLI.sln
-      working-directory: ./src/Chirp.CLI
-
-    - name: Build 
-      run: dotnet build Chirp.CLI.sln --configuration Release --no-restore
-      working-directory: ./src/Chirp.CLI
-
-    - name: Test
-      run: dotnet test Chirp.CLI.sln --configuration Release --no-build  --verbosity normal
-      working-directory: ./src/Chirp.CLI
-    
-  publish:
-    runs-on: ubuntu-latest
-    needs: build-test
-
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.x
-
-    - name: Publish for windows
-      run: dotnet publish Chirp.CLI.sln -c Release -r win-x64  -o out/windows
-      working-directory: ./src/Chirp.CLI
-
-    - name: Publish for linux
-      run: dotnet publish Chirp.CLI.sln -c Release -r linux-x64  -o out/linux
-      working-directory: ./src/Chirp.CLI
-
-    - name: Publish for macos
-      run: dotnet publish Chirp.CLI.sln -c Release -r osx-x64  -o out/macos
-      working-directory: ./src/Chirp.CLI
-
-    - name: Upload artifact windows
-      uses: actions/upload-artifact@v4
-      with:
-        name: app-win-x64
-        path: out/windows
-
-    - name: Upload artifact linux
-      uses: actions/upload-artifact@v4
-      with:
-        name: app-linux-x64
-        path: out/linux
-    
-    - name: Upload artifact macos
-      uses: actions/upload-artifact@v4
-      with:
-        name: app-macos-x64
-        path: out/macos
+  release:
+    name: Release
+    strategy:
+      matrix:
+        kind: ['linux', 'windows', 'macOS']
+        include:
+          - kind: linux
+            os: ubuntu-latest
+            target: linux-x64
+          - kind: windows
+            os: windows-latest
+            target: win-x64
+          - kind: macOS
+            os: macos-latest
+            target: osx-arm64
+    runs-on: ${{ matrix.os }}
   
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
 
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.0.x
+      
+      - name: Build
+        shell: bash
+        run: |
+          tag=$(git describe --tags --abbrev=0)
+          release_name="App-$tag-${{ matrix.target }}"
+          dotnet publish src/Chirp.CLI/Chirp.CLI.csproj --framework net7.0 --runtime "${{ matrix.target }}" -c Release -o "$release_name"
 
+          if [ "${{ matrix.target }}" == "win-x64" ]; then
+            7z a -tzip "${release_name}.zip" "./${release_name}/*"
+          else
+            tar czvf "${release_name}.tar.gz" "$release_name"
+          fi
 
-  
+          rm -r "$release_name"
 
+      - name: Publish
+        uses: softprops/action-gh-release@v1
+        with:
+          files: "App*"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
