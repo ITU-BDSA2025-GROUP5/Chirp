@@ -50,19 +50,19 @@ jobs:
       run: dotnet publish -c Release -r osx-x64  -o out/macos
 
     - name: Upload artifact windows
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: app-win-x64
         path: out/windows
 
     - name: Upload artifact linux
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: app-linux-x64
         path: out/linux
     
     - name: Upload artifact macos
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: app-macos-x64
         path: out/macos
