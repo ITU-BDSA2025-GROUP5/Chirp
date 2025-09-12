@@ -2,9 +2,8 @@ name: .NET
 
 on:
   push:
-    branches: [ $default-branch ]
-  pull_request:
-    branches: [ $default-branch  ]
+    tags:
+      - 'v*.*.*'
 
 jobs:
   build-test:
