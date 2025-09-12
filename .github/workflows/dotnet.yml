@@ -1,28 +1,82 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
 name: .NET
 
 on:
   push:
-    branches: [ $default-branch ]
-  pull_request:
-    branches: [ $default-branch  ]
+    tags: ['v*.*.*']      # tag pushes create a release
+  workflow_dispatch: {}   # manual builds (no release)
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
+  build-package:
+    name: Build & package (${{ matrix.target }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest   # linux
+            target: linux-x64
+            archive_ext: tar.gz
+          - os: windows-latest  # windows
+            target: win-x64
+            archive_ext: zip
+          - os: macos-latest    # macOS (Apple Silicon)
+            target: osx-arm64
+            archive_ext: tar.gz
     steps:
-    - uses: actions/checkout@v4
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Build & publish
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag="${GITHUB_REF_NAME:-manual-$(date +%Y%m%d%H%M%S)}"
+          release_name="App-$tag-${{ matrix.target }}"
+          # Build for net8.0 (omit -f if your csproj already targets net8.0)
+          dotnet publish src/Chirp.CLI/Chirp.CLI.csproj -f net8.0 -r "${{ matrix.target }}" -c Release -o "$release_name"
+
+          if [ "${{ matrix.archive_ext }}" = "zip" ]; then
+            # Windows runner has 7zip built in
+            7z a -tzip "${release_name}.zip" "./${release_name}/*" >/dev/null
+          else
+            tar czf "${release_name}.tar.gz" "$release_name"
+          fi
+
+          rm -rf "$release_name"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pkg-${{ matrix.target }}
+          path: |
+            App-*-${{ matrix.target }}.zip
+            App-*-${{ matrix.target }}.tar.gz
+          if-no-files-found: error
+
+  release:
+    name: Create GitHub Release
+    needs: build-package
+    runs-on: ubuntu-latest
+    # Only publish a release for tag runs; manual runs just build artifacts
+    if: startsWith(github.ref, 'refs/tags/')
+    permissions:
+      contents: write
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: pkg-*
+          merge-multiple: true
+
+      - name: Publish release (attach all files)
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          files: |
+            App-*.zip
+            App-*.tar.gz

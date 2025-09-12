@@ -8,6 +8,7 @@ namespace SimpleDB;
 
 public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 {
+   private string filepath = "data/chirp_cli_db.csv";
    private List<T> records;
    private readonly CsvConfiguration config = new CsvConfiguration(CultureInfo.InvariantCulture)
    {
@@ -16,7 +17,7 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
    
    public IEnumerable<T> Read(int? limit = null)
    {
-      using (var reader = new StreamReader("chirp_cli_db.csv"))
+      using (var reader = new StreamReader(filepath))
       using (var csv = new CsvReader(reader, config))
       {
          records = csv.GetRecords<T>().ToList();
@@ -28,7 +29,7 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 
 public void Store(T record)
    {
-      using (var writer = new StreamWriter("chirp_cli_db.csv", append: true))
+      using (var writer = new StreamWriter(filepath, append: true))
       using (var csv = new CsvWriter(writer, config))
       {
          csv.NextRecord();
