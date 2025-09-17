@@ -19,9 +19,7 @@ Options:
 
 var arguments = new Docopt().Apply(usage, args, version: "Chirp 1.0", exit: true);
 
-    
-IDatabaseRepository<Cheep> database = new CSVDatabase<Cheep>();
-
+IDatabaseRepository<Cheep> database = CSVDatabase<Cheep>.Instance;
 
 if (arguments["cheep"].IsTrue)
 {
