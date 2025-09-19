@@ -8,7 +8,7 @@ namespace SimpleDB;
 
 public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 {
-   private string filepath = "../../data/chirp_cli_db.csv";
+   private string filepath = "chirp_cli_db.csv";
    private List<T> records;
    private readonly CsvConfiguration config = new CsvConfiguration(CultureInfo.InvariantCulture)
    {
