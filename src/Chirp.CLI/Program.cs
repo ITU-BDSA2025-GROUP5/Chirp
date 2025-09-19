@@ -19,9 +19,7 @@ Options:
 
 var arguments = new Docopt().Apply(usage, args, version: "Chirp 1.0", exit: true);
 
-    
-IDatabaseRepository<Cheep> database = new CSVDatabase<Cheep>();
-
+IDatabaseRepository<Cheep> database = CSVDatabase<Cheep>.Instance;
 
 if (arguments["cheep"].IsTrue)
 {
@@ -33,8 +31,23 @@ if (arguments["cheep"].IsTrue)
     };
     database.Store(newCheep);
 }
-
 if (arguments["read"].IsTrue) 
 { 
     UserInterface.PrintCheeps(database.Read());
+}
+
+void read()
+{
+    UserInterface.PrintCheeps(database.Read());
+}
+
+void cheep(string cheep)
+{
+    var newCheep = new Cheep
+    {
+        Author = Environment.UserName,
+        Message = cheep,
+        Timestamp = DateTimeOffset.Now.ToUnixTimeSeconds()
+    };
+    database.Store(newCheep); 
 }
