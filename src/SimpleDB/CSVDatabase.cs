@@ -37,5 +37,4 @@ public void Store(T record)
          writer.Flush();
       }
    }
-   
 }
