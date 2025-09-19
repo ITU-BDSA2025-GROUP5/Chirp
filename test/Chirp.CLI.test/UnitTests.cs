@@ -48,4 +48,45 @@ public class UnitTests
         Assert.Equal("Cheeping cheeps on Chirp :)", cheeps[3].Message);
         Assert.Equal(1690981487, cheeps[3].Timestamp);
     }
+
+    [Fact]
+    public void writes_correctly()
+    {
+        var csv = """
+                  Author,Message,Timestamp
+                  ropf,"Hello, BDSA students!",1690891760
+                  adho,"Welcome to the course!",1690978778
+                  adho,"I hope you had a good summer.",1690979858
+                  ropf,"Cheeping cheeps on Chirp :)",1690981487
+                  """;
+
+        var baseDir = AppContext.BaseDirectory;
+        var dataDir = Path.Combine(baseDir, "data");
+        Directory.CreateDirectory(dataDir);
+
+        var expectedPath = Path.Combine(dataDir, "chirp_cli_db.csv");
+        File.WriteAllText(expectedPath, csv);
+
+        // Arrange
+        IDatabaseRepository<Cheep> database = CSVDatabase<Cheep>.Instance;
+
+        var cheepCountBefore = database.Read().Count();
+        
+        var newCheep = new Cheep
+        {
+            Author = Environment.UserName,
+            Message = "Unit test cheep",
+            Timestamp = DateTimeOffset.Now.ToUnixTimeSeconds()
+        };
+        database.Store(newCheep); 
+        
+        var cheepsAfterCount = database.Read().Count();
+        Assert.Equal(cheepCountBefore + 1, cheepsAfterCount);
+        
+        var lastCheep = database.Read().Last();
+        Assert.Equal(newCheep.Author, lastCheep.Author);
+        Assert.Equal(newCheep.Message, lastCheep.Message);
+        Assert.Equal(newCheep.Timestamp, lastCheep.Timestamp);
+        
+    }
 }
