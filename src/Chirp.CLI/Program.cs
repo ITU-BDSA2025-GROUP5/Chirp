@@ -4,7 +4,7 @@ using SimpleDB;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 
-IDatabaseRepository<Cheep> database = new CSVDatabase<Cheep>();
+IDatabaseRepository<Cheep> database = CSVDatabase<Cheep>.Instance;
 
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
