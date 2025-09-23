@@ -2,7 +2,7 @@ name: .NET
 
 on:
   push:
-    tags: ['v*.*.*']      # tag pushes create a release
+    tags: ['v*.*.*']      
   workflow_dispatch: {}   # manual builds (no release)
 
 jobs:

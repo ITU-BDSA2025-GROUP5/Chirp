@@ -8,12 +8,17 @@ namespace SimpleDB;
 
 public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 {
+<<<<<<< HEAD
    private static CSVDatabase<T> instance = null;
    private static readonly object padlock = new object();
    
    private List<T> records = new();
    
    private string filepath = "data/chirp_cli_db.csv";
+=======
+   private string filepath = "chirp_cli_db.csv";
+   private List<T> records;
+>>>>>>> feature_week_4
    private readonly CsvConfiguration config = new CsvConfiguration(CultureInfo.InvariantCulture)
    {
       NewLine = Environment.NewLine,

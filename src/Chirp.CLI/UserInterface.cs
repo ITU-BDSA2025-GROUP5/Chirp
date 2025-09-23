@@ -5,13 +5,10 @@ namespace Chirp.CLI
 {
     public static class UserInterface
     {
-        public static void PrintCheeps(IEnumerable<Cheep> records)
+        public static string PrintCheeps(IEnumerable<Cheep> records)
         {
-            foreach (var cheep in records)
-            {
-                Console.WriteLine($"{cheep.Author}: {cheep.Message} {convert(cheep.Timestamp)}");
-
-            }
+             return string.Join("\n", records.Select(cheep =>
+                $"{cheep.Author}: {cheep.Message} {convert(cheep.Timestamp)}"));
         }
         private static string convert(long timestamp)
         {
