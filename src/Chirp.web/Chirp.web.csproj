@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+  <Content Include="..\..\data\chirp_cli_db.csv">
+    <Link>data/chirp_cli_db.csv</Link>
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Content>
     <ProjectReference Include="..\Chirp.CLI\Chirp.CLI.csproj" />
     <ProjectReference Include="..\SimpleDB\SimpleDB.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.19" />

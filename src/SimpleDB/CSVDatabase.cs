@@ -17,8 +17,8 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
       NewLine = Environment.NewLine,
    };
 
-   private CSVDatabase() {}
-   
+   private CSVDatabase() { }
+
    public static CSVDatabase<T> Instance
    {
       get
@@ -33,7 +33,7 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
          }
       }
    }
-   
+
    public IEnumerable<T> Read(int? limit = null)
    {
       using (var reader = new StreamReader(filepath))
@@ -41,12 +41,12 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
       {
          records = csv.GetRecords<T>().ToList();
       }
-      
+
       return records;
    }
-   
 
-public void Store(T record)
+
+   public void Store(T record)
    {
       using (var writer = new StreamWriter(filepath, append: true))
       using (var csv = new CsvWriter(writer, config))
@@ -56,4 +56,16 @@ public void Store(T record)
          writer.Flush();
       }
    }
+   
+    public static void SetFilePath(string path)
+    {
+        lock (padlock)
+        {
+            if (instance == null)
+            {
+                instance = new CSVDatabase<T>();
+            }
+            instance.filepath = path;
+        }
+    }
 }
