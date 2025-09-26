@@ -5,16 +5,11 @@ namespace Chirp.Razor.Data;
 
 public sealed class DBFacade : IDbFacade
 {
-    readonly QueryManager QueryManager = new QueryManager();
+    readonly QueryManager querymanager = new QueryManager();
     public int GetCheepCount()
     {
-<<<<<<< HEAD
         var sqlDBFilePath = "/tmp/chirp.db";
         var sqlQuery = @"SELECT COUNT(*) FROM message;";
-=======
-        var sqlDBFilePath = QueryManager.GetFilePath;
-        var sqlQuery = QueryManager.GetMessageSum();
->>>>>>> eb2377e (WIP There is an error with my datafiles or idk if it is the code)
 
         using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
         {
@@ -36,20 +31,8 @@ public sealed class DBFacade : IDbFacade
 
     public List<CheepViewModel> GetCheeps()
     {
-<<<<<<< HEAD
-        var sqlDBFilePath = "/tmp/chirp.db";
-        var sqlQuery = @"
-        SELECT u.username AS author,
-               m.text     AS message,
-               CAST(m.pub_date AS REAL) AS ts
-                FROM message m
-                JOIN user   u ON u.user_id = m.author_id
-                ORDER BY COALESCE(m.pub_date, 0) DESC
-                LIMIT 50;";
-=======
-        var sqlDBFilePath = QueryManager.GetFilePath();
-        var sqlQuery = QueryManager.GetShow50();
->>>>>>> eb2377e (WIP There is an error with my datafiles or idk if it is the code)
+        var sqlDBFilePath = querymanager.GetFilePath();
+        var sqlQuery = querymanager.GetShow50();
         var cheeps = new List<CheepViewModel>();
         using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
         {
@@ -72,7 +55,6 @@ public sealed class DBFacade : IDbFacade
     }
     public List<CheepViewModel> GetCheepsFromAuthor(string author)
     {
-<<<<<<< HEAD
         var sqlDBFilePath = "/tmp/chirp.db";
         var sqlQuery = @"
             SELECT u.username AS author,
@@ -83,17 +65,11 @@ public sealed class DBFacade : IDbFacade
                 WHERE u.username = $author
                 ORDER BY COALESCE(m.pub_date, 0) DESC
                 LIMIT 50;";
-=======
-       
-
-
-
->>>>>>> eb2377e (WIP There is an error with my datafiles or idk if it is the code)
         var list = new List<CheepViewModel>();
-        using var connection = new SqliteConnection($"Data Source={QueryManager.GetFilePath()}");
+        using var connection = new SqliteConnection($"Data Source={querymanager.GetFilePath()}");
         connection.Open();
         using var cmd = connection.CreateCommand();
-        cmd.CommandText = QueryManager.GetSqlShowByAuthor();
+        cmd.CommandText = querymanager.GetSqlShowByAuthor();
         cmd.Parameters.AddWithValue("$author", author);
 
         using var reader = cmd.ExecuteReader();
@@ -106,7 +82,6 @@ public sealed class DBFacade : IDbFacade
         }
         return list;
     }
-<<<<<<< HEAD
 
 
     private static string UnixTimeStampToDateTimeString(double unixTimeStamp)
@@ -119,17 +94,16 @@ public sealed class DBFacade : IDbFacade
     {
         return "Not implemented";
     }
-=======
-}
 
-public class QueryManager
-{
-    //querry manager kan bruges ud.
 
-    const string SqlMessageSum = @"SELECT COUNT(*) FROM message;";
-    const string FilePath = "/tmp/init.db";
+    public class QueryManager
+    {
+        //querry manager kan tages ud til en seperat klasse hvis nødvendigt.
 
-    const string SqlShow50 = @"
+        const string SqlMessageSum = @"SELECT COUNT(*) FROM message;";
+        const string FilePath = "/tmp/chirp.db";
+
+        const string SqlShow50 = @"
         SELECT u.username AS author,
                m.text AS message,
                CAST(m.pub_date AS REAL) AS ts
@@ -139,7 +113,7 @@ public class QueryManager
         LIMIT 50;";
 
 
-    const string SqlShowByAuthor = @"
+        const string SqlShowByAuthor = @"
         SELECT u.username AS author,
                m.text AS message,
                CAST(m.pub_date AS REAL) AS ts
@@ -149,24 +123,25 @@ public class QueryManager
         ORDER BY COALESCE(m.pub_date, 0) DESC
         LIMIT 50;";
 
-    public string GetMessageSum()
-    {
-        return SqlMessageSum;
+        public string GetMessageSum()
+        {
+            return SqlMessageSum;
+        }
+
+        public String GetFilePath()
+        {
+            return FilePath;
+        }
+
+        public String GetShow50()
+        {
+            return SqlShow50;
+        }
+        public String GetSqlShowByAuthor()
+        {
+            return SqlShowByAuthor;
+        }
+
     }
 
-    public String GetFilePath()
-    {
-        return FilePath;
-    }
-
-    public String GetShow50()
-    {
-        return SqlShow50;
-    }
-    public String GetSqlShowByAuthor()
-    {
-        return SqlShowByAuthor;
-    }
-    
->>>>>>> eb2377e (WIP There is an error with my datafiles or idk if it is the code)
 }
