@@ -1,17 +1,20 @@
+using Chirp.Razor.Data;
+using Chirp.Razor;
+using SQLitePCL;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+Batteries_V2.Init();
+builder.Services.AddScoped<IDbFacade>(_ => new DBFacade());
 builder.Services.AddRazorPages();
-builder.Services.AddSingleton<ICheepService, CheepService>();
+builder.Services.AddScoped<ICheepService, CheepService>();
 
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
