@@ -1,11 +1,14 @@
 ﻿@page "/"
 @model Chirp.Razor.Pages.PublicModel
+@inject Chirp.Razor.ICheepService CheepService
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "Shared/_Layout";
 }
 
 <div>
+    @{ int count = CheepService.GetCheepCount(); }
+    <p>Total cheeps: @count</p>
     <h2> Public Timeline </h2>
 
     @if (Model.Cheeps.Any())
@@ -24,6 +27,7 @@
                 </li>
             }
         </ul>
+        
     }
     else
     {

@@ -1,14 +1,19 @@
+using Chirp.Razor.Data;
+namespace Chirp.Razor;
 public record CheepViewModel(string Author, string Message, string Timestamp);
 
 public interface ICheepService
 {
     public List<CheepViewModel> GetCheeps();
     public List<CheepViewModel> GetCheepsFromAuthor(string author);
+    public int GetCheepCount();
 }
-
-public class CheepService : ICheepService
+public class CheepService: ICheepService
 {
-    // These would normally be loaded from a database for example
+    private readonly IDbFacade _db;
+    public CheepService(IDbFacade db) => _db = db;
+    public int GetCheepCount() => _db.GetCheepCount();
+ 
     private static readonly List<CheepViewModel> _cheeps = new()
         {
             new CheepViewModel("Helge", "Hello, BDSA students!", UnixTimeStampToDateTimeString(1690892208)),
@@ -20,6 +25,8 @@ public class CheepService : ICheepService
         return _cheeps;
     }
 
+
+    
     public List<CheepViewModel> GetCheepsFromAuthor(string author)
     {
         // filter by the provided author name
