@@ -31,16 +31,12 @@ public sealed class DBFacade : IDbFacade
     {
         var sqlDBFilePath = "/tmp/chirp.db";
         var sqlQuery = @"
-        SELECT u.username AS author,
-                m.text     AS message,
-                CAST(m.pub_date AS REAL) AS ts
         SELECT  u.username AS author,
                 m.text     AS message,
                 CAST(m.pub_date AS REAL) AS ts
                 FROM message m
                 JOIN user   u ON u.user_id = m.author_id
-                ORDER BY COALESCE(m.pub_date, 0) DESC
-                LIMIT 32;";
+                ORDER BY COALESCE(m.pub_date, 0) DESC";
         var cheeps = new List<CheepViewModel>();
         using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
         {
@@ -127,7 +123,7 @@ public sealed class DBFacade : IDbFacade
     }
 
 
-    private static string UnixTimeStampToDateTimeString(double unixTimeStamp)
+    public static string UnixTimeStampToDateTimeString(double unixTimeStamp)
     {
         DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
         dateTime = dateTime.AddSeconds(unixTimeStamp);

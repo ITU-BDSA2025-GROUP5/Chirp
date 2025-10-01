@@ -11,39 +11,46 @@ namespace Chirp.Razor.Tests;
 
 public class CheepServiceTests
 {
-    private readonly Mock<DBFacade> _db;
+    private readonly IDbFacade _db;
     private readonly CheepService _sut;
     public CheepServiceTests()
     {
-        _db = new Mock<DBFacade>(MockBehavior.Strict);
-        _db.Setup(d => d.GetCheepCount()).Returns(0);
-        _sut = new CheepService(_db.Object);
+        _db = new DBFacade();
+        _sut = new CheepService(_db);
     }
 
     [Fact]
-    public void testNameSpecificGetrequest()
+    public void testNameSpecificGetRequest()
     {
         var cheep = _sut.GetCheepsFromAuthor("Adrian")[0].Message;
-        Assert.True(cheep == "Hej, velkommen til kurset.");
+        Assert.Equal("Hej, velkommen til kurset.", cheep);
     }
+
     [Fact]
-1    public void testGeneGaletRequ1est()
+    public void testGeneralGetRequest()
     {
-        var dbFacade = new DBFacade();
-        var CheepService = new CheepService(dbFacade);
-        var cheeps = CheepService.GetCheeps();
-        Assert.Contains("Hello, BDSA students!" , cheeps);
-    }   
-    
+        var cheeps = _sut.GetCheeps();
+        Assert.Contains(cheeps, c => c.Message == "Hello, BDSA students!");
+    }
     [Fact]
     public void TestAmountOfCheeps()
     {
-            
+        var cheepAmount = _sut.GetCheepCount();
+        cheepAmount++;
+        Assert.Equal(_sut.GetCheepCount() + 1, cheepAmount);
     }
 
     [Fact]
     public void TestUnixConverter()
     {
-
+        UnixTimeStampToDateTimeString(1654867200);
+        Assert.Equal("06/10/22 13.20.00", UnixTimeStampToDateTimeString(1654867200));
+    }
+    
+    private static string UnixTimeStampToDateTimeString(double unixTimeStamp)
+    {
+        DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+        dateTime = dateTime.AddSeconds(unixTimeStamp);
+        return dateTime.ToString("MM/dd/yy H:mm:ss");
     }
 }
