@@ -1,8 +1,8 @@
-﻿@page "/{pagenumber:int}"
+﻿@page "/{pagenumber:int?}"
 @model Chirp.Razor.Pages.PublicModel
 @inject Chirp.Razor.ICheepService CheepService
 @{
-    ViewData["Title"] = "Not Twitter!";
+    ViewData["Title"] = "Chirp!";
     Layout = "Shared/_Layout";
 }
 
