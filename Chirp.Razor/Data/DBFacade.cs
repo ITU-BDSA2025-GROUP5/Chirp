@@ -1,4 +1,5 @@
 using System.Reflection.Metadata;
+using System.Data.Common;
 using Microsoft.Data.Sqlite;
 
 namespace Chirp.Razor.Data;
@@ -10,7 +11,6 @@ public sealed class DBFacade : IDbFacade
     {
         var sqlDBFilePath = "/tmp/chirp.db";
         var sqlQuery = @"SELECT COUNT(*) FROM message;";
-
         using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
         {
             connection.Open();
@@ -93,7 +93,7 @@ public sealed class DBFacade : IDbFacade
                 m.text     AS message,
                 CAST(m.pub_date AS REAL) AS ts
                 FROM message m
-                JOIN user   u ON u.user_id = m.author_id
+                JOIN user u ON u.user_id = m.author_id
                 ORDER BY COALESCE(m.pub_date, 0) DESC
                 LIMIT $pageSize OFFSET $offset;";
         var cheeps = new List<CheepViewModel>();
@@ -120,7 +120,7 @@ public sealed class DBFacade : IDbFacade
     }
 
 
-    private static string UnixTimeStampToDateTimeString(double unixTimeStamp)
+    public static string UnixTimeStampToDateTimeString(double unixTimeStamp)
     {
         DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
         dateTime = dateTime.AddSeconds(unixTimeStamp);
