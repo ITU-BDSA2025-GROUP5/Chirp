@@ -3,12 +3,73 @@ namespace Chirp.Razor.Data;
 
 public sealed class DBFacade : IDbFacade
 {
+
+    private readonly string _connectionString;
+
+    public DBFacade(IConfiguration config)
+    {
+        // 1) Allow explicit env var path to WIN ALWAYS
+        var envPath = Environment.GetEnvironmentVariable("CHIRPDBPATH");
+        if (!string.IsNullOrWhiteSpace(envPath))
+        {
+            EnsureDirectoryExists(envPath);
+            _connectionString = $"Data Source={envPath}";
+            return;
+        }
+
+        // 2) Try ConnectionStrings from config (covers appsettings.json
+        // AND Azure App Setting with key "ConnectionStrings:ChirpDb")
+        var fromConnStr = config.GetConnectionString("ChirpDb");
+        if (!string.IsNullOrWhiteSpace(fromConnStr))
+        {
+            _connectionString = fromConnStr;
+            return;
+        }
+
+        // 3) Try Azure’s special env var prefixes (in case you used the
+        // "Connection strings" blade with Type=Custom/SQL/SQLAzure)
+        var azureConnStr =
+            Environment.GetEnvironmentVariable("CUSTOMCONNSTR_ChirpDb")
+            ?? Environment.GetEnvironmentVariable("SQLAZURECONNSTR_ChirpDb")
+            ?? Environment.GetEnvironmentVariable("SQLCONNSTR_ChirpDb")
+            ?? Environment.GetEnvironmentVariable("MYSQLCONNSTR_ChirpDb");
+
+        if (!string.IsNullOrWhiteSpace(azureConnStr))
+        {
+            _connectionString = azureConnStr;
+            return;
+        }
+
+        // 4) Fall back to a sane default per platform
+        var defaultPath = GetDefaultDbPath();
+        EnsureDirectoryExists(defaultPath);
+        _connectionString = $"Data Source={defaultPath}";
+    }
+
+    private static string GetDefaultDbPath()
+    {
+        // Azure App Service (Linux) persisted volume
+        if (OperatingSystem.IsLinux() && Directory.Exists("/home"))
+            return "/home/site/chirp.db";
+
+        // Local/dev fallback
+        return Path.Combine(Path.GetTempPath(), "chirp.db");
+    }
+
+    private static void EnsureDirectoryExists(string filePath)
+    {
+        var dir = Path.GetDirectoryName(filePath);
+        if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
+            Directory.CreateDirectory(dir);
+    }
+    
     public int GetCheepCount()
     {
-        var sqlDBFilePath = "/tmp/chirp.db";
         var sqlQuery = @"SELECT COUNT(*) FROM message;";
+        
+        Console.WriteLine(Path.GetTempPath() + "chirp.db");
 
-        using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
+        using (var connection = new SqliteConnection(_connectionString))
         {
             connection.Open();
 
@@ -28,7 +89,6 @@ public sealed class DBFacade : IDbFacade
 
     public List<CheepViewModel> GetCheeps()
     {
-        var sqlDBFilePath = "/tmp/chirp.db";
         var sqlQuery = @"
         SELECT  u.username AS author,
                 m.text     AS message,
@@ -38,7 +98,7 @@ public sealed class DBFacade : IDbFacade
                 ORDER BY COALESCE(m.pub_date, 0) DESC
                 LIMIT 32;";
         var cheeps = new List<CheepViewModel>();
-        using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
+        using (var connection = new SqliteConnection(_connectionString))
         {
             connection.Open();
 
@@ -59,7 +119,6 @@ public sealed class DBFacade : IDbFacade
     }
     public List<CheepViewModel> GetCheepsFromAuthor(string author)
     {
-        var sqlDBFilePath = "/tmp/chirp.db";
         var sqlQuery = @"
             SELECT u.username AS author,
                 m.text     AS message,
@@ -70,7 +129,7 @@ public sealed class DBFacade : IDbFacade
                 ORDER BY COALESCE(m.pub_date, 0) DESC
                 LIMIT 32;";
         var list = new List<CheepViewModel>();
-        using var connection = new SqliteConnection($"Data Source={sqlDBFilePath}");
+        using var connection = new SqliteConnection(_connectionString);
         connection.Open();
         using var cmd = connection.CreateCommand();
         cmd.CommandText = sqlQuery;
@@ -100,7 +159,7 @@ public sealed class DBFacade : IDbFacade
                 ORDER BY COALESCE(m.pub_date, 0) DESC
                 LIMIT $pageSize OFFSET $offset;";
         var cheeps = new List<CheepViewModel>();
-        using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
+        using (var connection = new SqliteConnection(_connectionString))
         {
             connection.Open();
 
@@ -121,7 +180,7 @@ public sealed class DBFacade : IDbFacade
         }
         return cheeps;
     }
-
+    
 
     private static string UnixTimeStampToDateTimeString(double unixTimeStamp)
     {
