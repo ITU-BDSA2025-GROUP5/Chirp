@@ -5,6 +5,66 @@ namespace Chirp.Razor.Data;
 public sealed class DBFacade : IDbFacade
 {
     
+    private readonly string _connectionString;
+
+    public DBFacade(IConfiguration config)
+    {
+        // 1) Allow explicit env var path to WIN ALWAYS
+        var envPath = Environment.GetEnvironmentVariable("CHIRPDBPATH");
+        if (!string.IsNullOrWhiteSpace(envPath))
+        {
+            EnsureDirectoryExists(envPath);
+            _connectionString = $"Data Source={envPath}";
+            return;
+        }
+
+        // 2) Try ConnectionStrings from config (covers appsettings.json
+        // AND Azure App Setting with key "ConnectionStrings:ChirpDb")
+        var fromConnStr = config.GetConnectionString("ChirpDb");
+        if (!string.IsNullOrWhiteSpace(fromConnStr))
+        {
+            _connectionString = fromConnStr;
+            return;
+        }
+
+        // 3) Try Azure’s special env var prefixes (in case you used the
+        // "Connection strings" blade with Type=Custom/SQL/SQLAzure)
+        var azureConnStr =
+            Environment.GetEnvironmentVariable("CUSTOMCONNSTR_ChirpDb")
+            ?? Environment.GetEnvironmentVariable("SQLAZURECONNSTR_ChirpDb")
+            ?? Environment.GetEnvironmentVariable("SQLCONNSTR_ChirpDb")
+            ?? Environment.GetEnvironmentVariable("MYSQLCONNSTR_ChirpDb");
+
+        if (!string.IsNullOrWhiteSpace(azureConnStr))
+        {
+            _connectionString = azureConnStr;
+            return;
+        }
+
+        // 4) Fall back to a sane default per platform
+        var defaultPath = GetDefaultDbPath();
+        EnsureDirectoryExists(defaultPath);
+        _connectionString = $"Data Source={defaultPath}";
+    }
+
+    private static string GetDefaultDbPath()
+    {
+        // Azure App Service (Linux) persisted volume
+        if (OperatingSystem.IsLinux() && Directory.Exists("/home"))
+            return "/home/site/chirp.db";
+
+        // Local/dev fallback
+        return Path.Combine(Path.GetTempPath(), "chirp.db");
+    }
+
+    private static void EnsureDirectoryExists(string filePath)
+    {
+        var dir = Path.GetDirectoryName(filePath);
+        if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
+            Directory.CreateDirectory(dir);
+    }
+    
+    
     public int GetCheepCount()
     {
         var sqlDBFilePath = "/tmp/chirp.db";
