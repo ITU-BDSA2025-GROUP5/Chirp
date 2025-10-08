@@ -5,11 +5,11 @@ using SQLitePCL;
 var builder = WebApplication.CreateBuilder(args);
 
 Batteries_V2.Init();
-builder.Services.AddScoped<IDbFacade>(_ => new DBFacade());
+builder.Services.AddScoped<IDbFacade>(_ => new DBFacade(builder.Configuration));
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<ICheepService, CheepService>();
 
-
+    
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
