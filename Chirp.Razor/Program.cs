@@ -1,15 +1,22 @@
 using Chirp.Razor.Data;
 using Chirp.Razor;
 using SQLitePCL;
+using Microsoft.EntityFrameworkCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 Batteries_V2.Init();
-builder.Services.AddScoped<IDbFacade>(_ => new DBFacade(builder.Configuration));
+
+// Load database connection via configuration
+string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<CheepDbContext>(options => options.UseSqlite(connectionString));
+
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<ICheepService, CheepService>();
+// builder.Services.AddScoped<IMessageRepository, MessageRepository>();
+  
 
-    
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
