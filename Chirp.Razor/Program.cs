@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-Batteries_V2.Init();
+SQLitePCL.Batteries_V2.Init();
 
 // Load database connection via configuration
 string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -14,7 +14,7 @@ builder.Services.AddDbContext<CheepDbContext>(options => options.UseSqlite(conne
 
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<ICheepService, CheepService>();
-// builder.Services.AddScoped<IMessageRepository, MessageRepository>();
+builder.Services.AddScoped<IMessageRepository, MessageRepository>();
   
 
 var app = builder.Build();
