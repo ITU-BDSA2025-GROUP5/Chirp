@@ -5,3 +5,7 @@ using Xunit;
 
 namespace Chirp.Razor.Tests;
 
+public class EndPointTest()
+{
+    
+}
