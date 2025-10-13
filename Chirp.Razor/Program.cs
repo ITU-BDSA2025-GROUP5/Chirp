@@ -2,6 +2,7 @@ using Chirp.Razor.Data;
 using Chirp.Razor;
 using SQLitePCL;
 using Microsoft.EntityFrameworkCore;
+using Chirp.Razor.MessageRepository;
 
 
 var builder = WebApplication.CreateBuilder(args);

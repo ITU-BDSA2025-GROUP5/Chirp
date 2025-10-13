@@ -3,7 +3,7 @@ namespace Chirp.Razor;
 public class Message
 {
     public int MessageId { get; set; }
-    public string UserId { get; set; }
-    public string text { get; set; }
-    public User User { get; set; }
+    public required string UserId { get; set; }
+    public required string Text { get; set; }
+    public required User User { get; set; }
 }

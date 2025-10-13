@@ -17,7 +17,7 @@ public class PublicModel : PageModel
 
     public ActionResult OnGet(int PageNumber)
     {
-        Cheeps = _service.GetCheepsPage(PageNumber, pageSize);
+        Cheeps = _service.getCheeps();
         return Page();
     }
 }

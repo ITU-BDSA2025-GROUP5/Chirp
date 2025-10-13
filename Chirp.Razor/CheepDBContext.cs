@@ -9,8 +9,6 @@ public class CheepDbContext : DbContext
 
 
     public CheepDbContext(DbContextOptions<CheepDbContext> options) : base(options)
-    {
-        
-    }
+    {}
     
 }
