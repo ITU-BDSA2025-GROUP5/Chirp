@@ -2,7 +2,7 @@
 @model Chirp.Razor.Pages.PublicModel
 @inject Chirp.Razor.ICheepService CheepService
 @{
-    ViewData["Title"] = "Not Twitter!";
+    ViewData["Title"] = "BBL CHIRP!";
     Layout = "Shared/_Layout";
 }
 
@@ -20,7 +20,6 @@
                             <a href="/@cheep.Author">@cheep.Author</a>
                         </strong>
                         @cheep.Message
-                        <small>&mdash; @cheep.Timestamp</small>
                     </p>
                 </li>
             }

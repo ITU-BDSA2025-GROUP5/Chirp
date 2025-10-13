@@ -1,9 +1,11 @@
+using Microsoft.EntityFrameworkCore;
+
 namespace Chirp.Razor.MessageRepository;
 
-public class MessageRepository : IMessageRepository
+public class MessageRepo : IMessageRepository
 {
     private readonly CheepDbContext _dbContext;
-    public MessageRepository(CheepDbContext dbContext)
+    public MessageRepo(CheepDbContext dbContext)
     {
         _dbContext = dbContext;
     }
@@ -13,10 +15,11 @@ public class MessageRepository : IMessageRepository
         return 5;
     }
 
-    public async Task<List<CheepViewModel>> ReadMessages()
+    public Task<List<CheepViewModel>> ReadMessages()
     {
-        List<CheepViewModel> Cheeps = new List<CheepViewModel>();
-        var blogs = _dbContext.Messages.ToList();
+        Task<List<CheepViewModel>> Cheeps = _dbContext.Messages.Select(m => new CheepViewModel(
+                m.User.Name,
+                m.Text)).AsNoTracking().ToListAsync();
         //Cheeps = _dbContext.Messages.Select(message => new { message.User, message.Text });
 
         return Cheeps;

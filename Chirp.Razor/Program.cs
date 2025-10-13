@@ -1,4 +1,3 @@
-using Chirp.Razor.Data;
 using Chirp.Razor;
 using SQLitePCL;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +14,7 @@ builder.Services.AddDbContext<CheepDbContext>(options => options.UseSqlite(conne
 
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<ICheepService, CheepService>();
-builder.Services.AddScoped<IMessageRepository, MessageRepository>();
+builder.Services.AddScoped<IMessageRepository, MessageRepo>();
   
 
 var app = builder.Build();

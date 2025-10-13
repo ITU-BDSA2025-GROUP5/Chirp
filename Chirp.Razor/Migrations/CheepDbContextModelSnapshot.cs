@@ -22,20 +22,16 @@ namespace Chirp.Razor.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("UserId")
+                    b.Property<string>("Text")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("UserId1")
+                    b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("text")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
 
                     b.HasKey("MessageId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Messages");
                 });
@@ -46,7 +42,7 @@ namespace Chirp.Razor.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("name")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -58,8 +54,8 @@ namespace Chirp.Razor.Migrations
             modelBuilder.Entity("Chirp.Razor.Message", b =>
                 {
                     b.HasOne("Chirp.Razor.User", "User")
-                        .WithMany("messages")
-                        .HasForeignKey("UserId1")
+                        .WithMany("Messages")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -68,7 +64,7 @@ namespace Chirp.Razor.Migrations
 
             modelBuilder.Entity("Chirp.Razor.User", b =>
                 {
-                    b.Navigation("messages");
+                    b.Navigation("Messages");
                 });
 #pragma warning restore 612, 618
         }
