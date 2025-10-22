@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -16,7 +17,8 @@ namespace Chirp.Razor.Migrations
                 {
                     UserId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false)
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Email = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -24,19 +26,20 @@ namespace Chirp.Razor.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Messages",
+                name: "Cheeps",
                 columns: table => new
                 {
-                    MessageId = table.Column<int>(type: "INTEGER", nullable: false)
+                    CheepId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     UserId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Text = table.Column<string>(type: "TEXT", nullable: false)
+                    Text = table.Column<string>(type: "TEXT", nullable: false),
+                    TimeStamp = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Messages", x => x.MessageId);
+                    table.PrimaryKey("PK_Cheeps", x => x.CheepId);
                     table.ForeignKey(
-                        name: "FK_Messages_Users_UserId",
+                        name: "FK_Cheeps_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserId",
@@ -44,8 +47,8 @@ namespace Chirp.Razor.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Messages_UserId",
-                table: "Messages",
+                name: "IX_Cheeps_UserId",
+                table: "Cheeps",
                 column: "UserId");
         }
 
@@ -53,7 +56,7 @@ namespace Chirp.Razor.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Messages");
+                name: "Cheeps");
 
             migrationBuilder.DropTable(
                 name: "Users");

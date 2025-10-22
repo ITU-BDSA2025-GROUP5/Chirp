@@ -12,9 +12,9 @@ SQLitePCL.Batteries_V2.Init();
 string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<CheepDbContext>(options => options.UseSqlite(connectionString));
 
-builder.Services.AddRazorPages();
+builder.Services.AddScoped<MessageRepo>();
 builder.Services.AddScoped<ICheepService, CheepService>();
-builder.Services.AddScoped<IMessageRepository, MessageRepo>();
+builder.Services.AddRazorPages();
   
 
 var app = builder.Build();
@@ -23,6 +23,13 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
     app.UseHsts();
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<CheepDbContext>();
+    db.Database.Migrate();                     // ensure schema
+    DbInitializer.SeedDatabase(db);            // <-- your method
 }
 
 app.UseHttpsRedirection();

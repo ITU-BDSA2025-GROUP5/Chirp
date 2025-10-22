@@ -15,13 +15,17 @@ public class MessageRepo : IMessageRepository
         return 5;
     }
 
-    public Task<List<CheepViewModel>> ReadMessages()
+    public async Task<List<MessageDTO>> ReadMessages()
     {
-        Task<List<CheepViewModel>> Cheeps = _dbContext.Messages.Select(m => new CheepViewModel(
-                m.User.Name,
-                m.Text)).AsNoTracking().ToListAsync();
-        //Cheeps = _dbContext.Messages.Select(message => new { message.User, message.Text });
-
+            var Cheeps = await _dbContext.Cheeps
+            .AsNoTracking()
+            .Select(m => new MessageDTO
+            {
+                Text = m.Text,
+                User = m.User,  
+                TimeStamp = m.TimeStamp
+            })
+            .ToListAsync();
         return Cheeps;
     }
 }

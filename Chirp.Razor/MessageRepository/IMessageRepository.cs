@@ -5,7 +5,7 @@ public interface IMessageRepository{
 
     //CreateMessage()
 
-    Task<List<CheepViewModel>> ReadMessages();
+    Task<List<MessageDTO>> ReadMessages();
 
     //AlterMessage()
 

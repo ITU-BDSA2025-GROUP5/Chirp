@@ -1,22 +1,21 @@
 using Chirp.Razor.MessageRepository;
 namespace Chirp.Razor;
-public record CheepViewModel(string Author, string Message);
 
 public interface ICheepService
 {
-   List<CheepViewModel> getCheeps();
+   Task<List<MessageDTO>> GetCheepsAsync();
 }
 public class CheepService : ICheepService
 {
-    public CheepService(CheepDbContext db)
-    {
-        CheepDbContext _db = db;
-    }
     private readonly MessageRepo _messageRepo;
-    public List<CheepViewModel> getCheeps()
+    public CheepService(MessageRepo messageRepo)
     {
-        List<CheepViewModel> Cheeps = _messageRepo.ReadMessages().Result;
-        return Cheeps;
+        _messageRepo = messageRepo;
+    }
+
+    public async Task<List<MessageDTO>> GetCheepsAsync()
+    {
+        return await _messageRepo.ReadMessages() ?? new List<MessageDTO>();
     }
 }
 

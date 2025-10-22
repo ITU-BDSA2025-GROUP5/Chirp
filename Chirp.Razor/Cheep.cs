@@ -1,9 +1,10 @@
 namespace Chirp.Razor;
 
-public class Message
+public class Cheep
 {
-    public int MessageId { get; set; }
+    public int CheepId { get; set; }
     public required int UserId { get; set; }
     public required string Text { get; set; }
     public required User User { get; set; }
+    public DateTime TimeStamp { get; set; }
 }
