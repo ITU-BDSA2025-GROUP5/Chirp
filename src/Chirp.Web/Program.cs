@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Chirp.Razor.MessageRepository;
 
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 SQLitePCL.Batteries_V2.Init();
