@@ -1,8 +1,10 @@
 using System;
 using System.Linq;
 using Chirp;
-using Chirp.Razor;
+using Chirp.Domain;
+using Infrastructure;
 using Microsoft.EntityFrameworkCore;
+namespace Infrastructure;
 public static class DbInitializer
 {
     public static void SeedDatabase(CheepDbContext db)

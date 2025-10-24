@@ -3,6 +3,7 @@ using SQLitePCL;
 using Microsoft.EntityFrameworkCore;
 using Chirp.Razor.MessageRepository;
 
+using Chirp.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,8 +29,8 @@ if (!app.Environment.IsDevelopment())
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<CheepDbContext>();
-    db.Database.Migrate();                     // ensure schema
-    DbInitializer.SeedDatabase(db);            // <-- your method
+    db.Database.Migrate();                     
+    DbInitializer.SeedDatabase(db);            
 }
 
 app.UseHttpsRedirection();

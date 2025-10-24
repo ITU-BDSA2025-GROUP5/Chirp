@@ -1,4 +1,6 @@
-namespace Chirp.Razor.MessageRepository;
+using Chirp.Domain;
+
+namespace MessageRepository;
 
 public interface IMessageRepository{
     int GetCheepCount();

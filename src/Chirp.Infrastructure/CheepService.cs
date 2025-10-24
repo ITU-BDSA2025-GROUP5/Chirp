@@ -1,5 +1,5 @@
-using Chirp.Razor.MessageRepository;
-namespace Chirp.Razor;
+using Chirp.Domain;
+namespace Infrastructure;
 
 public interface ICheepService
 {
