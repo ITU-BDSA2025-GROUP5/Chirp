@@ -1,10 +1,6 @@
-using Chirp.Razor.MessageRepository;
+using Chirp.Razor.Chirp.Repositories;
 namespace Chirp.Razor;
 
-public interface ICheepService
-{
-   Task<List<MessageDTO>> GetCheepsAsync();
-}
 public class CheepService : ICheepService
 {
     private readonly MessageRepo _messageRepo;
