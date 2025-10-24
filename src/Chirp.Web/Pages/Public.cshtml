@@ -1,0 +1,34 @@
+﻿@page "/{pagenumber:int?}"
+@model Chirp.Razor.Pages.PublicModel
+@inject Chirp.Razor.ICheepService CheepService
+@{
+    ViewData["Title"] = "BBL CHIRP!";
+    Layout = "Shared/_Layout";
+}
+
+<div>
+    <h2> Public Timeline </h2>
+
+    @if (Model.Cheeps.Any())
+    {
+        <ul id="messagelist" class="cheeps">
+            @foreach (var cheep in Model.Cheeps)
+            {
+                <li>
+                    <p>
+                        <strong>
+                            <a href="/@cheep.User.Name">@cheep.User.Name</a>
+                        </strong>
+                        @cheep.Text
+                    </p>
+                    @cheep.TimeStamp
+                </li>
+            }
+        </ul>
+        
+    }
+    else
+    {
+        <em>There are no cheeps so far.</em>
+    }
+</div>
