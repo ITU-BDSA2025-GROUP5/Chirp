@@ -1,4 +1,4 @@
-namespace Chirp.Razor;
+namespace Chirp.Domain;
 
 public class Cheep
 {
