@@ -1,8 +1,8 @@
 using Chirp.Domain;
-
+using MessageRepository;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure;
+namespace Chirp.Infrastructure;
 
 public class MessageRepo : IMessageRepository
 {

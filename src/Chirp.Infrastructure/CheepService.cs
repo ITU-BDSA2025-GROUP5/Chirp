@@ -1,5 +1,5 @@
 using Chirp.Domain;
-namespace Infrastructure;
+namespace Chirp.Infrastructure;
 
 public interface ICheepService
 {

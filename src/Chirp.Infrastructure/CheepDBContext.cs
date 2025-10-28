@@ -1,6 +1,6 @@
 using Chirp.Domain;
 using Microsoft.EntityFrameworkCore;
-namespace Infrastructure;
+namespace Chirp.Infrastructure;
 
 public class CheepDbContext : DbContext
 {

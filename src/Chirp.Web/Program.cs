@@ -1,9 +1,8 @@
 using Chirp.Razor;
 using SQLitePCL;
 using Microsoft.EntityFrameworkCore;
-using Chirp.Razor.MessageRepository;
-
 using Chirp.Infrastructure;
+
 
 var builder = WebApplication.CreateBuilder(args);
 

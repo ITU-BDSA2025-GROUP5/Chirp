@@ -1,6 +1,6 @@
 ﻿@page "/{pagenumber:int?}"
 @model Chirp.Razor.Pages.PublicModel
-@inject Chirp.Razor.ICheepService CheepService
+@inject Chirp.Infrastructure.ICheepService CheepService
 @{
     ViewData["Title"] = "BBL CHIRP!";
     Layout = "Shared/_Layout";
