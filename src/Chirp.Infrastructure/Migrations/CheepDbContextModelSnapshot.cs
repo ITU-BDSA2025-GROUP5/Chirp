@@ -3,24 +3,21 @@ using System;
 using Chirp.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Chirp.Razor.Migrations
+namespace Chirp.Infrastructure.Migrations
 {
     [DbContext(typeof(CheepDbContext))]
-    [Migration("20251022104944_Initial")]
-    partial class Initial
+    partial class CheepDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
 
-            modelBuilder.Entity("Chirp.Razor.Cheep", b =>
+            modelBuilder.Entity("Chirp.Domain.Cheep", b =>
                 {
                     b.Property<int>("CheepId")
                         .ValueGeneratedOnAdd()
@@ -43,7 +40,7 @@ namespace Chirp.Razor.Migrations
                     b.ToTable("Cheeps");
                 });
 
-            modelBuilder.Entity("Chirp.Razor.User", b =>
+            modelBuilder.Entity("Chirp.Domain.User", b =>
                 {
                     b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
@@ -62,9 +59,9 @@ namespace Chirp.Razor.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Chirp.Razor.Cheep", b =>
+            modelBuilder.Entity("Chirp.Domain.Cheep", b =>
                 {
-                    b.HasOne("Chirp.Razor.User", "User")
+                    b.HasOne("Chirp.Domain.User", "User")
                         .WithMany("Cheeps")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -73,7 +70,7 @@ namespace Chirp.Razor.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Chirp.Razor.User", b =>
+            modelBuilder.Entity("Chirp.Domain.User", b =>
                 {
                     b.Navigation("Cheeps");
                 });
