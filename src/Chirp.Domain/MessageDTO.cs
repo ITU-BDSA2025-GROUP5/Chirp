@@ -1,4 +1,5 @@
-using Chirp.Razor;
+namespace Chirp.Domain;
+
 public class MessageDTO
 {
     public required string Text { get; set; }
