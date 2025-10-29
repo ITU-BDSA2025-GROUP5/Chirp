@@ -1,7 +1,7 @@
 using Chirp.Razor;
 using SQLitePCL;
 using Microsoft.EntityFrameworkCore;
-using Chirp.Infrastructure;
+using Chirp.Razor.MessageRepository;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +12,7 @@ SQLitePCL.Batteries_V2.Init();
 string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<CheepDbContext>(options => options.UseSqlite(connectionString));
 
-builder.Services.AddScoped<MessageRepo>(); 
+builder.Services.AddScoped<MessageRepo>();
 builder.Services.AddScoped<ICheepService, CheepService>();
 builder.Services.AddRazorPages();
   
@@ -28,8 +28,8 @@ if (!app.Environment.IsDevelopment())
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<CheepDbContext>();
-    db.Database.Migrate();                     
-    DbInitializer.SeedDatabase(db);            
+    db.Database.Migrate();                     // ensure schema
+    DbInitializer.SeedDatabase(db);            // <-- your method
 }
 
 app.UseHttpsRedirection();
