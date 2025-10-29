@@ -11,10 +11,10 @@ public class CheepRepo : ICheepRepository
     {
         _dbContext = dbContext;
     }
-
-    public int GetCheepCount() 
+    
+    public async Task<int> GetCheepCount()
     {
-        return 5;
+        return await _dbContext.Cheeps.AsNoTracking().CountAsync();
     }
 
     public async Task<List<CheepDTO>> ReadCheeps(int page)
@@ -36,10 +36,10 @@ public class CheepRepo : ICheepRepository
         return await _dbContext.Users.FirstOrDefaultAsync(u => u.Name == name);
     }
     
-    public async Task<User?> findAuthorByEmail(string email)
-    {
-        return await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email);
-    }
+        public async Task<User?> findAuthorByEmail(string email)
+        {
+            return await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email);
+        }
 
     public void createNewAuthor(string name, string email)
     {

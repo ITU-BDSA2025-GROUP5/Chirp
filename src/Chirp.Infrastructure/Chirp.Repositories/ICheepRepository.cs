@@ -3,7 +3,8 @@ using Chirp.Domain;
 namespace Chirp.Infrastructure;
 
 public interface ICheepRepository{
-    int GetCheepCount();
+    
+    Task<int> GetCheepCount();
 
     Task<List<CheepDTO>> ReadCheeps(int page);
     
