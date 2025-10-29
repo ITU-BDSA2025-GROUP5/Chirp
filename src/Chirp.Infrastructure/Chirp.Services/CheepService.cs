@@ -1,21 +1,17 @@
 using Chirp.Domain;
 namespace Chirp.Infrastructure;
 
-public interface ICheepService
-{
-   Task<List<MessageDTO>> GetCheepsAsync(int page);
-}
 public class CheepService : ICheepService
 {
-    private readonly MessageRepo _messageRepo;
-    public CheepService(MessageRepo messageRepo)
+    private readonly CheepRepo _cheepRepo;
+    public CheepService(CheepRepo cheepRepo)
     {
-        _messageRepo = messageRepo;
+        _cheepRepo = cheepRepo;
     }
 
-    public async Task<List<MessageDTO>> GetCheepsAsync(int page)
+    public async Task<List<CheepDTO>> GetCheepsAsync(int page)
     {
-        return await _messageRepo.ReadMessages(page) ?? new List<MessageDTO>();
+        return await _cheepRepo.ReadCheeps(page) ?? new List<CheepDTO>();
     }
 }
 

@@ -1,14 +1,16 @@
 using Chirp.Domain;
 
-namespace Chirp.Application;
+namespace Chirp.Infrastructure;
 
 public interface ICheepRepository{
     int GetCheepCount();
 
-    //CreateMessage()
+    Task<List<CheepDTO>> ReadCheeps(int page);
+    
+    Task<User?> findAuthorByName(string name);
 
-    Task<List<MessageDTO>> ReadMessages(int page);
-
-    //AlterMessage()
+    Task<User?> findAuthorByEmail(string email);
+    
+    void createNewAuthor(string name, string email);
 
 }
