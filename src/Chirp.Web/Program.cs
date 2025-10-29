@@ -15,7 +15,10 @@ builder.Services.AddDbContext<CheepDbContext>(options => options.UseSqlite(conne
 builder.Services.AddScoped<MessageRepo>(); 
 builder.Services.AddScoped<ICheepService, CheepService>();
 builder.Services.AddRazorPages();
-  
+builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+options.SignIn.RequireConfirmedAccount = true)
+builder.AddEntityFrameworkStores<CheepDbContext>();
+
 
 var app = builder.Build();
 
@@ -36,7 +39,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapRazorPages();
 
 app.Run();
