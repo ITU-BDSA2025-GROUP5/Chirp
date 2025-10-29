@@ -12,7 +12,7 @@ SQLitePCL.Batteries_V2.Init();
 string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<CheepDbContext>(options => options.UseSqlite(connectionString));
 
-builder.Services.AddScoped<MessageRepo>(); 
+builder.Services.AddScoped<CheepRepo>(); 
 builder.Services.AddScoped<ICheepService, CheepService>();
 builder.Services.AddRazorPages();
   

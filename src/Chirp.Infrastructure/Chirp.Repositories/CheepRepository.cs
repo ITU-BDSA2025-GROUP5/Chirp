@@ -1,14 +1,13 @@
 using Chirp.Domain;
-using MessageRepository;
 using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Infrastructure;
 
-public class MessageRepo : IMessageRepository
+public class CheepRepo : ICheepRepository
 {
     private readonly CheepDbContext _dbContext;
     
-    public MessageRepo(CheepDbContext dbContext)
+    public CheepRepo(CheepDbContext dbContext)
     {
         _dbContext = dbContext;
     }
@@ -18,7 +17,7 @@ public class MessageRepo : IMessageRepository
         return 5;
     }
 
-    public async Task<List<MessageDTO>> ReadMessages(int page)
+    public async Task<List<MessageDTO>> ReadCheeps(int page)
     {
         var offset = 32;
         offset = offset * page;
