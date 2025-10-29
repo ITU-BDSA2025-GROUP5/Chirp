@@ -3,7 +3,7 @@ namespace Chirp.Infrastructure;
 
 public interface ICheepService
 {
-   Task<List<MessageDTO>> GetCheepsAsync();
+   Task<List<MessageDTO>> GetCheepsAsync(int page);
 }
 public class CheepService : ICheepService
 {
@@ -13,9 +13,9 @@ public class CheepService : ICheepService
         _messageRepo = messageRepo;
     }
 
-    public async Task<List<MessageDTO>> GetCheepsAsync()
+    public async Task<List<MessageDTO>> GetCheepsAsync(int page)
     {
-        return await _messageRepo.ReadMessages() ?? new List<MessageDTO>();
+        return await _messageRepo.ReadMessages(page) ?? new List<MessageDTO>();
     }
 }
 

@@ -19,7 +19,7 @@ public class PublicModel : PageModel
 
     public async Task<ActionResult> OnGet(int PageNumber)
     {
-        Cheeps = await _service.GetCheepsAsync();
+        Cheeps = await _service.GetCheepsAsync(PageNumber);
         return Page();
     }
 }

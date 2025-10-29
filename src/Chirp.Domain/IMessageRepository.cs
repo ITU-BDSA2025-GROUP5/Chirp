@@ -7,7 +7,7 @@ public interface IMessageRepository{
 
     //CreateMessage()
 
-    Task<List<MessageDTO>> ReadMessages();
+    Task<List<MessageDTO>> ReadMessages(int page);
 
     //AlterMessage()
 
