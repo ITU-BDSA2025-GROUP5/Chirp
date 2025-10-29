@@ -10,7 +10,7 @@ public class PublicModel : PageModel
     private readonly ICheepService _service;
     public int PageNumber { get; private set; }
     private const int pageSize = 32;
-    public List<MessageDTO> Cheeps { get; private set; } = new();
+    public List<CheepDTO> Cheeps { get; private set; } = new();
 
     public PublicModel(ICheepService service)
     {

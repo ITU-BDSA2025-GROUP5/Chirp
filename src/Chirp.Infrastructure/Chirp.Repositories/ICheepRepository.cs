@@ -1,8 +1,8 @@
 using Chirp.Domain;
 
-namespace MessageRepository;
+namespace Chirp.Application;
 
-public interface IMessageRepository{
+public interface ICheepRepository{
     int GetCheepCount();
 
     //CreateMessage()

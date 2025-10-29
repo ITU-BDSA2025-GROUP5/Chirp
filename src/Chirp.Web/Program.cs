@@ -1,7 +1,7 @@
 using Chirp.Razor;
 using SQLitePCL;
 using Microsoft.EntityFrameworkCore;
-using Chirp.Razor.MessageRepository;
+using Chirp.Infrastructure;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +12,7 @@ SQLitePCL.Batteries_V2.Init();
 string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<CheepDbContext>(options => options.UseSqlite(connectionString));
 
-builder.Services.AddScoped<MessageRepo>();
+builder.Services.AddScoped<CheepRepo>();
 builder.Services.AddScoped<ICheepService, CheepService>();
 builder.Services.AddRazorPages();
   

@@ -1,14 +1,13 @@
 using Chirp.Domain;
-using MessageRepository;
 using Microsoft.EntityFrameworkCore;
 
-namespace Chirp.Infrastructure;
+namespace Chirp.Application;
 
-public class MessageRepo : IMessageRepository
+public class CheepRepo : ICheepRepository
 {
     private readonly CheepDbContext _dbContext;
     
-    public MessageRepo(CheepDbContext dbContext)
+    public CheepRepo(CheepDbContext dbContext)
     {
         _dbContext = dbContext;
     }
