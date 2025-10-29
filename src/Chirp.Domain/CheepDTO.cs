@@ -1,6 +1,6 @@
 namespace Chirp.Domain;
 
-public class MessageDTO
+public class CheepDTO
 {
     public required string Text { get; set; }
     public required User User { get; set; }

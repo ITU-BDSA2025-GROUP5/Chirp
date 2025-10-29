@@ -3,12 +3,15 @@ using Chirp.Domain;
 namespace Chirp.Infrastructure;
 
 public interface ICheepRepository{
-    int GetCheepCount();
+    
+    Task<int> GetCheepCount();
 
-    //CreateMessage()
+    Task<List<CheepDTO>> ReadCheeps(int page);
+    
+    Task<User?> findAuthorByName(string name);
 
-    Task<List<MessageDTO>> ReadCheeps(int page);
-
-    //AlterMessage()
+    Task<User?> findAuthorByEmail(string email);
+    
+    void createNewAuthor(string name, string email);
 
 }

@@ -1,7 +1,12 @@
-﻿using Chirp.Domain;
+using Chirp.Domain;
 namespace Chirp.Infrastructure;
 
 public interface ICheepService
 {
-    Task<List<MessageDTO>> GetCheepsAsync(int page);
+    Task<List<CheepDTO>> GetCheepsAsync(int page);
+
+    /*
+    Task<User?> findAuthorByEmail(string email);
+    */
+
 }

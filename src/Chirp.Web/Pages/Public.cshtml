@@ -3,12 +3,12 @@
 @inject Chirp.Infrastructure.ICheepService CheepService
 @{
     ViewData["Title"] = "BBL CHIRP!";
-    Layout = "Shared/_Layout";
+    Layout = "Shared/_Layout";   
 }
 
 <div>
     <h2> Public Timeline </h2>
-
+    
     @if (Model.Cheeps.Any())
     {
         <ul id="messagelist" class="cheeps">
@@ -34,4 +34,5 @@
     {
         <em>There are no cheeps so far.</em>
     }
+   
 </div>
