@@ -8,7 +8,18 @@
 
 <div>
     <h2> Public Timeline </h2>
+    <div>
+        <form method="post"
+      action='@Url.Page("./Public", pageHandler: "NewMessage", values: new { pagenumber = Model.PageNumber })'>
+        @Html.AntiForgeryToken()
 
+        <input name="Input.Author" value="@Model.Input.Author" required />
+        <textarea name="Input.Text" required>@Model.Input.Text</textarea>
+
+        <button type="submit">Chirp</button>
+    </form>
+    </div>
+    
     @if (Model.Cheeps.Any())
     {
         <ul id="messagelist" class="cheeps">
@@ -25,13 +36,13 @@
                 </li>
             }
         </ul>
-        <div class="pager">
-        <a class="btn" href="/@(Model.PageNumber - 1)">← Previous</a>
-        <a class="btn" href="/@(Model.PageNumber + 1)">Next →</a>
-        </div>
     }
     else
     {
         <em>There are no cheeps so far.</em>
     }
+    <div class="pager">
+        <a class="btn" href="/@(Model.PageNumber - 1)">← Previous</a>
+        <a class="btn" href="/@(Model.PageNumber + 1)">Next →</a>
+        </div>
 </div>

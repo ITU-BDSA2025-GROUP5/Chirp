@@ -2,24 +2,52 @@
 using Chirp.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
 
 namespace Chirp.Razor.Pages;
 
 public class PublicModel : PageModel
 {
     private readonly ICheepService _service;
-    public int PageNumber { get; private set; }
-    private const int pageSize = 32;
-    public List<MessageDTO> Cheeps { get; private set; } = new();
+
+    [BindProperty(SupportsGet = true, Name = "pagenumber")]
+    public int PageNumber { get; set; } = 1;
+
+    [BindProperty]
+    public InputModel Input { get; set; } = new();
+    public class InputModel
+    {
+        public string Author { get; set; } = string.Empty;
+        public string Text { get; set; } = string.Empty;
+    }
+    public List<MessageDTO> Cheeps { get; set; } = new();
 
     public PublicModel(ICheepService service)
     {
         _service = service;
     }
 
-    public async Task<ActionResult> OnGet(int PageNumber)
+    public async Task<IActionResult> OnGetAsync()
     {
+        PageNumber = Math.Max(1, PageNumber);
         Cheeps = await _service.GetCheepsAsync(PageNumber);
         return Page();
+    }
+    
+    public async Task<IActionResult> OnPostNewMessageAsync()
+    {
+        Console.WriteLine("Hey");
+
+        var author = string.IsNullOrWhiteSpace(Input.Author) ? "Anonymous" : Input.Author.Trim();
+
+        var newUser = new User { Name = Input.Author, Email = $"{author}-{Guid.NewGuid():N}@local", Cheeps = new List<Cheep>() };
+
+        await _service.InsertCheepAsync(new MessageDTO {
+            Text = Input.Text,
+            User = newUser,
+            TimeStamp = DateTime.UtcNow
+        });
+
+        return RedirectToPage(null, new { pagenumber = 1 });
     }
 }

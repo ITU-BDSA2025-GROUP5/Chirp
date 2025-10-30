@@ -29,7 +29,7 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<CheepDbContext>();
     db.Database.Migrate();                     
-    DbInitializer.SeedDatabase(db);            
+    //DbInitializer.SeedDatabase(db);            
 }
 
 app.UseHttpsRedirection();

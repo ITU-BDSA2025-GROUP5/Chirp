@@ -5,7 +5,7 @@ namespace MessageRepository;
 public interface IMessageRepository{
     int GetCheepCount();
 
-    //CreateMessage()
+    Task InsertNewCheepAsync(MessageDTO Cheep);
 
     Task<List<MessageDTO>> ReadMessages(int page);
 
