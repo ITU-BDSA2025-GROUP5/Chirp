@@ -20,6 +20,18 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     options.SignIn.RequireConfirmedAccount = true)
 .AddEntityFrameworkStores<CheepDbContext>();
 
+//oAuth 
+builder.Services
+    .AddAuthentication(options =>
+    {
+        options.RequireAuthenticatedSignIn = true;
+    })
+    .AddGitHub(options =>
+    {
+        options.ClientId = githubClientId; // GitHub Client ID
+        options.ClientSecret = githubClientSecret; // GitHub Client secret
+    });
+
 
 var app = builder.Build();
 
