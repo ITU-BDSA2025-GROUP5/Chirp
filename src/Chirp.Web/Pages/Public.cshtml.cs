@@ -36,8 +36,6 @@ public class PublicModel : PageModel
     
     public async Task<IActionResult> OnPostNewMessageAsync()
     {
-        Console.WriteLine("Hey");
-
         var author = string.IsNullOrWhiteSpace(Input.Author) ? "Anonymous" : Input.Author.Trim();
 
         var newUser = new User { Name = Input.Author, Email = $"{author}-{Guid.NewGuid():N}@local", Cheeps = new List<Cheep>() };
@@ -48,6 +46,6 @@ public class PublicModel : PageModel
             TimeStamp = DateTime.UtcNow
         });
 
-        return RedirectToPage(null, new { pagenumber = 1 });
+        return RedirectToPage("Public");
     }
 }

@@ -9,11 +9,11 @@
 <div>
     <h2> Public Timeline </h2>
     <div>
-        <form method="post"
+    <form method="post"
       action='@Url.Page("./Public", pageHandler: "NewMessage", values: new { pagenumber = Model.PageNumber })'>
         @Html.AntiForgeryToken()
 
-        <input name="Input.Author" value="@Model.Input.Author" required />
+        <input name="Input.Author" value="@Model.Input.Author"/>
         <textarea name="Input.Text" required>@Model.Input.Text</textarea>
 
         <button type="submit">Chirp</button>
