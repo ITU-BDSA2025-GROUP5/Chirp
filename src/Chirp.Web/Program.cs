@@ -1,3 +1,4 @@
+using Chirp.Domain;
 using Chirp.Razor;
 using SQLitePCL;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +16,11 @@ builder.Services.AddDbContext<CheepDbContext>(options => options.UseSqlite(conne
 builder.Services.AddScoped<CheepRepo>();
 builder.Services.AddScoped<ICheepService, CheepService>();
 builder.Services.AddRazorPages();
-  
+builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+    options.SignIn.RequireConfirmedAccount = true)
+.AddEntityFrameworkStores<CheepDbContext>();
+
+
 
 var app = builder.Build();
 
@@ -36,7 +41,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapRazorPages();
 
 app.Run();

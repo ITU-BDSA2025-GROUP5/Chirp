@@ -1,4 +1,5 @@
 ﻿@page "/{pagenumber:int?}"
+
 @model Chirp.Razor.Pages.PublicModel
 @inject Chirp.Infrastructure.ICheepService CheepService
 @{
@@ -6,6 +7,8 @@
     Layout = "Shared/_Layout";   
 }
 
+[Authorize]
+public class PublicModel : PageModel
 <div>
     <h2> Public Timeline </h2>
     
