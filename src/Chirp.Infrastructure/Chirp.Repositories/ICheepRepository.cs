@@ -13,8 +13,6 @@ public interface ICheepRepository
 
     Task<User?> findAuthorByEmail(string email);
 
-    void createNewAuthor(string name, string email);
-
     Task InsertNewCheepAsync(CheepDTO message);
 
 }

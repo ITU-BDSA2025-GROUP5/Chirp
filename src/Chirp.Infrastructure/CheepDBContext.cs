@@ -10,6 +10,64 @@ public class CheepDbContext : IdentityDbContext<ApplicationUser>
 
 
     public CheepDbContext(DbContextOptions<CheepDbContext> options) : base(options)
-    {}
-    
+    { }
+
+    protected override void OnModelCreating(ModelBuilder b)
+    {
+        base.OnModelCreating(b);
+
+        b.Entity<User>()
+         .HasOne(u => u.ApplicationUser)
+         .WithOne(a => a.DomainUser!)
+         .HasForeignKey<User>(u => u.ApplicationUserId)
+         .OnDelete(DeleteBehavior.Cascade);
+
+        b.Entity<User>()
+         .HasIndex(u => u.ApplicationUserId)
+         .IsUnique();
+    }
+
+public override async Task<int> SaveChangesAsync(CancellationToken ct = default)
+{
+    AutoCreateDomainUsers();
+    return await base.SaveChangesAsync(ct);
+}
+
+public override int SaveChanges()
+{
+    AutoCreateDomainUsers();
+    return base.SaveChanges();
+}
+
+private void AutoCreateDomainUsers()
+{
+    // Find newly added Identity users in this save
+    var newAppUsers = ChangeTracker.Entries<ApplicationUser>()
+        .Where(e => e.State == EntityState.Added)
+        .Select(e => e.Entity)
+        .ToList();
+
+    if (newAppUsers.Count == 0) return;
+
+    // Avoid double-adding within the same context
+    var alreadyPlanned = ChangeTracker.Entries<User>()
+        .Where(e => e.State == EntityState.Added)
+        .Select(e => e.Entity.ApplicationUserId)
+        .ToHashSet();
+
+    foreach (var au in newAppUsers)
+    {
+        if (alreadyPlanned.Contains(au.Id)) continue;
+
+        // Create the domain user row
+        Users.Add(new User
+        {
+            ApplicationUserId = au.Id,               // FK to Identity
+            Name  = au.UserName ?? au.Email ?? "user",
+            Email = au.Email ?? string.Empty,
+            Cheeps = new List<Cheep>()
+        });
+    }
+}
+
 }

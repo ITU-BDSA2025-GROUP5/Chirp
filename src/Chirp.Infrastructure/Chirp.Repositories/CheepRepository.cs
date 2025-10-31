@@ -48,7 +48,7 @@ public class CheepRepo : ICheepRepository
         return await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email);
     }
 
-    public void createNewAuthor(string name, string email)
+   /* public void createNewAuthor(string name, string email)
     {
         var user = new User
         {
@@ -57,7 +57,7 @@ public class CheepRepo : ICheepRepository
             Cheeps = new List<Cheep>()
         };
         _dbContext.Users.Add(user);
-    }
+    } */
     public async Task InsertNewCheepAsync(CheepDTO message)
     {
         var newCheep = new Cheep
