@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chirp.Infrastructure.Migrations
 {
     [DbContext(typeof(CheepDbContext))]
-    [Migration("20251029145311_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20251031104701_DescribeChange")]
+    partial class DescribeChange
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -92,6 +92,7 @@ namespace Chirp.Infrastructure.Migrations
 
                     b.Property<string>("Text")
                         .IsRequired()
+                        .HasMaxLength(160)
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("TimeStamp")
