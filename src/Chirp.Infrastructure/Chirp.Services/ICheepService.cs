@@ -7,6 +7,7 @@ public interface ICheepService
     Task InsertCheepAsync(CheepDTO cheep);
   
     Task<User?> findAuthorByEmail(string email);
-
+    
+    Task<List<CheepDTO>> getCheepsFromUser(User user, int page);
 
 }

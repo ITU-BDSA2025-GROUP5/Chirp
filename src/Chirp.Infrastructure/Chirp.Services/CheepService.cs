@@ -23,7 +23,10 @@ public class CheepService : ICheepService
           {
               return await _cheepRepo.findAuthorByEmail(email);
           }
-    
 
+    public async Task<List<CheepDTO>> getCheepsFromUser(User user, int page)
+    {
+        return await _cheepRepo.getCheepsFromUser(user, page);
+    }
 }
 

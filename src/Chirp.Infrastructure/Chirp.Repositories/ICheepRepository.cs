@@ -14,5 +14,7 @@ public interface ICheepRepository
     Task<User?> findAuthorByEmail(string email);
 
     Task InsertNewCheepAsync(CheepDTO message);
+    
+    Task<List<CheepDTO>> getCheepsFromUser(User user, int page);
 
 }
