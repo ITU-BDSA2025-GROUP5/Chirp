@@ -1,8 +1,6 @@
-using Microsoft.AspNetCore.Identity;
-
 namespace Chirp.Domain;
 
-public class ApplicationUser : IdentityUser
+public class ApplicationUser : Microsoft.AspNetCore.Identity.IdentityUser
 {
-    
+    public User? DomainUser { get; set; }
 }

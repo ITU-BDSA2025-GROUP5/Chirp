@@ -4,7 +4,6 @@ namespace Chirp.Domain;
 public class Cheep
 {
     public int CheepId { get; set; }
-    public required int UserId { get; set; } 
     
     [StringLength(160)]
     public required string Text { get; set; }
