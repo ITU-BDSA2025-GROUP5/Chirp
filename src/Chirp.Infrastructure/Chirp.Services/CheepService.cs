@@ -18,14 +18,12 @@ public class CheepService : ICheepService
     {
         await _cheepRepo.InsertNewCheepAsync(cheep);
     }
-
-    /* -- Brug hvis du vil have noget displayet på hjemmesiden. 
-
-          public async Task<User?> findAuthorByEmail(string email)
+        
+    public async Task<User?> findAuthorByEmail(string email)
           {
               return await _cheepRepo.findAuthorByEmail(email);
           }
-      */
+    
 
 }
 

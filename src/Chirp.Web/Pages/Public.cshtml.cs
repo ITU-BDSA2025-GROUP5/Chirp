@@ -31,11 +31,15 @@ public class PublicModel : PageModel
 
     public async Task<IActionResult> OnPostNewMessageAsync(String Input)
     {
-        
+        var user = await _service.findAuthorByEmail(User.Identity.Name);
+        if (user == null)
+        {
+            Console.WriteLine("User not found");
+        }
         await _service.InsertCheepAsync(new CheepDTO
         {
             Text = Input,
-            User = null,
+            User = user,
             TimeStamp = DateTime.UtcNow
         });
         return RedirectToPage("Public");
