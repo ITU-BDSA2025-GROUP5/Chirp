@@ -3,8 +3,8 @@ using Chirp.Domain;
 using SQLitePCL;
 using Microsoft.EntityFrameworkCore;
 using Chirp.Infrastructure;
-using Chirp.Razor.web.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
