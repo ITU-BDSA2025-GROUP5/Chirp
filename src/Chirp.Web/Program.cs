@@ -21,7 +21,21 @@ builder.Services.AddRazorPages();
 builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     options.SignIn.RequireConfirmedAccount = true)
 .AddEntityFrameworkStores<CheepDbContext>();
+Console.WriteLine("YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+Console.WriteLine(builder.Configuration["Authentication:GitHub:ClientId"]);
+Console.WriteLine(builder.Configuration["Authentication:GitHub:ClientId"]);
+Console.WriteLine(builder.Configuration["Authentication:GitHub:ClientId"]);
+Console.WriteLine(builder.Configuration["Authentication:GitHub:ClientSecret"]);
 
+
+builder.Services.AddAuthentication()
+    .AddGitHub(options =>
+    {
+        options.ClientId = builder.Configuration["Authentication:GitHub:ClientId"];
+        options.ClientSecret = builder.Configuration["Authentication:GitHub:ClientSecret"];
+        options.Scope.Add("user:email");
+        options.SaveTokens = true;
+    });
 
 
 var app = builder.Build();
