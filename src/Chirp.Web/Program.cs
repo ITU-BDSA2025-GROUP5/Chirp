@@ -21,8 +21,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     options.SignIn.RequireConfirmedAccount = true)
 .AddEntityFrameworkStores<CheepDbContext>();
-
-
+builder.Services.AddHsts(o => o.MaxAge = TimeSpan.FromHours(1));
 
 var app = builder.Build();
 
@@ -30,6 +29,7 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
     app.UseHsts();
+    app.UseHttpsRedirection();
 }
 
 using (var scope = app.Services.CreateScope())
@@ -39,7 +39,6 @@ using (var scope = app.Services.CreateScope())
     //DbInitializer.SeedDatabase(db);           
 }
 
-app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
