@@ -1,4 +1,4 @@
-using System;
+/*using System;
 using System.Linq;
 using Chirp;
 using Chirp.Domain;
@@ -10,7 +10,7 @@ public static class DbInitializer
     {
         if (!(db.Users.Any() && db.Cheeps.Any()))
         {
-            var a1 = new User() { UserId = 1, Name = "Roger Histand", Email = "Roger+Histand@hotmail.com", Cheeps = new List<Cheep>() };
+            var a1 = new User() { UserId = 1, Name = "Roger Histand", Email = "Roger+Histand@hotmail.com", Cheeps = new List<Cheep>()};
             var a2 = new User() { UserId = 2, Name = "Luanna Muro", Email = "Luanna-Muro@ku.dk", Cheeps = new List<Cheep>() };
             var a3 = new User() { UserId = 3, Name = "Wendell Ballan", Email = "Wendell-Ballan@gmail.com", Cheeps = new List<Cheep>() };
             var a4 = new User() { UserId = 4, Name = "Nathan Sirmon", Email = "Nathan+Sirmon@dtu.dk", Cheeps = new List<Cheep>() };
@@ -703,3 +703,4 @@ public static class DbInitializer
         }
     }
 }
+*/

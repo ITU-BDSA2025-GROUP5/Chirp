@@ -13,14 +13,20 @@ public class CheepService : ICheepService
     {
         return await _cheepRepo.ReadCheeps(page) ?? new List<CheepDTO>();
     }
-
- /* -- Brug hvis du vil have noget displayet på hjemmesiden. 
- 
-    public async Task<User?> findAuthorByEmail(string email)
+    
+        public async Task InsertCheepAsync(CheepDTO cheep)
     {
-        return await _cheepRepo.findAuthorByEmail(email);
+        await _cheepRepo.InsertNewCheepAsync(cheep);
     }
-*/
+        
+    public async Task<User?> findAuthorByEmail(string email)
+          {
+              return await _cheepRepo.findAuthorByEmail(email);
+          }
 
+    public async Task<List<CheepDTO>> getCheepsFromUser(User user, int page)
+    {
+        return await _cheepRepo.getCheepsFromUser(user, page);
+    }
 }
 

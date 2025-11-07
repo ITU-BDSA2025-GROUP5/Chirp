@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Chirp.Razor.Pages;
 
-[Authorize]
 public class UserTimelineModel : PageModel
 {
     private readonly ICheepService _service;
@@ -16,12 +15,13 @@ public class UserTimelineModel : PageModel
     {
         _service = service;
     }
-/*
-    public ActionResult OnGet(string author)
+
+    public async Task<ActionResult> OnGet(string author)
     {
-        Cheeps = _service.GetCheepsFromAuthor(author);
+        var user = await _service.findAuthorByEmail(author);
+        Cheeps = await _service.getCheepsFromUser(user, 1);
         return Page();
     }
-    */
+    
 }
 
