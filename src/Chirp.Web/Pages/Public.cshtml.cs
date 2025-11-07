@@ -7,7 +7,6 @@ using Microsoft.VisualBasic;
 using System;
 
 namespace Chirp.Razor.Pages;
-[Authorize]
 public class PublicModel : PageModel
 {
     private readonly ICheepService _service;
@@ -31,10 +30,15 @@ public class PublicModel : PageModel
 
     public async Task<IActionResult> OnPostNewMessageAsync(String Input)
     {
+        if (User.Identity?.IsAuthenticated == false || User.Identity?.Name == null)
+        {
+            return Page();
+        }
         var user = await _service.findAuthorByEmail(User.Identity.Name);
         if (user == null)
         {
-            Console.WriteLine("User not found");
+            Console.WriteLine("No corresponding User found to login");
+            return Page();
         }
         await _service.InsertCheepAsync(new CheepDTO
         {

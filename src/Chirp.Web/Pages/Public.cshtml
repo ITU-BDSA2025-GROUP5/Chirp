@@ -9,15 +9,17 @@
 
 <div>
     <h2> Public Timeline </h2>
+    @if (User?.Identity?.IsAuthenticated == true){
     <h3>What's on your mind @Model.UserName! ?</h3>
-   <form method="post"
-    action='@Url.Page("./Public",
-    pageHandler: "NewMessage",
-    values: new { pagenumber = Model.PageNumber })'>
-        @Html.AntiForgeryToken()
-         <input type="text" name="Input" value="">
-        <input type="submit" value="Share">
-    </form>
+        <form method="post"
+            action='@Url.Page("./Public",
+            pageHandler: "NewMessage",
+            values: new { pagenumber = Model.PageNumber })'>
+                @Html.AntiForgeryToken()
+                <input type="text" name="Input" value="">
+                <input type="submit" value="Share">
+        </form>
+    }
     @if (Model.Cheeps.Any())
     {
         <ul id="messagelist" class="cheeps">
