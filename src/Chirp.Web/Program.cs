@@ -44,6 +44,7 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
     app.UseHsts();
+    app.UseHttpsRedirection();
 }
 
 using (var scope = app.Services.CreateScope())
