@@ -21,23 +21,26 @@ builder.Services.AddRazorPages();
 builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     options.SignIn.RequireConfirmedAccount = true)
 .AddEntityFrameworkStores<CheepDbContext>();
-Console.WriteLine("Notice Notice, if no secrets are displayed below ask niels for client secrets and client id and such");
-Console.WriteLine(builder.Configuration["Authentication:GitHub:ClientId"]);
-Console.WriteLine(builder.Configuration["Authentication:GitHub:ClientSecret"]);
 
+
+var githubClientId = builder.Configuration["Authentication:GitHub:ClientId"];
+var githubClientSecret = builder.Configuration["Authentication:GitHub:ClientSecret"];
+
+if (!string.IsNullOrEmpty(githubClientId) && !string.IsNullOrEmpty(githubClientSecret))
+{
 
 builder.Services.AddAuthentication()
     .AddGitHub(options =>
     {
-        options.ClientId = builder.Configuration["Authentication:GitHub:ClientId"];
-        options.ClientSecret = builder.Configuration["Authentication:GitHub:ClientSecret"];
+        options.ClientId = builder.Configuration["Authentication:aGitHub:ClientId"];
+        options.ClientSecret = builder.Configuration["Authenticatioan:GitHub:ClientSecret"];
         options.Scope.Add("user:email");
         options.SaveTokens = true;
 		options.CallbackPath = new PathString("/signin-github");
 
 
     });
-
+}
 
 var app = builder.Build();
 
