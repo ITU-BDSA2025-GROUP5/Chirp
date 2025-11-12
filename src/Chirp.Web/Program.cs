@@ -21,9 +21,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     options.SignIn.RequireConfirmedAccount = true)
 .AddEntityFrameworkStores<CheepDbContext>();
-Console.WriteLine("YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-Console.WriteLine(builder.Configuration["Authentication:GitHub:ClientId"]);
-Console.WriteLine(builder.Configuration["Authentication:GitHub:ClientId"]);
+Console.WriteLine("Notice Notice, if no secrets are displayed below ask niels for client secrets and client id and such");
 Console.WriteLine(builder.Configuration["Authentication:GitHub:ClientId"]);
 Console.WriteLine(builder.Configuration["Authentication:GitHub:ClientSecret"]);
 
