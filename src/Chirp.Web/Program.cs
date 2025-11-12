@@ -21,7 +21,22 @@ builder.Services.AddRazorPages();
 builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     options.SignIn.RequireConfirmedAccount = true)
 .AddEntityFrameworkStores<CheepDbContext>();
-builder.Services.AddHsts(o => o.MaxAge = TimeSpan.FromHours(1));
+Console.WriteLine("YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+Console.WriteLine(builder.Configuration["Authentication:GitHub:ClientId"]);
+Console.WriteLine(builder.Configuration["Authentication:GitHub:ClientId"]);
+Console.WriteLine(builder.Configuration["Authentication:GitHub:ClientId"]);
+Console.WriteLine(builder.Configuration["Authentication:GitHub:ClientSecret"]);
+
+
+builder.Services.AddAuthentication()
+    .AddGitHub(options =>
+    {
+        options.ClientId = builder.Configuration["Authentication:GitHub:ClientId"];
+        options.ClientSecret = builder.Configuration["Authentication:GitHub:ClientSecret"];
+        options.Scope.Add("user:email");
+        options.SaveTokens = true;
+    });
+
 
 var app = builder.Build();
 
@@ -39,6 +54,7 @@ using (var scope = app.Services.CreateScope())
     //DbInitializer.SeedDatabase(db);           
 }
 
+app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
