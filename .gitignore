@@ -61,3 +61,6 @@ nunit-*.xml
 # OS cruft
 .DS_Store
 Thumbs.db
+
+# DB
+chirp.db
