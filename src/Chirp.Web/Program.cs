@@ -33,6 +33,9 @@ builder.Services.AddAuthentication()
         options.ClientSecret = builder.Configuration["Authentication:GitHub:ClientSecret"];
         options.Scope.Add("user:email");
         options.SaveTokens = true;
+		options.CallbackPath = new PathString("/signin-github");
+
+
     });
 
 
