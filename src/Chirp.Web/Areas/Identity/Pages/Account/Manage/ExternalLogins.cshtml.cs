@@ -16,14 +16,14 @@ namespace Chirp.Razor.web.Areas.Identity.Pages.Account.Manage
 {
     public class ExternalLoginsModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly IUserStore<IdentityUser> _userStore;
+        private readonly UserManager<applicationUser> _userManager;
+        private readonly SignInManager<applicationUser> _signInManager;
+        private readonly IUserStore<applicationUser> _userStore;
 
         public ExternalLoginsModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
-            IUserStore<IdentityUser> userStore)
+            UserManager<applicationUser> userManager,
+            SignInManager<applicationUser> signInManager,
+            IUserStore<applicationUser> userStore)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -69,7 +69,7 @@ namespace Chirp.Razor.web.Areas.Identity.Pages.Account.Manage
                 .ToList();
 
             string passwordHash = null;
-            if (_userStore is IUserPasswordStore<IdentityUser> userPasswordStore)
+            if (_userStore is IUserPasswordStore<applicationUser> userPasswordStore)
             {
                 passwordHash = await userPasswordStore.GetPasswordHashAsync(user, HttpContext.RequestAborted);
             }

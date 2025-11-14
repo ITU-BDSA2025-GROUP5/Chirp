@@ -59,7 +59,7 @@ namespace Chirp.Razor.web.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Username")]
             public string Username { get; set; }
         }
-
+//oscar added this
         private async Task LoadAsync(ApplicationUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
