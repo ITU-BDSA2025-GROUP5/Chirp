@@ -8,6 +8,8 @@ public class CheepDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Cheep> Cheeps { get; set; } = default!;
     public DbSet<User> Users { get; set; } = default!;
 
+    public DbSet<Follow> Follows { get; set; } = default!;
+
 
     public CheepDbContext(DbContextOptions<CheepDbContext> options) : base(options)
     { }
@@ -25,6 +27,26 @@ public class CheepDbContext : IdentityDbContext<ApplicationUser>
         b.Entity<User>()
          .HasIndex(u => u.ApplicationUserId)
          .IsUnique();
+        b.Entity<Follow>(entity =>
+        {
+    
+            entity.HasKey(f => new { f.FollowerId, f.FolloweeId });
+            
+            entity.HasOne(f => f.Follower)
+                .WithMany()  // no navigation on User
+                .HasForeignKey(f => f.FollowerId)
+                .OnDelete(DeleteBehavior.Restrict);
+            
+            entity.HasOne(f => f.Followee)
+                .WithMany()  // no navigation on User
+                .HasForeignKey(f => f.FolloweeId)
+                .OnDelete(DeleteBehavior.Restrict);
+            
+            entity.HasIndex(f => f.FollowerId);
+            entity.HasIndex(f => f.FolloweeId);
+
+            entity.ToTable("Follows");
+        });
     }
 
 public override async Task<int> SaveChangesAsync(CancellationToken ct = default)
