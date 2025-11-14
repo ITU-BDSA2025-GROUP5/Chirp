@@ -23,6 +23,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 .AddEntityFrameworkStores<CheepDbContext>();
 
 
+
 var githubClientId = builder.Configuration["Authentication:GitHub:ClientId"];
 var githubClientSecret = builder.Configuration["Authentication:GitHub:ClientSecret"];
 
@@ -32,8 +33,8 @@ if (!string.IsNullOrEmpty(githubClientId) && !string.IsNullOrEmpty(githubClientS
 builder.Services.AddAuthentication()
     .AddGitHub(options =>
     {
-        options.ClientId = builder.Configuration["Authentication:aGitHub:ClientId"];
-        options.ClientSecret = builder.Configuration["Authenticatioan:GitHub:ClientSecret"];
+        options.ClientId = builder.Configuration["Authentication:GitHub:ClientId"];
+        options.ClientSecret = builder.Configuration["Authentication:GitHub:ClientSecret"];
         options.Scope.Add("user:email");
         options.SaveTokens = true;
 		options.CallbackPath = new PathString("/signin-github");
