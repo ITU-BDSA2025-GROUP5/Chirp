@@ -11,16 +11,19 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Chirp.Domain;
 
 namespace Chirp.Razor.web.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class RegisterConfirmationModel : PageModel
     {
-        private readonly UserManager<applicationUser> _userManager;
+        private readonly UserManager<ApplicationUser
+> _userManager;
         private readonly IEmailSender _sender;
 
-        public RegisterConfirmationModel(UserManager<applicationUser> userManager, IEmailSender sender)
+        public RegisterConfirmationModel(UserManager<ApplicationUser
+> userManager, IEmailSender sender)
         {
             _userManager = userManager;
             _sender = sender;

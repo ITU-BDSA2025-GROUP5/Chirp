@@ -8,17 +8,21 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-
+using Chirp.Domain;
 namespace Chirp.Razor.web.Areas.Identity.Pages.Account.Manage
 {
     public class SetPasswordModel : PageModel
     {
-        private readonly UserManager<applicationUser> _userManager;
-        private readonly SignInManager<applicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser
+> _userManager;
+        private readonly SignInManager<ApplicationUser
+> _signInManager;
 
         public SetPasswordModel(
-            UserManager<applicationUser> userManager,
-            SignInManager<applicationUser> signInManager)
+            UserManager<ApplicationUser
+> userManager,
+            SignInManager<ApplicationUser
+> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;

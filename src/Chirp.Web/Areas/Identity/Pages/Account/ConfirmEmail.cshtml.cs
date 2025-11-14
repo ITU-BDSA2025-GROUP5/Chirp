@@ -11,14 +11,16 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-
+using Chirp.Domain;
 namespace Chirp.Razor.web.Areas.Identity.Pages.Account
 {
     public class ConfirmEmailModel : PageModel
     {
-        private readonly UserManager<applicationUser> _userManager;
+        private readonly UserManager<ApplicationUser
+> _userManager;
 
-        public ConfirmEmailModel(UserManager<applicationUser> userManager)
+        public ConfirmEmailModel(UserManager<ApplicationUser
+> userManager)
         {
             _userManager = userManager;
         }

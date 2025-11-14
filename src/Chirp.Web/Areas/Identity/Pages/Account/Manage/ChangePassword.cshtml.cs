@@ -5,6 +5,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using Chirp.Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -14,13 +15,17 @@ namespace Chirp.Razor.web.Areas.Identity.Pages.Account.Manage
 {
     public class ChangePasswordModel : PageModel
     {
-        private readonly UserManager<applicationUser> _userManager;
-        private readonly SignInManager<applicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser
+> _userManager;
+        private readonly SignInManager<ApplicationUser
+> _signInManager;
         private readonly ILogger<ChangePasswordModel> _logger;
 
         public ChangePasswordModel(
-            UserManager<applicationUser> userManager,
-            SignInManager<applicationUser> signInManager,
+            UserManager<ApplicationUser
+> userManager,
+            SignInManager<ApplicationUser
+> signInManager,
             ILogger<ChangePasswordModel> logger)
         {
             _userManager = userManager;

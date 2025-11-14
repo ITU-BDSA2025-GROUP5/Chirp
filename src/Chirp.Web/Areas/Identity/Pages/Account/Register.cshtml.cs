@@ -18,22 +18,30 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Chirp.Domain;
 
 namespace Chirp.Razor.web.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<applicationUser> _signInManager;
-        private readonly UserManager<applicationUser> _userManager;
-        private readonly IUserStore<applicationUser> _userStore;
-        private readonly IUserEmailStore<applicationUser> _emailStore;
+        private readonly SignInManager<ApplicationUser
+> _signInManager;
+        private readonly UserManager<ApplicationUser
+> _userManager;
+        private readonly IUserStore<ApplicationUser
+> _userStore;
+        private readonly IUserEmailStore<ApplicationUser
+> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
-            UserManager<applicationUser> userManager,
-            IUserStore<applicationUser> userStore,
-            SignInManager<applicationUser> signInManager,
+            UserManager<ApplicationUser
+> userManager,
+            IUserStore<ApplicationUser
+> userStore,
+            SignInManager<ApplicationUser
+> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
@@ -154,27 +162,33 @@ namespace Chirp.Razor.web.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private applicationUser CreateUser()
+        private ApplicationUser
+ CreateUser()
         {
             try
             {
-                return Activator.CreateInstance<applicationUser>();
+                return Activator.CreateInstance<ApplicationUser
+>();
             }
             catch
             {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(applicationUser)}'. " +
-                    $"Ensure that '{nameof(applicationUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(ApplicationUser
+)}'. " +
+                    $"Ensure that '{nameof(ApplicationUser
+)}' is not an abstract class and has a parameterless constructor, or alternatively " +
                     $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
             }
         }
 
-        private IUserEmailStore<applicationUser> GetEmailStore()
+        private IUserEmailStore<ApplicationUser
+> GetEmailStore()
         {
             if (!_userManager.SupportsUserEmail)
             {
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
-            return (IUserEmailStore<applicationUser>)_userStore;
+            return (IUserEmailStore<ApplicationUser
+>)_userStore;
         }
     }
 }

@@ -11,18 +11,23 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using Chirp.Domain;
 
 namespace Chirp.Razor.web.Areas.Identity.Pages.Account
 {
     public class LoginWith2faModel : PageModel
     {
-        private readonly SignInManager<applicationUser> _signInManager;
-        private readonly UserManager<applicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser
+> _signInManager;
+        private readonly UserManager<ApplicationUser
+> _userManager;
         private readonly ILogger<LoginWith2faModel> _logger;
 
         public LoginWith2faModel(
-            SignInManager<applicationUser> signInManager,
-            UserManager<applicationUser> userManager,
+            SignInManager<ApplicationUser
+> signInManager,
+            UserManager<ApplicationUser
+> userManager,
             ILogger<LoginWith2faModel> logger)
         {
             _signInManager = signInManager;

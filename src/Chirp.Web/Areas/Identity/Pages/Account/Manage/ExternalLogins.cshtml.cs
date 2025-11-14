@@ -11,19 +11,25 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-
+using Chirp.Domain;
 namespace Chirp.Razor.web.Areas.Identity.Pages.Account.Manage
 {
     public class ExternalLoginsModel : PageModel
     {
-        private readonly UserManager<applicationUser> _userManager;
-        private readonly SignInManager<applicationUser> _signInManager;
-        private readonly IUserStore<applicationUser> _userStore;
+        private readonly UserManager<ApplicationUser
+> _userManager;
+        private readonly SignInManager<ApplicationUser
+> _signInManager;
+        private readonly IUserStore<ApplicationUser
+> _userStore;
 
         public ExternalLoginsModel(
-            UserManager<applicationUser> userManager,
-            SignInManager<applicationUser> signInManager,
-            IUserStore<applicationUser> userStore)
+            UserManager<ApplicationUser
+> userManager,
+            SignInManager<ApplicationUser
+> signInManager,
+            IUserStore<ApplicationUser
+> userStore)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -69,7 +75,8 @@ namespace Chirp.Razor.web.Areas.Identity.Pages.Account.Manage
                 .ToList();
 
             string passwordHash = null;
-            if (_userStore is IUserPasswordStore<applicationUser> userPasswordStore)
+            if (_userStore is IUserPasswordStore<ApplicationUser
+> userPasswordStore)
             {
                 passwordHash = await userPasswordStore.GetPasswordHashAsync(user, HttpContext.RequestAborted);
             }

@@ -10,15 +10,19 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-
+using Chirp.Domain;
 namespace Chirp.Razor.web.Areas.Identity.Pages.Account
 {
     public class ConfirmEmailChangeModel : PageModel
     {
-        private readonly UserManager<applicationUser> _userManager;
-        private readonly SignInManager<applicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser
+> _userManager;
+        private readonly SignInManager<ApplicationUser
+> _signInManager;
 
-        public ConfirmEmailChangeModel(UserManager<applicationUser> userManager, SignInManager<applicationUser> signInManager)
+        public ConfirmEmailChangeModel(UserManager<ApplicationUser
+> userManager, SignInManager<ApplicationUser
+> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
