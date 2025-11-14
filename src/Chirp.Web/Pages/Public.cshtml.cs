@@ -48,4 +48,6 @@ public class PublicModel : PageModel
         });
         return RedirectToPage("Public");
     }
+
+    
 }

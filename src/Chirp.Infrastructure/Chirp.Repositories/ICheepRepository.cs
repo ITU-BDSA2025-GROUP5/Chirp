@@ -16,5 +16,9 @@ public interface ICheepRepository
     Task InsertNewCheepAsync(CheepDTO message);
     
     Task<List<CheepDTO>> getCheepsFromUser(User user, int page);
+    
+    Task<List<User>> getFollowers(User user);
+    
+    Task<List<User>> getFollowings(User user);
 
 }

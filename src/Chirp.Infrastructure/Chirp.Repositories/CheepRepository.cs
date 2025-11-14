@@ -92,4 +92,23 @@ public class CheepRepo : ICheepRepository
             .ToListAsync();
         return cheeps;
     }
+    
+    public async Task<List<User>> getFollowers(User user) {
+        
+        var followers = await _dbContext.Follows
+            .Where(f => f.FolloweeId == user.UserId)
+            .Select(f => f.Follower)
+            .ToListAsync();
+        
+        return followers;
+    }
+
+    public async Task<List<User>> getFollowings(User user) {
+        var followers = await _dbContext.Follows
+            .Where(f => f.FollowerId == user.UserId)
+            .Select(f => f.Followee)
+            .ToListAsync();
+    
+        return followers;
+    }
 }
