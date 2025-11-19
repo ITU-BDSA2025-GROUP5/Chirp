@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 namespace Chirp.Infrastructure;
 
-public class CheepDbContext : IdentityDbContext<ApplicationUser>
+public class CheepDbContext : IdentityDbContext<User>
 {
     public DbSet<Cheep> Cheeps { get; set; } = default!;
     public DbSet<User> Users { get; set; } = default!;
@@ -12,7 +12,7 @@ public class CheepDbContext : IdentityDbContext<ApplicationUser>
     public CheepDbContext(DbContextOptions<CheepDbContext> options) : base(options)
     { }
 
-    protected override void OnModelCreating(ModelBuilder b)
+   /* protected override void OnModelCreating(ModelBuilder b)
     {
         base.OnModelCreating(b);
 
@@ -26,7 +26,7 @@ public class CheepDbContext : IdentityDbContext<ApplicationUser>
          .HasIndex(u => u.ApplicationUserId)
          .IsUnique();
     }
-
+   
 public override async Task<int> SaveChangesAsync(CancellationToken ct = default)
 {
     AutoCreateDomainUsers();
@@ -38,6 +38,7 @@ public override int SaveChanges()
     AutoCreateDomainUsers();
     return base.SaveChanges();
 }
+
 
 private void AutoCreateDomainUsers()
 {
@@ -69,5 +70,6 @@ private void AutoCreateDomainUsers()
         });
     }
 }
+*/
 
 }
