@@ -12,21 +12,20 @@ public class CheepDbContext : IdentityDbContext<User>
     public CheepDbContext(DbContextOptions<CheepDbContext> options) : base(options)
     { }
 
-   /* protected override void OnModelCreating(ModelBuilder b)
+  protected override void OnModelCreating(ModelBuilder b)
     {
         base.OnModelCreating(b);
 
-        b.Entity<User>()
-         .HasOne(u => u.ApplicationUser)
-         .WithOne(a => a.DomainUser!)
-         .HasForeignKey<User>(u => u.ApplicationUserId)
-         .OnDelete(DeleteBehavior.Cascade);
+        b.Entity<User>().ToTable("Users");
+        //b.Entity<IdentityRole>().ToTable("Roles");
 
-        b.Entity<User>()
-         .HasIndex(u => u.ApplicationUserId)
-         .IsUnique();
+        b.Entity<Cheep>()
+            .HasOne(c => c.User)
+            .WithMany(u => u.Cheeps);
     }
-   
+  
+  /*
+
 public override async Task<int> SaveChangesAsync(CancellationToken ct = default)
 {
     AutoCreateDomainUsers();
