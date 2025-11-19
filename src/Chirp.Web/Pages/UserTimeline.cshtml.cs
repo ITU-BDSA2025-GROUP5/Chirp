@@ -18,7 +18,7 @@ public class UserTimelineModel : PageModel
 
     public async Task<ActionResult> OnGet(string author)
     {
-        var user = await _service.findAuthorByEmail(author);
+        var user = await _service.findUserByEmail(author);
         if (user == null)
         {
             Console.WriteLine("No corresponding user found");

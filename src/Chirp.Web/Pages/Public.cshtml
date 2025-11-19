@@ -28,10 +28,16 @@
                 <li>
                     <p>
                         <strong>
-                           
                             <a href="/@cheep.User.Name">@cheep.User.Name</a>
                         </strong>
                         @cheep.Text
+                        <p class="followField"> 
+                        @if (Model.followedUsers.Contains(@cheep.User)) {
+                            <p>Det virker</p>
+                        } else {
+                            <p>Det virker ikke</p>
+                        }
+                        </p>
                     </p>
                     @cheep.TimeStamp
                 </li>

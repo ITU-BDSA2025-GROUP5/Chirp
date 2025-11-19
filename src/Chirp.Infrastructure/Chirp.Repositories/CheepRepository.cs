@@ -37,27 +37,7 @@ public class CheepRepo : ICheepRepository
         .ToListAsync();
         return cheeps;
     }
-
-    public async Task<User?> findAuthorByName(string name)
-    {
-        return await _dbContext.Users.FirstOrDefaultAsync(u => u.Name == name);
-    }
-
-    public async Task<User?> findAuthorByEmail(string email)
-    {
-        return await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email);
-    }
-
-   /* public void createNewAuthor(string name, string email)
-    {
-        var user = new User
-        {
-            Name = name,
-            Email = email,
-            Cheeps = new List<Cheep>()
-        };
-        _dbContext.Users.Add(user);
-    } */
+    
     public async Task InsertNewCheepAsync(CheepDTO message)
     {
         var newCheep = new Cheep
@@ -93,24 +73,5 @@ public class CheepRepo : ICheepRepository
         return cheeps;
     }
     
-    // This method returns a list of all users who's following you. 
-    public async Task<List<User>> getFollowers(User user) {
-        
-        var followers = await _dbContext.Follows
-            .Where(f => f.FolloweeId == user.UserId)
-            .Select(f => f.Follower)
-            .ToListAsync();
-        
-        return followers;
-    }
-
-    // This method return a list of all users who you're following
-    public async Task<List<User>> getFollowings(User user) {
-        var followers = await _dbContext.Follows
-            .Where(f => f.FollowerId == user.UserId)
-            .Select(f => f.Followee)
-            .ToListAsync();
     
-        return followers;
-    }
 }

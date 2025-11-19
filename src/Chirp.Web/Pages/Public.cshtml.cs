@@ -15,6 +15,8 @@ public class PublicModel : PageModel
     public int PageNumber { get; set; } = 1;
     public List<CheepDTO> Cheeps { get; set; } = new();
     public string? UserName { get; private set; }
+
+    public List<User> followedUsers { get; set; } = new();
     public PublicModel(ICheepService service)
     {
         _service = service;
@@ -25,6 +27,15 @@ public class PublicModel : PageModel
         PageNumber = Math.Max(1, PageNumber);
         UserName = User.Identity?.Name;    
         Cheeps = await _service.GetCheepsAsync(PageNumber);
+        if (User.Identity?.IsAuthenticated == true || User.Identity?.Name != null)
+        {
+            Console.WriteLine(User.Identity?.Name);
+            var user = await _service.findUserByEmail(User.Identity?.Name);
+            if (user != null)
+            {
+                followedUsers = await _service.getFollowedUsers(user);
+            }
+        }
         return Page();
     }
 
@@ -34,7 +45,7 @@ public class PublicModel : PageModel
         {
             return Page();
         }
-        var user = await _service.findAuthorByEmail(User.Identity.Name);
+        var user = await _service.findUserByEmail(User.Identity.Name);
         if (user == null)
         {
             Console.WriteLine("No corresponding User found to login");
