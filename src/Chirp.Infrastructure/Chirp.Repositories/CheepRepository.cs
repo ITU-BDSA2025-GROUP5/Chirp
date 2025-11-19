@@ -93,6 +93,7 @@ public class CheepRepo : ICheepRepository
         return cheeps;
     }
     
+    // This method returns a list of all users who's following you. 
     public async Task<List<User>> getFollowers(User user) {
         
         var followers = await _dbContext.Follows
@@ -103,6 +104,7 @@ public class CheepRepo : ICheepRepository
         return followers;
     }
 
+    // This method return a list of all users who you're following
     public async Task<List<User>> getFollowings(User user) {
         var followers = await _dbContext.Follows
             .Where(f => f.FollowerId == user.UserId)
