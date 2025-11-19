@@ -5,20 +5,20 @@ using Xunit;
 using System;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-
+using Chirp.Infrastructure;
 namespace Chirp.Razor.Tests.Infrastructure
 {
     public class SqliteInMemoryDbFixture : IDisposable
     {
         private readonly SqliteConnection _keepAliveConnection;
-        public DbContextOptions<ChirpDbContext> Options { get; }
+        public DbContextOptions<CheepDbContext> Options { get; }
 
         public SqliteInMemoryDbFixture()
         {
             _keepAliveConnection = new SqliteConnection("Data Source=:memory:;Cache=Shared");
             _keepAliveConnection.Open();
 
-            Options = new DbContextOptionsBuilder<ChirpDbContext>()
+            Options = new DbContextOptionsBuilder<CheepDbContext>()
                 .UseSqlite(_keepAliveConnection)
                 .EnableSensitiveDataLogging()
                 .Options;
@@ -28,7 +28,7 @@ namespace Chirp.Razor.Tests.Infrastructure
             ctx.Database.Migrate();
         }
 
-        public ChirpDbContext CreateContext() => new ChirpDbContext(Options);
+        public CheepDbContext CreateContext() => new CheepDbContext(Options);
 
         public void ResetDatabase()
         {

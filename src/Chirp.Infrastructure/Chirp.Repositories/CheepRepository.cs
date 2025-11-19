@@ -1,6 +1,5 @@
 using Chirp.Domain;
 using Microsoft.EntityFrameworkCore;
-
 namespace Chirp.Infrastructure;
 
 public class CheepRepo : ICheepRepository
@@ -62,6 +61,7 @@ public class CheepRepo : ICheepRepository
     {
         var newCheep = new Cheep
         {
+            UserID = message.User.UserId,
             Text = message.Text,
             User = message.User,
             TimeStamp = message.TimeStamp,
@@ -73,16 +73,16 @@ public class CheepRepo : ICheepRepository
 
     public async Task<List<CheepDTO>> getCheepsFromUser(User user, int page)
     {
-        const int pageSize = 32;
+            const int pageSize = 32;
         var skip = Math.Max(0, (page - 1) * pageSize);
-        
+
         var cheeps = await _dbContext.Cheeps
             .AsNoTracking()
             .OrderByDescending(c => c.TimeStamp)
-            .Include(c => c.User)               
+            .Include(c => c.User)
+            .Where(c => c.UserID == user.UserId) 
             .Skip(skip)
             .Take(pageSize)
-            .Where(c => c.User == user)
             .Select(c => new CheepDTO
             {
                 Text = c.Text,
@@ -90,6 +90,7 @@ public class CheepRepo : ICheepRepository
                 TimeStamp = c.TimeStamp
             })
             .ToListAsync();
+
         return cheeps;
-    }
+        }
 }

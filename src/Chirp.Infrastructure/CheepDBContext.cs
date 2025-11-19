@@ -10,11 +10,16 @@ public class CheepDbContext : IdentityDbContext<ApplicationUser>
 
 
     public CheepDbContext(DbContextOptions<CheepDbContext> options) : base(options)
-    { }
-
+        { }
     protected override void OnModelCreating(ModelBuilder b)
     {
         base.OnModelCreating(b);
+
+        b.Entity<Cheep>()
+        .HasOne(c => c.User)
+        .WithMany(u => u.Cheeps)
+        .HasForeignKey(c => c.UserID)
+        .OnDelete(DeleteBehavior.Cascade);
 
         b.Entity<User>()
          .HasOne(u => u.ApplicationUser)
@@ -38,7 +43,6 @@ public override int SaveChanges()
     AutoCreateDomainUsers();
     return base.SaveChanges();
 }
-
 private void AutoCreateDomainUsers()
 {
     // Find newly added Identity users in this save
@@ -62,7 +66,7 @@ private void AutoCreateDomainUsers()
         // Create the domain user row
         Users.Add(new User
         {
-            ApplicationUserId = au.Id,               // FK to Identity
+            ApplicationUserId = au.Id,             
             Name  = au.UserName ?? au.Email ?? "user",
             Email = au.Email ?? string.Empty,
             Cheeps = new List<Cheep>()

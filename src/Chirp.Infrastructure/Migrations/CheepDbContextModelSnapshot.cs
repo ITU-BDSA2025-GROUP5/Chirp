@@ -29,6 +29,9 @@ namespace Chirp.Infrastructure.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("DomainUserUserId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
@@ -71,6 +74,8 @@ namespace Chirp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DomainUserUserId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -95,12 +100,12 @@ namespace Chirp.Infrastructure.Migrations
                     b.Property<DateTime>("TimeStamp")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("UserID")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("CheepId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserID");
 
                     b.ToTable("Cheeps");
                 });
@@ -111,10 +116,6 @@ namespace Chirp.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("ApplicationUserId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -124,9 +125,6 @@ namespace Chirp.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("UserId");
-
-                    b.HasIndex("ApplicationUserId")
-                        .IsUnique();
 
                     b.ToTable("Users");
                 });
@@ -263,26 +261,24 @@ namespace Chirp.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Chirp.Domain.ApplicationUser", b =>
+                {
+                    b.HasOne("Chirp.Domain.User", "DomainUser")
+                        .WithMany()
+                        .HasForeignKey("DomainUserUserId");
+
+                    b.Navigation("DomainUser");
+                });
+
             modelBuilder.Entity("Chirp.Domain.Cheep", b =>
                 {
                     b.HasOne("Chirp.Domain.User", "User")
                         .WithMany("Cheeps")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Chirp.Domain.User", b =>
-                {
-                    b.HasOne("Chirp.Domain.ApplicationUser", "ApplicationUser")
-                        .WithOne("DomainUser")
-                        .HasForeignKey("Chirp.Domain.User", "ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -334,11 +330,6 @@ namespace Chirp.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Chirp.Domain.ApplicationUser", b =>
-                {
-                    b.Navigation("DomainUser");
                 });
 
             modelBuilder.Entity("Chirp.Domain.User", b =>
