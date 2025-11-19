@@ -26,7 +26,8 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 
 var githubClientId = builder.Configuration["Authentication:GitHub:ClientId"];
 var githubClientSecret = builder.Configuration["Authentication:GitHub:ClientSecret"];
-
+Console.WriteLine(githubClientId);
+Console.WriteLine(githubClientSecret);
 
 if (!string.IsNullOrEmpty(githubClientId) && !string.IsNullOrEmpty(githubClientSecret))
 {
