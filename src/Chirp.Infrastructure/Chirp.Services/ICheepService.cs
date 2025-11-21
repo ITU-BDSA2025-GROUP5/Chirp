@@ -10,5 +10,8 @@ public interface ICheepService
 
     Task<List<CheepDTO>> getCheepsFromUser(User user, int page);
 
-    Task<List<User>> getFollowedUsers(User user);
+    Task<List<User>> getFollowers(User user);
+
+    Task<List<User>> getFollowings(User user);
+    Task<String> followUser(User userid, int followeeID);
 }

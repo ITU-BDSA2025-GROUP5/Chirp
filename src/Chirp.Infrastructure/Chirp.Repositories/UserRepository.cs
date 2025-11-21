@@ -44,4 +44,18 @@ public class UserRepository : IUserRepository
 
         return followers;
     }
+
+    public async Task<String> followUser(User user, int followeeID)
+    {
+        var follow = new Follow
+        {
+            FollowerId = user.UserId,
+            FolloweeId = followeeID,
+            FollowedAt = DateTime.UtcNow
+        };
+
+        _dbContext.Follows.Add(follow);
+        await _dbContext.SaveChangesAsync();
+        return "Succes";
+    }
 }

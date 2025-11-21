@@ -31,9 +31,17 @@ public class CheepService : ICheepService
         return await _cheepRepo.getCheepsFromUser(user, page);
     }
 
-    public async Task<List<User>> getFollowedUsers(User user)
+    public async Task<List<User>> getFollowers(User user)
     {
         return await _userRepo.getFollowers(user);
+    }
+
+    public async Task<List<User>> getFollowings(User user){
+        return await _userRepo.getFollowings(user);
+    }
+
+    public async Task<String> followUser(User user, int followeeID){
+        return await _userRepo.followUser(user,followeeID);
     }
 }
 

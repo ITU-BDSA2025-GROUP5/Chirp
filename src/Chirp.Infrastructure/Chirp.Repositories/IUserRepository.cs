@@ -9,7 +9,8 @@ public interface IUserRepository
     Task<User?> findUserByEmail(string email);
 
     Task<List<User>> getFollowers(User user);
-    
+
     Task<List<User>> getFollowings(User user);
+    Task<String> followUser(User user, int followeeID);
 
 }

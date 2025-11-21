@@ -3,10 +3,12 @@ using Chirp.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.SignalR.Protocol;
 using Microsoft.VisualBasic;
 using System;
 
 namespace Chirp.Razor.Pages;
+
 public class PublicModel : PageModel
 {
     private readonly ICheepService _service;
@@ -25,7 +27,7 @@ public class PublicModel : PageModel
     public async Task<IActionResult> OnGetAsync()
     {
         PageNumber = Math.Max(1, PageNumber);
-        UserName = User.Identity?.Name;    
+        UserName = User.Identity?.Name;
         Cheeps = await _service.GetCheepsAsync(PageNumber);
         if (User.Identity?.IsAuthenticated == true || User.Identity?.Name != null)
         {
@@ -33,7 +35,7 @@ public class PublicModel : PageModel
             var user = await _service.findUserByEmail(User.Identity?.Name);
             if (user != null)
             {
-                followedUsers = await _service.getFollowedUsers(user);
+                followedUsers = await _service.getFollowings(user);
             }
         }
         return Page();
@@ -60,5 +62,22 @@ public class PublicModel : PageModel
         return RedirectToPage("Public");
     }
 
+    public async Task<IActionResult> OnPostFollowAsync(int followeeID)
+    {
+        var user = await _service.findUserByEmail(User.Identity?.Name);
+        var ack = await _service.followUser(user,followeeID);
+        return RedirectToPage("Public");
+    }
+    /*
+    public async Task<IActionResult> OnPostUnFollowAsync(int followeeID)
+    {
+        var user = await _service.findUserByEmail(User.Identity?.Name);
+        var list = _service.getFollowings(user);
+        if(list.contains())
+
+
+        return RedirectToPage("Public");
+    }
+    */
     
 }

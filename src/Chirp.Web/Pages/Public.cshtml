@@ -32,10 +32,22 @@
                         </strong>
                         @cheep.Text
                         <p class="followField"> 
+                        @if (User?.Identity?.IsAuthenticated == true){
                         @if (Model.followedUsers.Contains(@cheep.User)) {
-                            <p>Det virker</p>
+                            <form method="post"
+                            asp-page-handler="UnFollow">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="followeeId" value="@cheep.User.UserId" />
+                                <button type="submit" style="float: right;" class="btn btn-outline-primary btn-sm">Unfollow</button>
+                            </form>
                         } else {
-                            <p>Det virker ikke</p>
+                            <form method="post"
+                            asp-page-handler="Follow">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="followeeId" value="@cheep.User.UserId" />
+                                <button type="submit" style="float: right;" class="btn btn-outline-primary btn-sm">Follow</button>
+                            </form>
+                        }
                         }
                         </p>
                     </p>
