@@ -3,6 +3,7 @@ using System;
 using Chirp.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chirp.Infrastructure.Migrations
 {
     [DbContext(typeof(CheepDbContext))]
-    partial class CheepDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251121100617_trying to fix issue 2")]
+    partial class tryingtofixissue2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
