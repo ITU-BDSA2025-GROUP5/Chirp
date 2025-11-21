@@ -69,19 +69,23 @@ public class PublicModel : PageModel
         
         followedUsers = await _service.getFollowings(user);
 
-        return Page();
+        return RedirectToPage();
         
     }
-    /*
-    public async Task<IActionResult> OnPostUnFollowAsync(int followeeID)
+    
+    public async Task<IActionResult> OnPostUnFollowAsync(int followeeId)
     {
-        var user = await _service.findUserByEmail(User.Identity?.Name);
-        var list = _service.getFollowings(user);
-        if(list.contains())
+        var currentUserEmail = User.Identity?.Name;
+        if (string.IsNullOrEmpty(currentUserEmail))
+            return Unauthorized();
 
+        var follower = await _service.findUserByEmail(currentUserEmail);
+        if (follower == null)
+            return Unauthorized();
 
-        return RedirectToPage("Public");
+        await _service.UnfollowUserAsync(follower, followeeId);
+
+        return RedirectToPage();
     }
-    */
     
 }
