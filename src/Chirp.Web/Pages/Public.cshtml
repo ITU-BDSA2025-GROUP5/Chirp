@@ -33,7 +33,7 @@
                         @cheep.Text
                         <p class="followField"> 
                         @if (User?.Identity?.IsAuthenticated == true){
-                        @if (Model.followedUsers.Contains(@cheep.User)) {
+                        @if (Model.followedUsers.Contains(@cheep.User.UserId)) {
                             <form method="post"
                             asp-page-handler="UnFollow">
                                 @Html.AntiForgeryToken()

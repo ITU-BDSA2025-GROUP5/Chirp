@@ -35,11 +35,11 @@ public class UserRepository : IUserRepository
     }
 
     // This method return a list of all users who you're following
-    public async Task<List<User>> getFollowings(User user)
+    public async Task<List<int>> getFollowings(User user)
     {
         var followers = await _dbContext.Follows
             .Where(f => f.FollowerId == user.UserId)
-            .Select(f => f.Followee)
+            .Select(f => f.FolloweeId)
             .ToListAsync();
 
         return followers;

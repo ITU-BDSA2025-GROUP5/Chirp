@@ -18,7 +18,7 @@ public class PublicModel : PageModel
     public List<CheepDTO> Cheeps { get; set; } = new();
     public string? UserName { get; private set; }
 
-    public List<User> followedUsers { get; set; } = new();
+    public List<int> followedUsers { get; set; } = new();
     public PublicModel(ICheepService service)
     {
         _service = service;
@@ -65,8 +65,12 @@ public class PublicModel : PageModel
     public async Task<IActionResult> OnPostFollowAsync(int followeeID)
     {
         var user = await _service.findUserByEmail(User.Identity?.Name);
-        var ack = await _service.followUser(user,followeeID);
-        return RedirectToPage("Public");
+        var ack = await _service.followUser(user, followeeID);
+        
+        followedUsers = await _service.getFollowings(user);
+
+        return Page();
+        
     }
     /*
     public async Task<IActionResult> OnPostUnFollowAsync(int followeeID)

@@ -36,7 +36,7 @@ public class CheepService : ICheepService
         return await _userRepo.getFollowers(user);
     }
 
-    public async Task<List<User>> getFollowings(User user){
+    public async Task<List<int>> getFollowings(User user){
         return await _userRepo.getFollowings(user);
     }
 
