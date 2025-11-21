@@ -15,7 +15,7 @@ namespace Chirp.Razor.web.Areas.Identity.Pages.Account
 {
     public class LogoutModel : PageModel
     {
-        private readonly SignInManager<Ueser
+        private readonly SignInManager<User
 > _signInManager;
         private readonly ILogger<LogoutModel> _logger;
 
