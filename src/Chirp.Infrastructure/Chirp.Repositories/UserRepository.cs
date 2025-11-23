@@ -56,6 +56,16 @@ public class UserRepository : IUserRepository
 
         _dbContext.Follows.Add(follow);
         await _dbContext.SaveChangesAsync();
-        return "Succes";
+
+        //Check if the follow was successful
+        var followers = await _dbContext.Follows
+            .Where(f => f.FollowerId == user.UserId)
+            .Select(f => f.FolloweeId)
+            .ToListAsync();
+        if (followers.Contains(followeeID)) {
+            return "successfully followed";
+        } else {
+            return "failure to follow user";
+        }
     }
 }

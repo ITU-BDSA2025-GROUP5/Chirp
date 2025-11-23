@@ -17,7 +17,7 @@ public class PublicModel : PageModel
     public int PageNumber { get; set; } = 1;
     public List<CheepDTO> Cheeps { get; set; } = new();
     public string? UserName { get; private set; }
-
+    public User? CurrentUser { get; set; }
     public List<int> followedUsers { get; set; } = new();
     public PublicModel(ICheepService service)
     {
@@ -27,15 +27,20 @@ public class PublicModel : PageModel
     public async Task<IActionResult> OnGetAsync()
     {
         PageNumber = Math.Max(1, PageNumber);
+
         UserName = User.Identity?.Name;
         Cheeps = await _service.GetCheepsAsync(PageNumber);
-        if (User.Identity?.IsAuthenticated == true || User.Identity?.Name != null)
+        if (User.Identity?.IsAuthenticated == true && UserName != null)
         {
-            Console.WriteLine(User.Identity?.Name);
-            var user = await _service.findUserByEmail(User.Identity?.Name);
+            var user = await _service.findUserByEmail(UserName);
             if (user != null)
             {
-                followedUsers = await _service.getFollowings(user);
+                CurrentUser = user;
+                Console.WriteLine("The current user is " + CurrentUser.Name);
+            }
+            if (CurrentUser != null)
+            {
+                followedUsers = await _service.getFollowings(CurrentUser);
             }
         }
         return Page();
@@ -64,15 +69,20 @@ public class PublicModel : PageModel
 
     public async Task<IActionResult> OnPostFollowAsync(int followeeID)
     {
-        var user = await _service.findUserByEmail(User.Identity?.Name);
-        var ack = await _service.followUser(user, followeeID);
-        
-        followedUsers = await _service.getFollowings(user);
+        var currentUserEmail = User.Identity?.Name;
+        if (string.IsNullOrEmpty(currentUserEmail))
+            return Unauthorized();
 
-        return RedirectToPage();
-        
+        var CurrentUser = await _service.findUserByEmail(currentUserEmail);
+        if (CurrentUser == null) return Unauthorized();
+
+        var ack = await _service.followUser(CurrentUser, followeeID);
+        followedUsers = await _service.getFollowings(CurrentUser);
+        Console.WriteLine(ack);
+        return RedirectToPage("./Public");
+
     }
-    
+
     public async Task<IActionResult> OnPostUnFollowAsync(int followeeId)
     {
         var currentUserEmail = User.Identity?.Name;
@@ -83,7 +93,7 @@ public class PublicModel : PageModel
         if (follower == null)
             return Unauthorized();
 
-        await _service.UnfollowUserAsync(follower, followeeId);
+        //await _service.UnfollowUserAsync(follower, followeeId);
 
         return RedirectToPage();
     }
