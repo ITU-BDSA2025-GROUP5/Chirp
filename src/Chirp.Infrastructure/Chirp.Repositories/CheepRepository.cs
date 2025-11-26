@@ -37,32 +37,13 @@ public class CheepRepo : ICheepRepository
         .ToListAsync();
         return cheeps;
     }
-
-    public async Task<User?> findAuthorByName(string name)
-    {
-        return await _dbContext.Users.FirstOrDefaultAsync(u => u.Name == name);
-    }
-
-    public async Task<User?> findAuthorByEmail(string email)
-    {
-        return await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email);
-    }
-
-   /* public void createNewAuthor(string name, string email)
-    {
-        var user = new User
-        {
-            Name = name,
-            Email = email,
-            Cheeps = new List<Cheep>()
-        };
-        _dbContext.Users.Add(user);
-    } */
+    
     public async Task InsertNewCheepAsync(CheepDTO message)
     {
         var newCheep = new Cheep
         {
             Text = message.Text,
+            UserId = message.User.Id,
             User = message.User,
             TimeStamp = message.TimeStamp,
         };
@@ -92,4 +73,22 @@ public class CheepRepo : ICheepRepository
             .ToListAsync();
         return cheeps;
     }
+
+    public async Task<List<CheepDTO>?> getCheepsFromUserId(string userId)
+{
+    var cheeps = await _dbContext.Cheeps
+        .AsNoTracking() // Ensures the entities are not tracked by EF Core
+        .OrderByDescending(c => c.TimeStamp) // Orders cheeps by timestamp (most recent first)
+        .Include(c => c.User) // Eagerly loads the User navigation property
+        .Where(c => c.UserId == userId) // Filters cheeps by UserId
+        .Select(c => new CheepDTO
+        {
+            Text = c.Text,
+            User = c.User,
+            TimeStamp = c.TimeStamp
+        })
+        .ToListAsync(); // Executes the query and returns the result as a list
+
+    return cheeps;
+}
 }

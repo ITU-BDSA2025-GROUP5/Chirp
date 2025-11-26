@@ -31,6 +31,34 @@
                             <a href="/@cheep.User.Name">@cheep.User.Name</a>
                         </strong>
                         @cheep.Text
+                        <p class="followField"> 
+                        @if (User?.Identity?.IsAuthenticated == true){
+                            @if (Model.UserName != @cheep.User.Name){
+                                if (Model.followedUsers.Contains(cheep.User.Id))
+                                {
+                                    //Already following -> show Unfollow
+                                    <form method="post" asp-page-handler="Unfollow">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="unfolloweeId" value="@cheep.User.Id" />
+                                        <button type="submit" style="float:right;" class="btn btn-outline-secondary btn-sm">
+                                            Unfollow
+                                        </button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    //Not following -> show Follow
+                                    <form method="post" asp-page-handler="Follow">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="followeeId" value="@cheep.User.Id" />
+                                        <button type="submit" style="float:right;" class="btn btn-outline-primary btn-sm">
+                                            Follow
+                                        </button>
+                                    </form>
+                                }
+                            }
+                        }
+                        </p>
                     </p>
                     @cheep.TimeStamp
                 </li>
