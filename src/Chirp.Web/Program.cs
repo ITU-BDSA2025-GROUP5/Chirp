@@ -19,7 +19,7 @@ builder.Services.AddScoped<CheepRepo>();
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<ICheepService, CheepService>();
 builder.Services.AddRazorPages();
-builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+builder.Services.AddDefaultIdentity<User>(options =>
     options.SignIn.RequireConfirmedAccount = true)
 .AddEntityFrameworkStores<CheepDbContext>();
 
@@ -27,6 +27,8 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 
 var githubClientId = builder.Configuration["Authentication:GitHub:ClientId"];
 var githubClientSecret = builder.Configuration["Authentication:GitHub:ClientSecret"];
+Console.WriteLine(githubClientId);
+Console.WriteLine(githubClientSecret);
 
 if (!string.IsNullOrEmpty(githubClientId) && !string.IsNullOrEmpty(githubClientSecret))
 {
@@ -34,8 +36,8 @@ if (!string.IsNullOrEmpty(githubClientId) && !string.IsNullOrEmpty(githubClientS
 builder.Services.AddAuthentication()
     .AddGitHub(options =>
     {
-        options.ClientId = builder.Configuration["Authentication:GitHub:ClientId"];
-        options.ClientSecret = builder.Configuration["Authentication:GitHub:ClientSecret"];
+        options.ClientId = githubClientId;
+        options.ClientSecret = githubClientSecret;
         options.Scope.Add("user:email");
         options.SaveTokens = true;
 		options.CallbackPath = new PathString("/signin-github");
