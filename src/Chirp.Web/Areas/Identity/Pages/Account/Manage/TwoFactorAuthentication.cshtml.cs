@@ -13,15 +13,15 @@ namespace Chirp.Razor.web.Areas.Identity.Pages.Account.Manage
 {
     public class TwoFactorAuthenticationModel : PageModel
     {
-        private readonly UserManager<ApplicationUser
+        private readonly UserManager<User
 > _userManager;
-        private readonly SignInManager<ApplicationUser
+        private readonly SignInManager<User
 > _signInManager;
         private readonly ILogger<TwoFactorAuthenticationModel> _logger;
 
         public TwoFactorAuthenticationModel(
-            UserManager<ApplicationUser
-> userManager, SignInManager<ApplicationUser
+            UserManager<User
+> userManager, SignInManager<User
 > signInManager, ILogger<TwoFactorAuthenticationModel> logger)
         {
             _userManager = userManager;

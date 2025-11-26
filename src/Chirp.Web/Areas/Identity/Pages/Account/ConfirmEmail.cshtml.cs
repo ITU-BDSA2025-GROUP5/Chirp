@@ -16,10 +16,10 @@ namespace Chirp.Razor.web.Areas.Identity.Pages.Account
 {
     public class ConfirmEmailModel : PageModel
     {
-        private readonly UserManager<ApplicationUser
+        private readonly UserManager<User
 > _userManager;
 
-        public ConfirmEmailModel(UserManager<ApplicationUser
+        public ConfirmEmailModel(UserManager<User
 > userManager)
         {
             _userManager = userManager;

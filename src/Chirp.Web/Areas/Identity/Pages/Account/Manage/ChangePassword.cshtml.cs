@@ -15,16 +15,16 @@ namespace Chirp.Razor.web.Areas.Identity.Pages.Account.Manage
 {
     public class ChangePasswordModel : PageModel
     {
-        private readonly UserManager<ApplicationUser
+        private readonly UserManager<User
 > _userManager;
-        private readonly SignInManager<ApplicationUser
+        private readonly SignInManager<User
 > _signInManager;
         private readonly ILogger<ChangePasswordModel> _logger;
 
         public ChangePasswordModel(
-            UserManager<ApplicationUser
+            UserManager<User
 > userManager,
-            SignInManager<ApplicationUser
+            SignInManager<User
 > signInManager,
             ILogger<ChangePasswordModel> logger)
         {

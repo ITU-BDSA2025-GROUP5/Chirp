@@ -17,16 +17,16 @@ namespace Chirp.Razor.web.Areas.Identity.Pages.Account
 {
     public class LoginWith2faModel : PageModel
     {
-        private readonly SignInManager<ApplicationUser
+        private readonly SignInManager<User
 > _signInManager;
-        private readonly UserManager<ApplicationUser
+        private readonly UserManager<User
 > _userManager;
         private readonly ILogger<LoginWith2faModel> _logger;
 
         public LoginWith2faModel(
-            SignInManager<ApplicationUser
+            SignInManager<User
 > signInManager,
-            UserManager<ApplicationUser
+            UserManager<User
 > userManager,
             ILogger<LoginWith2faModel> logger)
         {

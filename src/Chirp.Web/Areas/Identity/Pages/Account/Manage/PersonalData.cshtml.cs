@@ -11,12 +11,12 @@ namespace Chirp.Razor.web.Areas.Identity.Pages.Account.Manage
 {
     public class PersonalDataModel : PageModel
     {
-        private readonly UserManager<ApplicationUser
+        private readonly UserManager<User
 > _userManager;
         private readonly ILogger<PersonalDataModel> _logger;
 
         public PersonalDataModel(
-            UserManager<ApplicationUser
+            UserManager<User
 > userManager,
             ILogger<PersonalDataModel> logger)
         {

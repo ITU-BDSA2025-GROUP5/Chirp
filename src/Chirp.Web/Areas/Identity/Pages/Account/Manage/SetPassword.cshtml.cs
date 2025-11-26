@@ -13,15 +13,15 @@ namespace Chirp.Razor.web.Areas.Identity.Pages.Account.Manage
 {
     public class SetPasswordModel : PageModel
     {
-        private readonly UserManager<ApplicationUser
+        private readonly UserManager<User
 > _userManager;
-        private readonly SignInManager<ApplicationUser
+        private readonly SignInManager<User
 > _signInManager;
 
         public SetPasswordModel(
-            UserManager<ApplicationUser
+            UserManager<User
 > userManager,
-            SignInManager<ApplicationUser
+            SignInManager<User
 > signInManager)
         {
             _userManager = userManager;

@@ -23,23 +23,23 @@ namespace Chirp.Razor.web.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class ExternalLoginModel : PageModel
     {
-        private readonly SignInManager<ApplicationUser
+        private readonly SignInManager<User
 > _signInManager;
-        private readonly UserManager<ApplicationUser
+        private readonly UserManager<User
 > _userManager;
-        private readonly IUserStore<ApplicationUser
+        private readonly IUserStore<User
 > _userStore;
-        private readonly IUserEmailStore<ApplicationUser
+        private readonly IUserEmailStore<User
 > _emailStore;
         private readonly IEmailSender _emailSender;
         private readonly ILogger<ExternalLoginModel> _logger;
 
         public ExternalLoginModel(
-            SignInManager<ApplicationUser
+            SignInManager<User
 > signInManager,
-            UserManager<ApplicationUser
+            UserManager<User
 > userManager,
-            IUserStore<ApplicationUser
+            IUserStore<User
 > userStore,
             ILogger<ExternalLoginModel> logger,
             IEmailSender emailSender)
@@ -204,32 +204,32 @@ namespace Chirp.Razor.web.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private ApplicationUser
+        private User
  CreateUser()
         {
             try
             {
-                return Activator.CreateInstance<ApplicationUser
+                return Activator.CreateInstance<User
 >();
             }
             catch
             {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(ApplicationUser
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(User
 )}'. " +
-                    $"Ensure that '{nameof(ApplicationUser
+                    $"Ensure that '{nameof(User
 )}' is not an abstract class and has a parameterless constructor, or alternatively " +
                     $"override the external login page in /Areas/Identity/Pages/Account/ExternalLogin.cshtml");
             }
         }
 
-        private IUserEmailStore<ApplicationUser
+        private IUserEmailStore<User
 > GetEmailStore()
         {
             if (!_userManager.SupportsUserEmail)
             {
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
-            return (IUserEmailStore<ApplicationUser
+            return (IUserEmailStore<User
 >)_userStore;
         }
     }

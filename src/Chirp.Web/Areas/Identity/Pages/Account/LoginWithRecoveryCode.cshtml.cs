@@ -15,16 +15,16 @@ namespace Chirp.Razor.web.Areas.Identity.Pages.Account
 {
     public class LoginWithRecoveryCodeModel : PageModel
     {
-        private readonly SignInManager<ApplicationUser
+        private readonly SignInManager<User
 > _signInManager;
-        private readonly UserManager<ApplicationUser
+        private readonly UserManager<User
 > _userManager;
         private readonly ILogger<LoginWithRecoveryCodeModel> _logger;
 
         public LoginWithRecoveryCodeModel(
-            SignInManager<ApplicationUser
+            SignInManager<User
 > signInManager,
-            UserManager<ApplicationUser
+            UserManager<User
 > userManager,
             ILogger<LoginWithRecoveryCodeModel> logger)
         {

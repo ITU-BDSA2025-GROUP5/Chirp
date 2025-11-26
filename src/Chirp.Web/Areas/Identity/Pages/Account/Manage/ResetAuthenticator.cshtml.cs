@@ -13,16 +13,16 @@ namespace Chirp.Razor.web.Areas.Identity.Pages.Account.Manage
 {
     public class ResetAuthenticatorModel : PageModel
     {
-        private readonly UserManager<ApplicationUser
+        private readonly UserManager<User
 > _userManager;
-        private readonly SignInManager<ApplicationUser
+        private readonly SignInManager<User
 > _signInManager;
         private readonly ILogger<ResetAuthenticatorModel> _logger;
 
         public ResetAuthenticatorModel(
-            UserManager<ApplicationUser
+            UserManager<User
 > userManager,
-            SignInManager<ApplicationUser
+            SignInManager<User
 > signInManager,
             ILogger<ResetAuthenticatorModel> logger)
         {

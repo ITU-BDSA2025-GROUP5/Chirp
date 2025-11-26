@@ -19,11 +19,11 @@ namespace Chirp.Razor.web.Areas.Identity.Pages.Account
 {
     public class ForgotPasswordModel : PageModel
     {
-        private readonly UserManager<ApplicationUser
+        private readonly UserManager<User
 > _userManager;
         private readonly IEmailSender _emailSender;
 
-        public ForgotPasswordModel(UserManager<ApplicationUser
+        public ForgotPasswordModel(UserManager<User
 > userManager, IEmailSender emailSender)
         {
             _userManager = userManager;

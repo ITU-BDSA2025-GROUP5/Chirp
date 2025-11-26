@@ -13,12 +13,12 @@ namespace Chirp.Razor.web.Areas.Identity.Pages.Account.Manage
 {
     public class Disable2faModel : PageModel
     {
-        private readonly UserManager<ApplicationUser
+        private readonly UserManager<User
 > _userManager;
         private readonly ILogger<Disable2faModel> _logger;
 
         public Disable2faModel(
-            UserManager<ApplicationUser
+            UserManager<User
 > userManager,
             ILogger<Disable2faModel> logger)
         {

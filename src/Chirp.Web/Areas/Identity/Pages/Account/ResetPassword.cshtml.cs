@@ -17,10 +17,10 @@ namespace Chirp.Razor.web.Areas.Identity.Pages.Account
 {
     public class ResetPasswordModel : PageModel
     {
-        private readonly UserManager<ApplicationUser
+        private readonly UserManager<User
 > _userManager;
 
-        public ResetPasswordModel(UserManager<ApplicationUser
+        public ResetPasswordModel(UserManager<User
 > userManager)
         {
             _userManager = userManager;

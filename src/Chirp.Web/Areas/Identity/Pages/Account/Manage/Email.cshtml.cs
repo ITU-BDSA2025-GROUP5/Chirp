@@ -17,16 +17,16 @@ namespace Chirp.Razor.web.Areas.Identity.Pages.Account.Manage
 {
     public class EmailModel : PageModel
     {
-        private readonly UserManager<ApplicationUser
+        private readonly UserManager<User
 > _userManager;
-        private readonly SignInManager<ApplicationUser
+        private readonly SignInManager<User
 > _signInManager;
         private readonly IEmailSender _emailSender;
 
         public EmailModel(
-            UserManager<ApplicationUser
+            UserManager<User
 > userManager,
-            SignInManager<ApplicationUser
+            SignInManager<User
 > signInManager,
             IEmailSender emailSender)
         {
@@ -77,7 +77,7 @@ namespace Chirp.Razor.web.Areas.Identity.Pages.Account.Manage
             public string NewEmail { get; set; }
         }
 
-        private async Task LoadAsync(ApplicationUser
+        private async Task LoadAsync(User
  user)
         {
             var email = await _userManager.GetEmailAsync(user);

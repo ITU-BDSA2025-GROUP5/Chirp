@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 namespace Chirp.Infrastructure;
 
-public class CheepDbContext : IdentityDbContext<ApplicationUser>
+public class CheepDbContext : IdentityDbContext<User>
 {
     public DbSet<Cheep> Cheeps { get; set; } = default!;
     public DbSet<User> Users { get; set; } = default!;
@@ -12,20 +12,19 @@ public class CheepDbContext : IdentityDbContext<ApplicationUser>
     public CheepDbContext(DbContextOptions<CheepDbContext> options) : base(options)
     { }
 
-    protected override void OnModelCreating(ModelBuilder b)
+  protected override void OnModelCreating(ModelBuilder b)
     {
         base.OnModelCreating(b);
 
-        b.Entity<User>()
-         .HasOne(u => u.ApplicationUser)
-         .WithOne(a => a.DomainUser!)
-         .HasForeignKey<User>(u => u.ApplicationUserId)
-         .OnDelete(DeleteBehavior.Cascade);
+        b.Entity<User>().ToTable("Users");
+        //b.Entity<IdentityRole>().ToTable("Roles");
 
-        b.Entity<User>()
-         .HasIndex(u => u.ApplicationUserId)
-         .IsUnique();
+        b.Entity<Cheep>()
+            .HasOne(c => c.User)
+            .WithMany(u => u.Cheeps);
     }
+  
+  /*
 
 public override async Task<int> SaveChangesAsync(CancellationToken ct = default)
 {
@@ -38,6 +37,7 @@ public override int SaveChanges()
     AutoCreateDomainUsers();
     return base.SaveChanges();
 }
+
 
 private void AutoCreateDomainUsers()
 {
@@ -69,5 +69,6 @@ private void AutoCreateDomainUsers()
         });
     }
 }
+*/
 
 }

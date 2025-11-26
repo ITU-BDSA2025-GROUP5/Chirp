@@ -17,12 +17,12 @@ namespace Chirp.Razor.web.Areas.Identity.Pages.Account.Manage
 {
     public class DownloadPersonalDataModel : PageModel
     {
-        private readonly UserManager<ApplicationUser
+        private readonly UserManager<User
 > _userManager;
         private readonly ILogger<DownloadPersonalDataModel> _logger;
 
         public DownloadPersonalDataModel(
-            UserManager<ApplicationUser
+            UserManager<User
 > userManager,
             ILogger<DownloadPersonalDataModel> logger)
         {
@@ -47,7 +47,7 @@ namespace Chirp.Razor.web.Areas.Identity.Pages.Account.Manage
 
             // Only include personal data for download
             var personalData = new Dictionary<string, string>();
-            var personalDataProps = typeof(ApplicationUser
+            var personalDataProps = typeof(User
 ).GetProperties().Where(
                             prop => Attribute.IsDefined(prop, typeof(PersonalDataAttribute)));
             foreach (var p in personalDataProps)
