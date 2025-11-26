@@ -62,10 +62,43 @@ public class UserRepository : IUserRepository
             .Where(f => f.FollowerId == user.UserId)
             .Select(f => f.FolloweeId)
             .ToListAsync();
-        if (followers.Contains(followeeID)) {
+        if (followers.Contains(followeeID))
+        {
             return "successfully followed";
-        } else {
+        }
+        else
+        {
             return "failure to follow user";
+        }
+    }
+
+    public async Task<String> UnfollowUser(User user, int followeeID)
+    {
+        Console.WriteLine("UserId is = " + user.UserId);
+        Console.WriteLine("FollowerId is = " + followeeID);
+        var follow = await _dbContext.Follows.FirstOrDefaultAsync(f => f.FollowerId == user.UserId && f.FolloweeId == followeeID);
+
+        if (follow == null)
+    {
+        // If no follow relationship exists, return failure
+        return "failure to unfollow user";
+    }
+        _dbContext.Remove(follow);
+        await _dbContext.SaveChangesAsync();
+
+        //Check if the Unfollow was successful
+            var followers = await _dbContext.Follows
+            .Where(f => f.FollowerId == user.UserId)
+            .Select(f => f.FolloweeId)
+            .ToListAsync();
+
+        if (!followers.Contains(followeeID))
+        {
+            return "successfully unfollowed";
+        }
+        else
+        {
+            return "failure to unfollow user";
         }
     }
 }

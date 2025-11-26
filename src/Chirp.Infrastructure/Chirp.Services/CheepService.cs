@@ -16,6 +16,11 @@ public class CheepService : ICheepService
         return await _cheepRepo.ReadCheeps(page) ?? new List<CheepDTO>();
     }
 
+    public async Task<List<CheepDTO>> GetCheepsFromUserId(int userId)
+    {
+        return await _cheepRepo.getCheepsFromUserId(userId) ?? new List<CheepDTO>();
+    }
+
     public async Task InsertCheepAsync(CheepDTO cheep)
     {
         await _cheepRepo.InsertNewCheepAsync(cheep);
@@ -36,12 +41,19 @@ public class CheepService : ICheepService
         return await _userRepo.getFollowers(user);
     }
 
-    public async Task<List<int>> getFollowings(User user){
+    public async Task<List<int>> getFollowings(User user)
+    {
         return await _userRepo.getFollowings(user);
     }
 
-    public async Task<String> followUser(User user, int followeeID){
-        return await _userRepo.followUser(user,followeeID);
+    public async Task<String> followUser(User user, int followeeID)
+    {
+        return await _userRepo.followUser(user, followeeID);
+    }
+    
+    public async Task<String> UnfollowUser(User user, int followeeID)
+    {
+        return await _userRepo.UnfollowUser(user, followeeID);
     }
 }
 

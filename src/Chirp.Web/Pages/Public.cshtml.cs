@@ -67,8 +67,9 @@ public class PublicModel : PageModel
         return RedirectToPage("Public");
     }
 
-    public async Task<IActionResult> OnPostFollowAsync(int followeeID)
+    public async Task<IActionResult> OnPostFollowAsync(int followeeId)
     {
+        Console.WriteLine("This activates");
         var currentUserEmail = User.Identity?.Name;
         if (string.IsNullOrEmpty(currentUserEmail))
             return Unauthorized();
@@ -76,26 +77,35 @@ public class PublicModel : PageModel
         var CurrentUser = await _service.findUserByEmail(currentUserEmail);
         if (CurrentUser == null) return Unauthorized();
 
-        var ack = await _service.followUser(CurrentUser, followeeID);
+        var ack = await _service.followUser(CurrentUser, followeeId);
         followedUsers = await _service.getFollowings(CurrentUser);
         Console.WriteLine(ack);
         return RedirectToPage("./Public");
 
     }
 
-    public async Task<IActionResult> OnPostUnFollowAsync(int followeeId)
+    public async Task<IActionResult> OnPostUnfollowAsync(int unfolloweeId)
     {
+        Console.WriteLine("UnFollow activates");
         var currentUserEmail = User.Identity?.Name;
         if (string.IsNullOrEmpty(currentUserEmail))
+        {
+            Console.WriteLine("Sorry hombre pt. 1");
             return Unauthorized();
+        }
 
-        var follower = await _service.findUserByEmail(currentUserEmail);
-        if (follower == null)
+        var CurrentUser = await _service.findUserByEmail(currentUserEmail);
+        if (CurrentUser == null)
+        {
+            Console.WriteLine("Sorry hombre pt. 2");
             return Unauthorized();
+        }
 
-        //await _service.UnfollowUserAsync(follower, followeeId);
+        var ack = await _service.UnfollowUser(CurrentUser, unfolloweeId);
+        followedUsers = await _service.getFollowings(CurrentUser);
+        Console.WriteLine(ack);
 
-        return RedirectToPage();
+        return RedirectToPage("./Public");
     }
     
 }

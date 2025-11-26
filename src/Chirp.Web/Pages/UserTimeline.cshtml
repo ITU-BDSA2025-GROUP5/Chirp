@@ -8,7 +8,7 @@
 
 <div>
     <h2> @routeName's Timeline </h2>
-    @if (Model.Cheeps.Any())
+    @if (Model.Cheeps.Any() || Model.CheepsFromFollowings.Any())
     {
         <ul id="messagelist" class="cheeps">
             @foreach (var cheep in Model.Cheeps)
@@ -19,8 +19,27 @@
                             <a href="/@cheep.User.Name">@cheep.User.Name</a>
                         </strong>
                         @cheep.Text
-                        @cheep.TimeStamp
                     </p>
+                    @cheep.TimeStamp
+                </li>
+            }
+            @foreach (var cheep in Model.CheepsFromFollowings)
+            {
+                <li>
+                    <p>
+                        <strong>
+                            <a href="/@cheep.User.Name">@cheep.User.Name</a>
+                        </strong>
+                        @cheep.Text
+                         <p>
+                                <form method="post" asp-page-handler="Unfollow">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="unfolloweeId" value="@cheep.User.UserId" />
+                                                <button type="submit" style="float:right;" class="btn btn-outline-secondary btn-sm"> Unfollow </button>
+                                </form>
+                        </p>
+                    </p>
+                    @cheep.TimeStamp
                 </li>
             }
         </ul>

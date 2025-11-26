@@ -72,6 +72,22 @@ public class CheepRepo : ICheepRepository
             .ToListAsync();
         return cheeps;
     }
-    
-    
+
+    public async Task<List<CheepDTO>?> getCheepsFromUserId(int userId)
+{
+    var cheeps = await _dbContext.Cheeps
+        .AsNoTracking() // Ensures the entities are not tracked by EF Core
+        .OrderByDescending(c => c.TimeStamp) // Orders cheeps by timestamp (most recent first)
+        .Include(c => c.User) // Eagerly loads the User navigation property
+        .Where(c => c.UserId == userId) // Filters cheeps by UserId
+        .Select(c => new CheepDTO
+        {
+            Text = c.Text,
+            User = c.User,
+            TimeStamp = c.TimeStamp
+        })
+        .ToListAsync(); // Executes the query and returns the result as a list
+
+    return cheeps;
+}
 }

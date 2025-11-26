@@ -10,7 +10,9 @@ public interface ICheepRepository
     Task<List<CheepDTO>> ReadCheeps(int page);
 
     Task InsertNewCheepAsync(CheepDTO message);
-    
+
     Task<List<CheepDTO>> getCheepsFromUser(User user, int page);
+
+    Task<List<CheepDTO>?> getCheepsFromUserId(int userId);
     
 }
