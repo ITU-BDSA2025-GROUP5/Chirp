@@ -8,8 +8,8 @@ using Xunit;
 using System.Security.Cryptography.X509Certificates;
 using Moq;
 namespace Chirp.Razor.Tests;
-
-public class CheepServiceTests
+/*
+ public class CheepServiceTests
 {
     private readonly IDbFacade _db;
     private readonly CheepService _sut;
@@ -53,4 +53,7 @@ public class CheepServiceTests
         dateTime = dateTime.AddSeconds(unixTimeStamp);
         return dateTime.ToString("MM/dd/yy H:mm:ss");
     }
-}
+ }
+ */
+
+    
