@@ -4,7 +4,7 @@ namespace Chirp.Razor.Tests.Integration
 {
     public class DbBootSmokeTests : DbTestBase
     {
-        public DbBootSmokeTests(SqliteInMemoryDbFixture fixture) : base(fixture) { }
+        publidc DbBootSmokeTests(SqliteInMemoryDbFixture fixture) : base(fixture) { }
 
         [Fact]
         public async Task Migration_applies_and_db_is_usable()

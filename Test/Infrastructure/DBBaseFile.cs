@@ -1,4 +1,4 @@
-falseusing System.Threading.Tasks;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Chirp.Razor.Tests.Infrastructure
