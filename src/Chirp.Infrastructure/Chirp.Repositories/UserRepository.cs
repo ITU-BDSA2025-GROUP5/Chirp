@@ -27,7 +27,7 @@ public class UserRepository : IUserRepository
     {
         List<User> followers;
         followers = await _dbContext.Follows
-            .Where(f => f.FolloweeId == user.UserId)
+            .Where(f => f.FolloweeId == user.)
             .Select(f => f.Follower)
             .ToListAsync();
 

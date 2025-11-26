@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 namespace Chirp.Infrastructure;
 
-public class CheepDbContext : IdentityDbContext<ApplicationUser>
+public class CheepDbContext : IdentityDbContext<User>
 {
     public DbSet<Cheep> Cheeps { get; set; } = default!;
     public DbSet<User> Users { get; set; } = default!;
@@ -19,13 +19,13 @@ public class CheepDbContext : IdentityDbContext<ApplicationUser>
         base.OnModelCreating(b);
 
         b.Entity<User>()
-         .HasOne(u => u.ApplicationUser)
+         .HasOne(u => u.User)
          .WithOne(a => a.DomainUser!)
-         .HasForeignKey<User>(u => u.ApplicationUserId)
+         .HasForeignKey<User>(u => u.UserId)
          .OnDelete(DeleteBehavior.Cascade);
 
         b.Entity<User>()
-         .HasIndex(u => u.ApplicationUserId)
+         .HasIndex(u => u.UserId)
          .IsUnique();
         b.Entity<Follow>(entity =>
         {
@@ -64,7 +64,7 @@ public override int SaveChanges()
 private void AutoCreateDomainUsers()
 {
     // Find newly added Identity users in this save
-    var newAppUsers = ChangeTracker.Entries<ApplicationUser>()
+    var newAppUsers = ChangeTracker.Entries<User>()
         .Where(e => e.State == EntityState.Added)
         .Select(e => e.Entity)
         .ToList();
@@ -74,7 +74,7 @@ private void AutoCreateDomainUsers()
     // Avoid double-adding within the same context
     var alreadyPlanned = ChangeTracker.Entries<User>()
         .Where(e => e.State == EntityState.Added)
-        .Select(e => e.Entity.ApplicationUserId)
+        .Select(e => e.Entity.UserId)
         .ToHashSet();
 
     foreach (var au in newAppUsers)
@@ -84,7 +84,7 @@ private void AutoCreateDomainUsers()
         // Create the domain user row
         Users.Add(new User
         {
-            ApplicationUserId = au.Id,               // FK to Identity
+            UserId = au.Id,               // FK to Identity
             Name  = au.UserName ?? au.Email ?? "user",
             Email = au.Email ?? string.Empty,
             Cheeps = new List<Cheep>()
