@@ -28,12 +28,12 @@
                 <li>
                     <p>
                         <strong>
-                            <a href="/@cheep.User.Name">@cheep.User.Name</a>
+                            <a href="/@cheep.User.UserName">@cheep.User.UserName</a>
                         </strong>
                         @cheep.Text
                         <p class="followField"> 
                         @if (User?.Identity?.IsAuthenticated == true){
-                            @if (Model.UserName != @cheep.User.Name){
+                            @if (Model.UserName != @cheep.User.UserName){
                                 if (Model.followedUsers.Contains(cheep.User.Id))
                                 {
                                     //Already following -> show Unfollow
