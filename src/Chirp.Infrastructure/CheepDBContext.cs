@@ -1,15 +1,14 @@
 using Chirp.Domain;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+
 namespace Chirp.Infrastructure;
 
 public class CheepDbContext : IdentityDbContext<User>
 {
     public DbSet<Cheep> Cheeps { get; set; } = default!;
     public DbSet<User> Users { get; set; } = default!;
-
     public DbSet<Follow> Follows { get; set; } = default!;
-
 
     public CheepDbContext(DbContextOptions<CheepDbContext> options) : base(options)
     { }
@@ -18,78 +17,32 @@ public class CheepDbContext : IdentityDbContext<User>
     {
         base.OnModelCreating(b);
 
-        b.Entity<User>()
-         .HasOne(u => u.User)
-         .WithOne(a => a.DomainUser!)
-         .HasForeignKey<User>(u => u.UserId)
+        // Configure the relationship between Cheep and User
+        b.Entity<Cheep>()
+         .HasOne(c => c.User)
+         .WithMany(u => u.Cheeps)
+         .HasForeignKey(c => c.UserId)
          .OnDelete(DeleteBehavior.Cascade);
 
-        b.Entity<User>()
-         .HasIndex(u => u.UserId)
-         .IsUnique();
+        // Configure the Follow entity
         b.Entity<Follow>(entity =>
         {
-    
             entity.HasKey(f => new { f.FollowerId, f.FolloweeId });
-            
+
             entity.HasOne(f => f.Follower)
-                .WithMany()  // no navigation on User
+                .WithMany() // No navigation property on User
                 .HasForeignKey(f => f.FollowerId)
                 .OnDelete(DeleteBehavior.Restrict);
-            
+
             entity.HasOne(f => f.Followee)
-                .WithMany()  // no navigation on User
+                .WithMany() // No navigation property on User
                 .HasForeignKey(f => f.FolloweeId)
                 .OnDelete(DeleteBehavior.Restrict);
-            
+
             entity.HasIndex(f => f.FollowerId);
             entity.HasIndex(f => f.FolloweeId);
 
             entity.ToTable("Follows");
         });
     }
-
-public override async Task<int> SaveChangesAsync(CancellationToken ct = default)
-{
-    AutoCreateDomainUsers();
-    return await base.SaveChangesAsync(ct);
-}
-
-public override int SaveChanges()
-{
-    AutoCreateDomainUsers();
-    return base.SaveChanges();
-}
-
-private void AutoCreateDomainUsers()
-{
-    // Find newly added Identity users in this save
-    var newAppUsers = ChangeTracker.Entries<User>()
-        .Where(e => e.State == EntityState.Added)
-        .Select(e => e.Entity)
-        .ToList();
-
-    if (newAppUsers.Count == 0) return;
-
-    // Avoid double-adding within the same context
-    var alreadyPlanned = ChangeTracker.Entries<User>()
-        .Where(e => e.State == EntityState.Added)
-        .Select(e => e.Entity.UserId)
-        .ToHashSet();
-
-    foreach (var au in newAppUsers)
-    {
-        if (alreadyPlanned.Contains(au.Id)) continue;
-
-        // Create the domain user row
-        Users.Add(new User
-        {
-            UserId = au.Id,               // FK to Identity
-            Name  = au.UserName ?? au.Email ?? "user",
-            Email = au.Email ?? string.Empty,
-            Cheeps = new List<Cheep>()
-        });
-    }
-}
-
 }

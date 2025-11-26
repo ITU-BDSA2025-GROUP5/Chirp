@@ -34,7 +34,7 @@
                          <p>
                                 <form method="post" asp-page-handler="Unfollow">
                                                 @Html.AntiForgeryToken()
-                                                <input type="hidden" name="unfolloweeId" value="@cheep.User.UserId" />
+                                                <input type="hidden" name="unfolloweeId" value="@cheep.User.Id" />
                                                 <button type="submit" style="float:right;" class="btn btn-outline-secondary btn-sm"> Unfollow </button>
                                 </form>
                         </p>

@@ -18,7 +18,7 @@ public class PublicModel : PageModel
     public List<CheepDTO> Cheeps { get; set; } = new();
     public string? UserName { get; private set; }
     public User? CurrentUser { get; set; }
-    public List<int> followedUsers { get; set; } = new();
+    public List<string> followedUsers { get; set; } = new();
     public PublicModel(ICheepService service)
     {
         _service = service;
@@ -67,7 +67,7 @@ public class PublicModel : PageModel
         return RedirectToPage("Public");
     }
 
-    public async Task<IActionResult> OnPostFollowAsync(int followeeId)
+    public async Task<IActionResult> OnPostFollowAsync(string followeeId)
     {
         Console.WriteLine("This activates");
         var currentUserEmail = User.Identity?.Name;
@@ -84,7 +84,7 @@ public class PublicModel : PageModel
 
     }
 
-    public async Task<IActionResult> OnPostUnfollowAsync(int unfolloweeId)
+    public async Task<IActionResult> OnPostUnfollowAsync(string unfolloweeId)
     {
         Console.WriteLine("UnFollow activates");
         var currentUserEmail = User.Identity?.Name;

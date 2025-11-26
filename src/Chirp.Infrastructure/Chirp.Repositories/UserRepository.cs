@@ -27,7 +27,7 @@ public class UserRepository : IUserRepository
     {
         List<User> followers;
         followers = await _dbContext.Follows
-            .Where(f => f.FolloweeId == user.)
+            .Where(f => f.FolloweeId == user.Id)
             .Select(f => f.Follower)
             .ToListAsync();
 
@@ -35,21 +35,21 @@ public class UserRepository : IUserRepository
     }
 
     // This method return a list of all users who you're following
-    public async Task<List<int>> getFollowings(User user)
+    public async Task<List<string>> getFollowings(User user)
     {
         var followers = await _dbContext.Follows
-            .Where(f => f.FollowerId == user.UserId)
+            .Where(f => f.FollowerId == user.Id)
             .Select(f => f.FolloweeId)
             .ToListAsync();
 
         return followers;
     }
 
-    public async Task<String> followUser(User user, int followeeID)
+    public async Task<String> followUser(User user, string followeeID)
     {
         var follow = new Follow
         {
-            FollowerId = user.UserId,
+            FollowerId = user.Id,
             FolloweeId = followeeID,
             FollowedAt = DateTime.UtcNow
         };
@@ -59,7 +59,7 @@ public class UserRepository : IUserRepository
 
         //Check if the follow was successful
         var followers = await _dbContext.Follows
-            .Where(f => f.FollowerId == user.UserId)
+            .Where(f => f.FollowerId == user.Id)
             .Select(f => f.FolloweeId)
             .ToListAsync();
         if (followers.Contains(followeeID))
@@ -72,11 +72,11 @@ public class UserRepository : IUserRepository
         }
     }
 
-    public async Task<String> UnfollowUser(User user, int followeeID)
+    public async Task<String> UnfollowUser(User user, string followeeID)
     {
-        Console.WriteLine("UserId is = " + user.UserId);
+        Console.WriteLine("UserId is = " + user.Id);
         Console.WriteLine("FollowerId is = " + followeeID);
-        var follow = await _dbContext.Follows.FirstOrDefaultAsync(f => f.FollowerId == user.UserId && f.FolloweeId == followeeID);
+        var follow = await _dbContext.Follows.FirstOrDefaultAsync(f => f.FollowerId == user.Id && f.FolloweeId == followeeID);
 
         if (follow == null)
     {
@@ -88,7 +88,7 @@ public class UserRepository : IUserRepository
 
         //Check if the Unfollow was successful
             var followers = await _dbContext.Follows
-            .Where(f => f.FollowerId == user.UserId)
+            .Where(f => f.FollowerId == user.Id)
             .Select(f => f.FolloweeId)
             .ToListAsync();
 

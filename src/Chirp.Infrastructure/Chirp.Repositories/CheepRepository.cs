@@ -43,6 +43,7 @@ public class CheepRepo : ICheepRepository
         var newCheep = new Cheep
         {
             Text = message.Text,
+            UserId = message.User.Id,
             User = message.User,
             TimeStamp = message.TimeStamp,
         };
@@ -73,7 +74,7 @@ public class CheepRepo : ICheepRepository
         return cheeps;
     }
 
-    public async Task<List<CheepDTO>?> getCheepsFromUserId(int userId)
+    public async Task<List<CheepDTO>?> getCheepsFromUserId(string userId)
 {
     var cheeps = await _dbContext.Cheeps
         .AsNoTracking() // Ensures the entities are not tracked by EF Core

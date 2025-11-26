@@ -19,7 +19,7 @@ public class UserTimelineModel : PageModel
 
     public User? CurrentUser { get; set; }
 
-    public List<int> followedUsers { get; set; } = new();
+    public List<string> followedUsers { get; set; } = new();
 
     public UserTimelineModel(ICheepService service)
     {
@@ -66,7 +66,7 @@ public class UserTimelineModel : PageModel
         }
         return Page();
     }
-    public async Task<IActionResult> OnPostUnfollowAsync(int unfolloweeId)
+    public async Task<IActionResult> OnPostUnfollowAsync(string unfolloweeId)
     {
         Console.WriteLine("UnFollow activates");
         var currentUserEmail = User.Identity?.Name;
