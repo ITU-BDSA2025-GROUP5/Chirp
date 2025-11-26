@@ -8,25 +8,26 @@ namespace Chirp.Razor.Pages;
 
 public class UserTimelineModel : PageModel
 {
-    private readonly ICheepService _service;
+    private readonly ICheepService _service ;
     public List<CheepDTO> Cheeps { get; set; } = new();
 
     public UserTimelineModel(ICheepService service)
     {
         _service = service;
-    }
+    } 
 
     public async Task<ActionResult> OnGet(string author)
     {
-        var user = await _service.findAuthorByEmail(author);
+        var user = await _service.FindTimelineByUserNameAsync(author);
         if (user == null)
         {
             Console.WriteLine("No corresponding user found");
             return Page();
         }
-        Cheeps = await _service.getCheepsFromUser(user, 1);
+        Cheeps = await _service.getCheepsFromUser(user, 1); 
         return Page();
     }
     
 }
+
 

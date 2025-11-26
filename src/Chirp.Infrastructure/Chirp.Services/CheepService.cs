@@ -28,5 +28,10 @@ public class CheepService : ICheepService
     {
         return await _cheepRepo.getCheepsFromUser(user, page);
     }
+    public async Task<User?> FindTimelineByUserNameAsync(string userName)
+    {
+        return await _cheepRepo.FindTimelineByUserNameAsync(userName);
+    }
+    
 }
 

@@ -11,6 +11,10 @@ public class CheepRepo : ICheepRepository
     {
         _dbContext = dbContext;
     }
+    public async Task<User?> FindTimelineByUserNameAsync(string userName)
+    {
+    return await _dbContext.Users.FirstOrDefaultAsync(u => u.UserName == userName);
+    }
 
     public async Task<int> GetCheepCount()
     {
@@ -37,6 +41,7 @@ public class CheepRepo : ICheepRepository
         .ToListAsync();
         return cheeps;
     }
+    
 
     public async Task<User?> findAuthorByName(string name)
     {

@@ -10,4 +10,7 @@ public interface ICheepService
     
     Task<List<CheepDTO>> getCheepsFromUser(User user, int page);
 
+    Task<User?> FindTimelineByUserNameAsync(string userName);
+    
+
 }
