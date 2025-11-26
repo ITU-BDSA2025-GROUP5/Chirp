@@ -33,13 +33,13 @@
                         @cheep.Text
                         <p class="followField"> 
                         @if (User?.Identity?.IsAuthenticated == true){
-                            @if (User?.Identity?.IsAuthenticated == true){
+                            @if (Model.UserName != @cheep.User.Name){
                                 if (Model.followedUsers.Contains(cheep.User.UserId))
                                 {
                                     //Already following -> show Unfollow
-                                    <form method="post" asp-page-handler="UnFollow">
+                                    <form method="post" asp-page-handler="Unfollow">
                                         @Html.AntiForgeryToken()
-                                        <input type="hidden" name="followeeId" value="@cheep.User.UserId" />
+                                        <input type="hidden" name="unfolloweeId" value="@cheep.User.UserId" />
                                         <button type="submit" style="float:right;" class="btn btn-outline-secondary btn-sm">
                                             Unfollow
                                         </button>

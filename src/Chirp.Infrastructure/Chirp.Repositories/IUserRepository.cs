@@ -12,5 +12,7 @@ public interface IUserRepository
 
     Task<List<int>> getFollowings(User user);
     Task<String> followUser(User user, int followeeID);
+    Task<String> UnfollowUser(User user, int followeeID);
+
 
 }

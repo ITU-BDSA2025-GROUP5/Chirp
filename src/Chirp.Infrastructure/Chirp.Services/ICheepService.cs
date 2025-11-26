@@ -14,4 +14,6 @@ public interface ICheepService
 
     Task<List<int>> getFollowings(User user);
     Task<String> followUser(User userid, int followeeID);
+    Task<String> UnfollowUser(User userid, int followeeID);
+    Task<List<CheepDTO>> GetCheepsFromUserId(int UserId);
 }
