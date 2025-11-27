@@ -9,24 +9,31 @@ public class CheepServiceTests
     private readonly CheepDbContext _context;
     private readonly CheepRepo _repo;
     private readonly CheepService _service;
+    private readonly UserRepository _userRepository;
 
     public CheepServiceTests(SqliteInMemoryDbFixture fixture)
     {
+        
         _context = fixture.CreateContext();
         _repo = new CheepRepo(_context);
-        _service = new CheepService(_repo);
+        _service = new CheepService(_repo,_userRepository);
     }
     [Fact]
     public async Task Get_Cheeps_From_Author_Is_Usable()
     {
+        //a
         var testUser = new User
         {
-            UserId = 0,
             Name = "TestName",
             Email = "TestMail@1234.dk",
             Cheeps = new List<Cheep>(),
+            
+            /*
+            UserId = 0,
+           
             ApplicationUserId = "123",
             ApplicationUser = "ssss"
+            */
             
         };
         _context.Users.Add(testUser);
@@ -34,7 +41,7 @@ public class CheepServiceTests
 
         var newCheep = new Cheep
         {
-            UserID = testUser.UserId,
+            UserId = "lol123",
             Text = "Test Cheep",
             User = testUser,
             TimeStamp = DateTime.UtcNow
