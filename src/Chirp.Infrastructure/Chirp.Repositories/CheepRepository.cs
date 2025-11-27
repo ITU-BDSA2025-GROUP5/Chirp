@@ -35,7 +35,7 @@ public class CheepRepo : ICheepRepository
         .Select(c => new CheepDTO
         {
             Text = c.Text,
-            User = c.User,
+            UserId = c.UserId,
             TimeStamp = c.TimeStamp
         })
         .ToListAsync();
@@ -68,7 +68,7 @@ public class CheepRepo : ICheepRepository
         var newCheep = new Cheep
         {
             Text = message.Text,
-            User = message.User,
+            UserId = message.UserId,
             TimeStamp = message.TimeStamp,
         };
         _dbContext.Cheeps.Add(newCheep);
@@ -91,7 +91,7 @@ public class CheepRepo : ICheepRepository
             .Select(c => new CheepDTO
             {
                 Text = c.Text,
-                User = c.User,
+                UserId = c.UserId,
                 TimeStamp = c.TimeStamp
             })
             .ToListAsync();

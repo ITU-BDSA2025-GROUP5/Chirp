@@ -34,7 +34,7 @@ public class PublicModel : PageModel
         {
             return Page();
         }
-        var user = await _service.findAuthorByEmail(User.Identity.Name);
+        var user = await _service.FindTimelineByUserNameAsync(User.Identity.Name);
         if (user == null)
         {
             Console.WriteLine("No corresponding User found to login");
@@ -43,7 +43,8 @@ public class PublicModel : PageModel
         await _service.InsertCheepAsync(new CheepDTO
         {
             Text = Input,
-            User = user,
+            UserId = user.Id,
+            UserName = user.UserName,
             TimeStamp = DateTime.UtcNow
         });
         return RedirectToPage("Public");
