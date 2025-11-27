@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     permissions:
       contents: read #This is required for actions/checkout
 
@@ -24,10 +24,10 @@ jobs:
           dotnet-version: '8.x'
 
       - name: Build with dotnet
-        run: dotnet build src/Chirp.Web --configuration Release
+        run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish src/Chirp.Web -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -36,7 +36,7 @@ jobs:
           path: ${{env.DOTNET_ROOT}}/myapp
 
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: build
     permissions:
       id-token: write #This is required for requesting the JWT
@@ -47,14 +47,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: .net-app
-          path: ./.net-app
       
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_92E3943414EC4006BF4A64608001391F }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_F4007A1DFC3E4514AB9A7E32C34E1503 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_B5F1288621DD42F2880B67E2B50641A1 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_A7441AA4836D45D686FF49B01895E9D5 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_0CCE07D862D842BDB389000241D66048 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_5C8B9749CA6E4B2CADD4B7DAD0416522 }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -62,9 +61,5 @@ jobs:
         with:
           app-name: 'bdsagroup5chirpremotedb'
           slot-name: 'Production'
-          package: ./.net-app 
-
+          package: .
           
-
-
-
