@@ -26,46 +26,40 @@ public class UserTimelineModel : PageModel
         _service = service;
     }
 
-    public async Task<ActionResult> OnGet(string author)
+    public async Task<IActionResult> OnGet(string author)
+{
+    UserName = User.Identity?.Name;
+    PageNumber = Math.Max(1, PageNumber);
+
+    var timelineUser = await _service.findUserByEmail(author);
+    if (timelineUser != null)
     {
-        PageNumber = Math.Max(1, PageNumber);
+        Cheeps = await _service.getCheepsFromUser(timelineUser, PageNumber);
+    }
 
-        UserName = User.Identity?.Name;
-        if (User.Identity?.IsAuthenticated == true && UserName != null)
-        {
-            var user = await _service.findUserByEmail(UserName);
-            if (user != null)
-            {
-                CurrentUser = user;
-                Console.WriteLine("The current user is " + CurrentUser.Name);
-                Cheeps = await _service.getCheepsFromUser(CurrentUser, PageNumber);
-            }
-            if (CurrentUser != null)
-            {
-                followedUsers = await _service.getFollowings(CurrentUser);
-            }
-        }
+    if (User.Identity?.IsAuthenticated == true && UserName != null)
+    {
+        CurrentUser = await _service.findUserByEmail(UserName);
 
-        if (followedUsers != null)
+        if (CurrentUser != null && timelineUser != null &&
+            CurrentUser.Id == timelineUser.Id)
         {
-            Console.WriteLine("Step 1");
-            foreach (var userId in followedUsers)
+            followedUsers = await _service.getFollowings(CurrentUser);
+
+            if (followedUsers != null)
             {
-                Console.WriteLine("Step 2");
-                var tempCheeps = await _service.GetCheepsFromUserId(userId);
-                foreach (var cheep in tempCheeps)
+                foreach (var userId in followedUsers)
                 {
-                    Console.WriteLine("Step 3");
-                    CheepsFromFollowings.Add(cheep);
+                    var tempCheeps = await _service.GetCheepsFromUserId(userId);
+                    CheepsFromFollowings.AddRange(tempCheeps);
                 }
             }
         }
-        if (CheepsFromFollowings.Count > 0)
-        {
-            Console.WriteLine("Ummmmmmmm");
-        }
-        return Page();
     }
+
+    return Page();
+}
+
     public async Task<IActionResult> OnPostUnfollowAsync(string unfolloweeId)
     {
         Console.WriteLine("UnFollow activates");

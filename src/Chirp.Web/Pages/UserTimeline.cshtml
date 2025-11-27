@@ -7,8 +7,9 @@
 }
 
 <div>
-    <h2> @routeName's Timeline </h2>
-    @if (Model.Cheeps.Any() || Model.CheepsFromFollowings.Any())
+    <h2>@routeName's Timeline</h2>
+
+    @if (Model.Cheeps.Any()) // Display cheeps for the specified author
     {
         <ul id="messagelist" class="cheeps">
             @foreach (var cheep in Model.Cheeps)
@@ -20,32 +21,45 @@
                         </strong>
                         @cheep.Text
                     </p>
-                    @cheep.TimeStamp
-                </li>
-            }
-            @foreach (var cheep in Model.CheepsFromFollowings)
-            {
-                <li>
-                    <p>
-                        <strong>
-                            <a href="/@cheep.User.UserName">@cheep.User.UserName</a>
-                        </strong>
-                        @cheep.Text
-                         <p>
-                                <form method="post" asp-page-handler="Unfollow">
-                                                @Html.AntiForgeryToken()
-                                                <input type="hidden" name="unfolloweeId" value="@cheep.User.Id" />
-                                                <button type="submit" style="float:right;" class="btn btn-outline-secondary btn-sm"> Unfollow </button>
-                                </form>
-                        </p>
-                    </p>
-                    @cheep.TimeStamp
+                    <p>@cheep.TimeStamp</p>
                 </li>
             }
         </ul>
     }
     else
     {
-        <em>There are no cheeps so far.</em>
+        <p>No cheeps found for this user.</p>
     }
-</div>
+
+    @if (Model.CurrentUser != null && string.Equals(Model.CurrentUser.UserName, routeName as string, StringComparison.Ordinal))
+    {
+        <h3>Cheeps from Followed Users</h3>
+        @if (Model.CheepsFromFollowings.Any())
+        {
+            <ul id="followedCheeps" class="cheeps">
+                @foreach (var cheep in Model.CheepsFromFollowings)
+                {
+                    <li>
+                        <p>
+                            <strong>
+                                <a href="/@cheep.User.UserName">@cheep.User.UserName</a>
+                            </strong>
+                            @cheep.Text
+                        </p>
+                        <p>
+                            <form method="post" asp-page-handler="Unfollow">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="unfolloweeId" value="@cheep.User.Id" />
+                                <button type="submit" style="float:right;" class="btn btn-outline-secondary btn-sm">Unfollow</button>
+                            </form>
+                        </p>
+                        <p>@cheep.TimeStamp</p>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>You are not following anyone yet.</p>
+        }
+    }
