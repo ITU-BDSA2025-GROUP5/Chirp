@@ -2,6 +2,7 @@ using System.Text;
 using Chirp.Razor.Tests.Infrastructure;
 using Chirp.Infrastructure;
 using Chirp.Domain;
+using Chirp.Tests.Tools_to_Test;
 using Xunit;
 [Collection("sqlite-db")]
 
@@ -11,7 +12,6 @@ public class CheepServiceTests
     private readonly UserRepository _userRepository;
     private readonly CheepService _service;
 
-    private static readonly Random _rand = new Random();
 
     public CheepServiceTests(SqliteInMemoryDbFixture fixture)
     {
@@ -24,33 +24,14 @@ public class CheepServiceTests
 
     
     
-    // Generate a random string of given length
-    public static string RandomString(int length)
-    {
-        const string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
-        var sb = new StringBuilder(length);
-        for (int i = 0; i < length; i++)
-        {
-            sb.Append(chars[_rand.Next(chars.Length)]);
-        }
-        return sb.ToString();
-    }
-    // String mutater
-    public static string RandomMutation(string input)
-    {
-        var chars = input.ToCharArray();
-        int idx = _rand.Next(chars.Length);
-        chars[idx] = (char)_rand.Next(32, 126); // printable ASCII
-        return new string(chars);
-    }
-
+   
     
     
     [Fact]
     public async Task Get_Cheeps_From_Author_Is_Usable()
     {
 
-        var name = RandomString(100);
+        var name = InputFuzzers.RandomString(100);
         //a
         var testUser = new User
         {

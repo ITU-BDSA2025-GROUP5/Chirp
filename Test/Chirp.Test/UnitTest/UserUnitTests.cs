@@ -8,6 +8,7 @@ using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Chirp.Domain;
 using Chirp.Infrastructure;
 using Chirp.Razor.Tests.Infrastructure;
+using Chirp.Tests.Tools_to_Test;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,7 +22,7 @@ public class IdentityUserTests
 {
     private readonly ServiceProvider _provider;
     private readonly UserManager<User> _userManager;
-    
+    private InputFuzzers  _inputFuzzers;
     public IdentityUserTests(SqliteInMemoryDbFixture fixture)
     {
         // Build a service provider with EF Core + Identity
