@@ -16,6 +16,7 @@ string? connectionString = builder.Configuration.GetConnectionString("DefaultCon
 builder.Services.AddDbContext<CheepDbContext>(options => options.UseSqlite(connectionString));
 
 builder.Services.AddScoped<CheepRepo>();
+builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<ICheepService, CheepService>();
 builder.Services.AddRazorPages();
 builder.Services.AddDefaultIdentity<User>(options =>
@@ -53,6 +54,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
     app.UseHttpsRedirection();
 }
+
 
 using (var scope = app.Services.CreateScope())
 {
