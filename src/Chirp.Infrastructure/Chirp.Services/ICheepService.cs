@@ -7,13 +7,20 @@ public interface ICheepService
     Task InsertCheepAsync(CheepDTO cheep);
 
     Task<User?> findUserByEmail(string email);
+    Task<User?> findUserByName(string name);
 
     Task<List<CheepDTO>> getCheepsFromUser(User user, int page);
+
+    Task<User?> FindTimelineByUserNameAsync(string userName);
 
     Task<List<User>> getFollowers(User user);
 
     Task<List<string>> getFollowings(User user);
-    Task<String> followUser(User userid, string followeeID);
-    Task<String> UnfollowUser(User userid, string followeeID);
-    Task<List<CheepDTO>> GetCheepsFromUserId(string UserId);
+
+
+    Task<String> followUser(User user, string followeeID);
+
+
+    Task<String> UnfollowUser(User user, string followeeID);
+    Task<List<CheepDTO>> GetCheepsFromUserId(string userId);
 }

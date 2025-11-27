@@ -16,11 +16,6 @@ public class CheepService : ICheepService
         return await _cheepRepo.ReadCheeps(page) ?? new List<CheepDTO>();
     }
 
-    public async Task<List<CheepDTO>> GetCheepsFromUserId(string userId)
-    {
-        return await _cheepRepo.getCheepsFromUserId(userId) ?? new List<CheepDTO>();
-    }
-
     public async Task InsertCheepAsync(CheepDTO cheep)
     {
         await _cheepRepo.InsertNewCheepAsync(cheep);
@@ -29,6 +24,11 @@ public class CheepService : ICheepService
     public async Task<User?> findUserByEmail(string email)
     {
         return await _userRepo.findUserByEmail(email);
+    }
+
+    public async Task<User?> findUserByName(string name)
+    {
+        return await _userRepo.findUserByName(name);
     }
 
     public async Task<List<CheepDTO>> getCheepsFromUser(User user, int page)
@@ -50,10 +50,20 @@ public class CheepService : ICheepService
     {
         return await _userRepo.followUser(user, followeeID);
     }
-    
+
     public async Task<String> UnfollowUser(User user, string followeeID)
     {
         return await _userRepo.UnfollowUser(user, followeeID);
+    }
+
+    public Task<User?> FindTimelineByUserNameAsync(string userName)
+    {
+        throw new NotImplementedException();
+    }
+    
+    public async Task<List<CheepDTO>> GetCheepsFromUserId(string userId)
+    {
+        return await _cheepRepo.getCheepsFromUserId(userId) ?? new List<CheepDTO>();
     }
 }
 

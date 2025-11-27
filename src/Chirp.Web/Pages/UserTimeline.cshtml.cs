@@ -30,16 +30,18 @@ public class UserTimelineModel : PageModel
 {
     UserName = User.Identity?.Name;
     PageNumber = Math.Max(1, PageNumber);
+        Console.WriteLine("Looking for a corresponding user for: " + author);
+    var timelineUser = await _service.findUserByName(author);
+        Console.WriteLine("I found: " + timelineUser);
 
-    var timelineUser = await _service.findUserByEmail(author);
     if (timelineUser != null)
-    {
-        Cheeps = await _service.getCheepsFromUser(timelineUser, PageNumber);
-    }
+        {
+            Cheeps = await _service.getCheepsFromUser(timelineUser, PageNumber);
+        }
 
     if (User.Identity?.IsAuthenticated == true && UserName != null)
     {
-        CurrentUser = await _service.findUserByEmail(UserName);
+        CurrentUser = await _service.findUserByName(UserName);
 
         if (CurrentUser != null && timelineUser != null &&
             CurrentUser.Id == timelineUser.Id)
@@ -63,14 +65,14 @@ public class UserTimelineModel : PageModel
     public async Task<IActionResult> OnPostUnfollowAsync(string unfolloweeId)
     {
         Console.WriteLine("UnFollow activates");
-        var currentUserEmail = User.Identity?.Name;
-        if (string.IsNullOrEmpty(currentUserEmail))
+        UserName= User.Identity?.Name;
+        if (string.IsNullOrEmpty(UserName))
         {
             Console.WriteLine("Sorry hombre pt. 1");
             return Unauthorized();
         }
 
-        var CurrentUser = await _service.findUserByEmail(currentUserEmail);
+        var CurrentUser = await _service.findUserByName(UserName);
         if (CurrentUser == null)
         {
             Console.WriteLine("Sorry hombre pt. 2");
