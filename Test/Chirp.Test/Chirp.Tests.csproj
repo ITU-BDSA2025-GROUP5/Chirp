@@ -31,10 +31,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\Chirp.Web\Chirp.Web.csproj" />
-    <ProjectReference Include="..\src\Chirp.Domain\Chirp.Domain.csproj" />
-    <ProjectReference Include="..\src\Chirp.Infrastructure\Chirp.Infrastructure.csproj" />
-    <ProjectReference Include="..\src\Chirp.Application\Chirp.Application.csproj" />
+    <ProjectReference Include="..\..\src\Chirp.Web\Chirp.Web.csproj" />
+    <ProjectReference Include="..\..\src\Chirp.Domain\Chirp.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Chirp.Infrastructure\Chirp.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Chirp.Application\Chirp.Application.csproj" />
   </ItemGroup>
 
 </Project>
