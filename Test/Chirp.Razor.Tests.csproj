@@ -34,6 +34,7 @@
     <ProjectReference Include="..\src\Chirp.Web\Chirp.Web.csproj" />
     <ProjectReference Include="..\src\Chirp.Domain\Chirp.Domain.csproj" />
     <ProjectReference Include="..\Src\Chirp.Infrastructure\Chirp.Infrastructure.csproj" />
+    <ProjectReference Include="..\Src\Chirp.Application\Chirp.Application.csproj" />
   </ItemGroup>
 
 </Project>
