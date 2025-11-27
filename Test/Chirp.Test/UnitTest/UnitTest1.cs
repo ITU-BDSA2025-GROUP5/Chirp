@@ -1,6 +1,5 @@
 using Xunit;
-using Chirp.Razor;
-using Chirp.Razor.Data;
+
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
