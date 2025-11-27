@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Chirp.Infrastructure;
 using Xunit;
 
 namespace Chirp.Razor.Tests.Infrastructure
@@ -12,13 +13,13 @@ namespace Chirp.Razor.Tests.Infrastructure
         {
             Fixture = fixture;
         }
-        protected ChirpDbContext NewContext() => Fixture.CreateContext();
+        protected CheepDbContext NewContext() => Fixture.CreateContext();
 
         protected Task ResetDbAsync()
         {
             Fixture.ResetDatabase();
             return Task.CompletedTask;
         }
-        protected virtual Task SeedAsync(ChirpDbContext db) => Task.CompletedTask;
+        protected virtual Task SeedAsync(CheepDbContext db) => Task.CompletedTask;
     }
 }
