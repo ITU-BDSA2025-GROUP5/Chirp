@@ -28,37 +28,29 @@ public class CheepServiceTests
     {
         
         var testUser = HelperClasses.createRandomUser();
-
+        var cheep = HelperClasses.createRandomCheep(testUser);
+        
         // Instead of _context.Add, insert directly into stub
-        await _cheepRepo.InsertNewCheepAsync(new CheepDTO
-        {
-            Text = "Test Cheep",
-            User = testUser,
-            TimeStamp = DateTime.UtcNow
-        });
+        await _cheepRepo.InsertNewCheepAsync(cheep);
+        
 
         var cheeps = await _service.getCheepsFromUser(testUser, 0);
 
         Assert.NotNull(cheeps);
         Assert.NotEmpty(cheeps);
-        Assert.Equal("Test Cheep", cheeps[0].Text);
+        Assert.Equal(cheep.Text, cheeps[0].Text);
     }
 
     [Fact]
     public async Task GetCheepsFromUser_returns_cheeps_from_stub()
     {
         var user = HelperClasses.createRandomUser();
+        var cheep = HelperClasses.createRandomCheep(user);
+        await _cheepRepo.InsertNewCheepAsync(cheep);
         
-        await _cheepRepo.InsertNewCheepAsync(new CheepDTO
-        {
-            Text = "Hello world",
-            User = user,
-            TimeStamp = DateTime.UtcNow
-        });
-
         var cheeps = await _service.getCheepsFromUser(user, 0);
 
         Assert.Single(cheeps);
-        Assert.Equal("Hello world", cheeps[0].Text);
+        Assert.Equal(cheep.Text, cheeps[0].Text);
     }
 }
