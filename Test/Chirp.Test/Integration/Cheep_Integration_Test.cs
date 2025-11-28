@@ -1,5 +1,5 @@
 using System.Text;
-using Chirp.Razor.Tests.Infrastructure;
+using Chirp.Tests.Infrastructure;
 using Chirp.Infrastructure;
 using Chirp.Domain;
 using Chirp.Tests.Tools_to_Test;
@@ -16,7 +16,7 @@ public class Cheep_Integration_Test
     public Cheep_Integration_Test(SqliteInMemoryDbFixture fixture)
     {
         _context = fixture.CreateContext();
-        var cheepRepo = new CheepRepo(_context);
+        var cheepRepo = new CheepRepository(_context);
         _userRepository = new UserRepository(_context);
         _service = new CheepService(cheepRepo, _userRepository);
     }

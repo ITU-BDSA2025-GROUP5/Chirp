@@ -1,7 +1,7 @@
 using Chirp.Domain;
 using Chirp.Infrastructure;
 
-public class CheepRepoStub : ICheepRepository
+public class CheepRepositoryStub : ICheepRepository
 {
     // to isolate the CheepRepository 
     private readonly List<CheepDTO> _cheeps = new();

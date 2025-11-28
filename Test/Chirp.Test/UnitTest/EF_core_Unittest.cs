@@ -1,9 +1,7 @@
 using Chirp.Infrastructure;
 using Chirp.Razor.Tests.Infrastructure;
-using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
 
-namespace Chirp.Tests.EF_CORE_TESTS;
+namespace Chirp.Tests.UnitTest;
 
 
 
@@ -32,7 +30,7 @@ public class EF_core_Unittest
     public void EF_Core_Testing_SetUp(SqliteInMemoryDbFixture fixture)
     {
         var _context = fixture.CreateContext();
-        var cheepRepo = new CheepRepo(_context);
+        var cheepRepo = new CheepRepository(_context);
         var _userRepository = new UserRepository(_context);
         var _service = new CheepService(cheepRepo, _userRepository);
 

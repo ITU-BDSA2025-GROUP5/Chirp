@@ -1,20 +1,13 @@
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using FluentAssertions;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Chirp.Domain;
 using Chirp.Infrastructure;
 using Chirp.Razor.Tests.Infrastructure;
+using Chirp.Tests.Infrastructure;
 using Chirp.Tests.Tools_to_Test;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-using Xunit;
-
+namespace Chirp.Tests.UnitTest;
 
 [Collection("sqlite-db")]
 

@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Infrastructure;
 
-public class CheepRepo : ICheepRepository
+public class CheepRepository : ICheepRepository
 {
     private readonly CheepDbContext _dbContext;
 
-    public CheepRepo(CheepDbContext dbContext)
+    public CheepRepository(CheepDbContext dbContext)
     {
         _dbContext = dbContext;
     }
