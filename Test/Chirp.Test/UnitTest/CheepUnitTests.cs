@@ -1,6 +1,6 @@
 using Chirp.Domain;
 using Chirp.Infrastructure;
-using Chirp.Razor.Tests.Infrastructure;
+using Chirp.Tests.Infrastructure;
 using Chirp.Tests.Mock_Stub_Classes;
 using Chirp.Tests.Tools_to_Test;
 

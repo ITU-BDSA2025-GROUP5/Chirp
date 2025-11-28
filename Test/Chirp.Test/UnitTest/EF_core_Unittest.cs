@@ -1,5 +1,5 @@
 using Chirp.Infrastructure;
-using Chirp.Razor.Tests.Infrastructure;
+using Chirp.Tests.Infrastructure;
 
 namespace Chirp.Tests.UnitTest;
 
