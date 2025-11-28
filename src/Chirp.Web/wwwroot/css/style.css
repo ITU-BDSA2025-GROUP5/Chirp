@@ -421,8 +421,8 @@ div.page ul.cheeps li.cheep {
 }
 
 .cube {
-    width: 100%;
-    height: 100%;
+    width: 110%;
+    height: 120%;
     position: relative;
     transform-style: preserve-3d;
     animation: spin 5s infinite linear;
@@ -430,8 +430,8 @@ div.page ul.cheeps li.cheep {
 
 .cube div {
     position: absolute;
-    width: 300px;
-    height: 300px;
+    width: 100px;
+    height: 100px;
     background: red;
     opacity: 0.8;
     border: 2px solid #333;
@@ -466,4 +466,147 @@ div.page {
     margin: 30px auto;
     position: relative;
     z-index: 1;
+}
+
+/* cookie style */
+/* Razor Pages Style Cookie Consent */
+.cookie-consent {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 800px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    z-index: 10000;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: none; /* Hidden by default */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.cookie-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.cookie-icon {
+    font-size: 2.5rem;
+    flex-shrink: 0;
+}
+
+.cookie-text {
+    flex: 1;
+}
+
+.cookie-text h3 {
+    margin: 0 0 8px 0;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.cookie-text p {
+    margin: 0 0 12px 0;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    opacity: 0.9;
+}
+
+.cookie-links {
+    display: flex;
+    gap: 15px;
+}
+
+.cookie-link {
+    color: #e3f2fd;
+    text-decoration: none;
+    font-size: 0.85rem;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s ease;
+}
+
+.cookie-link:hover {
+    border-bottom-color: #e3f2fd;
+}
+
+.cookie-actions {
+    display: flex;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.cookie-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    min-width: 120px;
+}
+
+.accept-btn {
+    background: #4CAF50;
+    color: white;
+}
+
+.accept-btn:hover {
+    background: #45a049;
+    transform: translateY(-2px);
+}
+
+.reject-btn {
+    background: transparent;
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.reject-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Animation for showing the cookie consent */
+@keyframes slideUpCookie {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+.cookie-consent.show {
+    display: block;
+    animation: slideUpCookie 0.5s ease-out;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .cookie-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+
+    .cookie-actions {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .cookie-btn {
+        min-width: 140px;
+    }
+
+    .cookie-links {
+        justify-content: center;
+    }
 }

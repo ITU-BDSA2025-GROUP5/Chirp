@@ -10,7 +10,7 @@
 <body>
 <div class=page>
     <h1><img src="/images/christmasx3.png" alt="Icon1"/>Chirp!</h1>
-     <div class=navigation>
+    <div class=navigation>
         @if (User?.Identity?.IsAuthenticated == true)
         {
             <div>
@@ -29,7 +29,24 @@
             </div>
         }
     </div>
-
+    <div id="cook
+ieConsent" class="cookie-consent">
+        <div class="cookie-content">
+            <div class="cookie-icon">🍪</div>
+            <div class="cookie-text">
+                <h3>We use cookies</h3>
+                <p>We use cookies to have fun and earn money lol!</p>
+                <div class="cookie-links">
+                    <a href="/privacy" class="cookie-link">Cookie Policy</a>
+                    <a href="/privacy#preferences" class="cookie-link">Preferences</a>
+                </div>
+            </div>
+            <div class="cookie-actions">
+                <button id="cookieAccept" class="cookie-btn accept-btn">Accept All</button>
+                <button id="cookieReject" class="cookie-btn reject-btn">Reject Non-Essential</button>
+            </div>
+        </div>
+    </div>    
     
     <div class=body>
             @RenderBody()

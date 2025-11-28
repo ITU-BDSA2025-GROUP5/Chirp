@@ -1,19 +1,30 @@
-@page
-@model Chirp.Razor.Pages.Cookie
+@model Chirp.Razor.Pages.PublicModel
 
-@{
-    Layout = null;
+@if (!Model.ShowConsent)
+{
+    return;
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-<div>
-    
+<div class="cookie-consent">
+    <div class="cookie-content">
+        <div class="cookie-icon">🍪</div>
+        <div class="cookie-text">
+            <h3>We use cookies</h3>
+            <p>We use cookies to enhance your experience, analyze site traffic, and for functionality. By clicking "Accept All", you consent to our use of cookies.</p>
+            <div class="cookie-links">
+                <a href="/Privacy" class="cookie-link">Cookie Policy</a>
+                <a href="/Privacy#preferences" class="cookie-link">Preferences</a>
+            </div>
+        </div>
+        <div class="cookie-actions">
+            <form method="post" asp-page="/Shared/_CookieConsent" asp-page-handler="Accept">
+                <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+                <button type="submit" class="cookie-btn accept-btn">Accept All</button>
+            </form>
+            <form method="post" asp-page="/Shared/_CookieConsent" asp-page-handler="Reject">
+                <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+                <button type="submit" class="cookie-btn reject-btn">Reject Non-Essential</button>
+            </form>
+        </div>
+    </div>
 </div>
-</body>
-</html>
