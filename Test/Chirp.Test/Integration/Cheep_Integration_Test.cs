@@ -1,39 +1,37 @@
+using System.Text;
 using Chirp.Razor.Tests.Infrastructure;
 using Chirp.Infrastructure;
 using Chirp.Domain;
+using Chirp.Tests.Tools_to_Test;
 using Xunit;
 [Collection("sqlite-db")]
 
-public class CheepServiceTests
+public class Cheep_Integration_Test
 {
     private readonly CheepDbContext _context;
-    private readonly CheepRepo _repo;
-    private readonly CheepService _service;
     private readonly UserRepository _userRepository;
+    private readonly CheepService _service;
 
-    public CheepServiceTests(SqliteInMemoryDbFixture fixture)
+
+    public Cheep_Integration_Test(SqliteInMemoryDbFixture fixture)
     {
-        
         _context = fixture.CreateContext();
-        _repo = new CheepRepo(_context);
-        _service = new CheepService(_repo,_userRepository);
+        var cheepRepo = new CheepRepo(_context);
+        _userRepository = new UserRepository(_context);
+        _service = new CheepService(cheepRepo, _userRepository);
     }
+    
     [Fact]
     public async Task Get_Cheeps_From_Author_Is_Usable()
     {
+
+        var name = InputFuzzers.RandomString(100);
         //a
         var testUser = new User
         {
-            Name = "TestName",
+            Name = name,
             Email = "TestMail@1234.dk",
             Cheeps = new List<Cheep>(),
-            
-            /*
-            UserId = 0,
-           
-            ApplicationUserId = "123",
-            ApplicationUser = "ssss"
-            */
             
         };
         _context.Users.Add(testUser);
@@ -41,7 +39,7 @@ public class CheepServiceTests
 
         var newCheep = new Cheep
         {
-            UserId = "lol123",
+            UserId = testUser.Id,
             Text = "Test Cheep",
             User = testUser,
             TimeStamp = DateTime.UtcNow
@@ -49,10 +47,10 @@ public class CheepServiceTests
 
         _context.Cheeps.Add(newCheep);
         await _context.SaveChangesAsync(); 
-        var recvCheeps = await _service.getCheepsFromUser(testUser, 0);
-
-        Xunit.Assert.NotNull(recvCheeps);
-        Xunit.Assert.NotEmpty(recvCheeps);
-        Xunit.Assert.Equal("Test Cheep", recvCheeps[0].Text);
+        
+        var Cheeps = await _service.getCheepsFromUser(testUser, 0);
+        Assert.NotNull(Cheeps);
+        Assert.NotEmpty(Cheeps);
+        Assert.Equal("Test Cheep", Cheeps[0].Text);
     }
 }
