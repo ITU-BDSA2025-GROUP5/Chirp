@@ -24,6 +24,8 @@ public class FollowUnitTests
 
     private readonly ICheepService _service;
 
+    public List<string> followedUsers { get; set; } = new();
+
     public FollowUnitTests()
     {
     _service = new CheepServiceStub();
@@ -40,5 +42,30 @@ public class FollowUnitTests
         var result = await _service.followUser(user, user2.Id);
 
         Assert.True(result is not null);
+    }
+
+    [Fact]
+    public async Task FollowAUserAndGetItOnFollowlist()
+    {
+        var user = new User { UserName = "validname", Email = "Very_Much_an_email@itu.dk" , Cheeps = new List<Cheep>() };
+        var user2 = new User { UserName = "validname2", Email = "Very_Much_an_email2@itu.dk" , Cheeps = new List<Cheep>() };
+
+        
+        var result = await _service.followUser(user, user2.Id);
+
+        followedUsers = await _service.getFollowings(user);
+
+        Assert.True(followedUsers.Contains(user2.Id));
+    }
+    public async Task UnFollowAUser()
+    {
+        var user = new User { UserName = "validname", Email = "Very_Much_an_email@itu.dk" , Cheeps = new List<Cheep>() };
+        var user2 = new User { UserName = "validname2", Email = "Very_Much_an_email2@itu.dk" , Cheeps = new List<Cheep>() };
+
+        
+        var result = await _service.followUser(user, user2.Id);
+        var result2 = await _service.UnfollowUser(user, user2.Id);
+
+        Assert.True(result2 is null);
     }
 }
