@@ -42,29 +42,5 @@ public class HomePageUI : PageTest
         await Expect(Page.GetByText("Chirp!")).ToBeVisibleAsync();
     }
 
-    /* Kunne godt tænke mig at teste enten står der There is no cheeps so far eller så viser den cheeps
-     det her er en clanker løsning der godt nok ikke virker endnu.
-    [Test]
-    public async Task Timeline_ShouldShowEitherEmptyMessageOrCheeps()
-    {
-        await Page.GotoAsync("https://localhost:7102/public");
-
-        // Case 1: Empty timeline message
-        var emptyMessage = Page.Locator("text=There is no cheeps so far");
-
-        // Case 2: Cheeps list
-        var cheepsList = Page.Locator("#messagelist li");
-
-        if (await emptyMessage.IsVisibleAsync())
-        {
-            await Expect(emptyMessage).ToBeVisibleAsync();
-        }
-        else
-        {
-            await Expect(cheepsList).ToHaveCountGreaterThanAsync(0);
-        }
-    }
-    */
-
     
 }
