@@ -59,12 +59,27 @@ public class PublicModel : PageModel
             Console.WriteLine("No corresponding User found to login");
             return Page();
         }
+/*
+      try
+        {
+ 
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+ 
+ 
+ 
+ 
+ */
         await _service.InsertCheepAsync(new CheepDTO
         {
             Text = Input,
             User = user,
             TimeStamp = DateTime.UtcNow
         });
+        
         return RedirectToPage("Public");
     }
 
