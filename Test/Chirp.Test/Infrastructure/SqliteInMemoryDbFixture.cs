@@ -9,7 +9,7 @@ using System;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Chirp.Infrastructure;
-namespace Chirp.Razor.Tests.Infrastructure
+namespace Chirp.Tests.Infrastructure
 
 {
     public class SqliteInMemoryDbFixture : IDisposable
