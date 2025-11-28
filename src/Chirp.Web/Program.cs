@@ -60,7 +60,7 @@ using (var scope = app.Services.CreateScope())
     //DbInitializer.SeedDatabase(db);           
 }
 
-app.UseHttpsRedirection();
+
 app.UseStaticFiles();
 
 app.UseRouting();
