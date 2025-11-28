@@ -1,6 +1,5 @@
 using Chirp.Domain;
 using Chirp.Infrastructure;
-//using Chirp.Razor.Tests.Infrastructure;
 using Chirp.Tests.Infrastructure;
 using Chirp.Tests.Mock_Stub_Classes;
 using Chirp.Tests.Tools_to_Test;
@@ -21,7 +20,6 @@ public class CheepServiceTests
         _userRepo = new UserRepositoryStub();
         _service = new CheepService(_cheepRepo, _userRepo);
     }
-    
 
     [Fact]
     public async Task Get_Cheeps_From_Author_Is_Usable()
@@ -29,10 +27,9 @@ public class CheepServiceTests
         
         var testUser = HelperClasses.createRandomUser();
         var cheep = HelperClasses.createRandomCheep(testUser);
-        
+
         // Instead of _context.Add, insert directly into stub
         await _cheepRepo.InsertNewCheepAsync(cheep);
-        
 
         var cheeps = await _service.getCheepsFromUser(testUser, 0);
 
@@ -47,10 +44,23 @@ public class CheepServiceTests
         var user = HelperClasses.createRandomUser();
         var cheep = HelperClasses.createRandomCheep(user);
         await _cheepRepo.InsertNewCheepAsync(cheep);
-        
+
         var cheeps = await _service.getCheepsFromUser(user, 0);
 
         Assert.Single(cheeps);
+        Assert.Equal(cheep.Text, cheeps[0].Text);
+    }
+    
+    [Fact]
+    public async Task GetCheepsFromUserIdIsUsable()
+    {
+        var user = HelperClasses.createRandomUser();
+        var cheep = HelperClasses.createRandomCheep(user);
+        await _cheepRepo.InsertNewCheepAsync(cheep);
+        var cheeps = await _service.GetCheepsFromUserId(user.Id);
+        
+        Assert.NotNull(cheeps);
+        Assert.NotEmpty(cheeps);
         Assert.Equal(cheep.Text, cheeps[0].Text);
     }
 }

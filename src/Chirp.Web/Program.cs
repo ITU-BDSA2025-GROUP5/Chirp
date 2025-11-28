@@ -15,8 +15,8 @@ SQLitePCL.Batteries_V2.Init();
 string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<CheepDbContext>(options => options.UseSqlite(connectionString));
 
-builder.Services.AddScoped<CheepRepository>();
-builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<ICheepRepository, CheepRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICheepService, CheepService>();
 builder.Services.AddRazorPages();
 builder.Services.AddDefaultIdentity<User>(options =>
@@ -60,7 +60,7 @@ using (var scope = app.Services.CreateScope())
     //DbInitializer.SeedDatabase(db);           
 }
 
-app.UseHttpsRedirection();
+
 app.UseStaticFiles();
 
 app.UseRouting();

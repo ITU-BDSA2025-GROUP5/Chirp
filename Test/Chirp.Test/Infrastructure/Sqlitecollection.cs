@@ -1,4 +1,3 @@
-using Chirp.Tests.Infrastructure;
 using Xunit;
 
 namespace Chirp.Tests.Infrastructure
