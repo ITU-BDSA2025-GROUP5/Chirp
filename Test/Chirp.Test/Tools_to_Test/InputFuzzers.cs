@@ -9,7 +9,7 @@ public class InputFuzzers
     // Generate a random string of given length
     public static string RandomString(int length)
     {
-        const string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
+        const string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%^&*";
         var sb = new StringBuilder(length);
         for (int i = 0; i < length; i++)
         {
