@@ -4,6 +4,8 @@ using Xunit;
 namespace Chirp.Razor.Tests;
 
 public class CheepServiceTests
+
+// old test can be used for inspiration
 {
 }
 

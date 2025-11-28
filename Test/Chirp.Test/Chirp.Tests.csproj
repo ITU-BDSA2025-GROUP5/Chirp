@@ -42,8 +42,4 @@
     <ProjectReference Include="..\..\src\Chirp.Application\Chirp.Application.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Integration\" />
-  </ItemGroup>
-
 </Project>

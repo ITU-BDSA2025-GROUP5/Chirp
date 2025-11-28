@@ -27,10 +27,12 @@ public class IdentityUserTests
     {
         // Build a service provider with EF Core + Identity
         var services = new ServiceCollection();
+        
+        //unit test (it doesnt test on actual db)
         services.AddDbContext<CheepDbContext>(options =>
             options.UseInMemoryDatabase("IdentityTestDb"));
 
-        services.AddIdentityCore<User>(options =>
+        services.AddDefaultIdentity<User>(options =>
             {
                 options.User.RequireUniqueEmail = true;
             })

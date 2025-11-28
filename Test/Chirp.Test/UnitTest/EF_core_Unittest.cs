@@ -22,27 +22,29 @@ namespace Chirp.Tests.EF_CORE_TESTS;
  */
 public class EF_core_Unittest
 {
-    
-    
+
+
     private readonly CheepDbContext _context;
     private readonly UserRepository _userRepository;
     private readonly CheepService _service;
-    
-    
+
+
     public void EF_Core_Testing_SetUp(SqliteInMemoryDbFixture fixture)
     {
         var _context = fixture.CreateContext();
         var cheepRepo = new CheepRepo(_context);
         var _userRepository = new UserRepository(_context);
         var _service = new CheepService(cheepRepo, _userRepository);
-        
-    } 
 
+    }
+}
+/*
+    //unit test
     [Fact]
     public async Task  SomeUnitTestOnChatService()
     {
-        //taken from session 7 
-        
+        //taken from session 7
+
         // Arrange
         IChatRepository chatRepo = new ChatRepositoryStub(...); // not the repository class used in production!
         IChatService service = new ChatService(chatRepo);
@@ -52,9 +54,11 @@ public class EF_core_Unittest
 
         // Assert
         ...
-    
+
 
     }
+
+
 
     [Fact]
     public async Task ConnectiontoDp()
@@ -76,3 +80,4 @@ public class EF_core_Unittest
 
     }
 }
+*/

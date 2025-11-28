@@ -55,8 +55,60 @@ public class CheepServiceTests
         await _context.SaveChangesAsync(); 
         
         var Cheeps = await _service.getCheepsFromUser(testUser, 0);
-        Xunit.Assert.NotNull(Cheeps);
-        Xunit.Assert.NotEmpty(Cheeps);
-        Xunit.Assert.Equal("Test Cheep", Cheeps[0].Text);
+        Assert.NotNull(Cheeps);
+        Assert.NotEmpty(Cheeps);
+        Assert.Equal("Test Cheep", Cheeps[0].Text);
     }
+    
+    [Fact]
+    public async Task GetCheepsFromUser_returns_cheeps_from_db()
+    {
+        var user = new User { Name = "TestUser", Email = "test@itu.dk",  Cheeps = new List<Cheep>() };
+        _context.Users.Add(user);
+        await _context.SaveChangesAsync();
+
+        var cheep = new Cheep { UserId = user.Id, Text = "Hello world", User = user };
+        _context.Cheeps.Add(cheep);
+        await _context.SaveChangesAsync();
+
+        var cheeps = await _service.getCheepsFromUser(user, 0);
+
+        Assert.Single(cheeps);
+        Assert.Equal("Hello world", cheeps[0].Text);
+    }
+
+
+    public class CheepServiceUnitTests
+    {
+        [Fact]
+        public async Task GetCheepsFromUser_returns_cheeps_from_repo()
+        {
+            // Arrange
+            var user = new User { Id = Guid.NewGuid(), Name = "TestUser" };
+            var cheeps = new List<Cheep>
+            {
+                new Cheep { UserId = user.Id, Text = "Hello world", User = user }
+            };
+
+            var cheepRepoMock = new Mock<ICheepRepo>();
+            cheepRepoMock
+                .Setup(r => r.GetCheepsFromUserAsync(user, 0))
+                .ReturnsAsync(cheeps);
+
+            var userRepoMock = new Mock<IUserRepository>();
+            userRepoMock
+                .Setup(r => r.FindByIdAsync(user.Id))
+                .ReturnsAsync(user);
+
+            var service = new CheepService(cheepRepoMock.Object, userRepoMock.Object);
+
+            // Act
+            var result = await service.getCheepsFromUser(user, 0);
+
+            // Assert
+            Assert.Single(result);
+            Assert.Equal("Hello world", result[0].Text);
+        }
+    }
+    
 }

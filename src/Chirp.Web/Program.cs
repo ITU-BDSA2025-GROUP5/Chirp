@@ -23,16 +23,14 @@ builder.Services.AddDefaultIdentity<User>(options =>
     options.SignIn.RequireConfirmedAccount = true)
 .AddEntityFrameworkStores<CheepDbContext>();
 
-
-
 var githubClientId = builder.Configuration["Authentication:GitHub:ClientId"];
 var githubClientSecret = builder.Configuration["Authentication:GitHub:ClientSecret"];
-Console.WriteLine(githubClientId);
-Console.WriteLine(githubClientSecret);
+
+
+
 
 if (!string.IsNullOrEmpty(githubClientId) && !string.IsNullOrEmpty(githubClientSecret))
 {
-
 builder.Services.AddAuthentication()
     .AddGitHub(options =>
     {
