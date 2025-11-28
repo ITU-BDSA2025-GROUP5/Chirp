@@ -15,7 +15,6 @@ public class CheepServiceTests
 
     public CheepServiceTests(SqliteInMemoryDbFixture fixture)
     {
-        // Use stubs instead of EF Core repos
         _cheepRepo = new CheepRepositoryStub();
         _userRepo = new UserRepositoryStub();
         _service = new CheepService(_cheepRepo, _userRepo);
@@ -28,7 +27,6 @@ public class CheepServiceTests
         var testUser = HelperClasses.createRandomUser();
         var cheep = HelperClasses.createRandomCheep(testUser);
 
-        // Instead of _context.Add, insert directly into stub
         await _cheepRepo.InsertNewCheepAsync(cheep);
 
         var cheeps = await _service.getCheepsFromUser(testUser, 0);
