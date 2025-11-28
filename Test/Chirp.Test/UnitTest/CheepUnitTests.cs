@@ -1,6 +1,7 @@
 using Chirp.Domain;
 using Chirp.Infrastructure;
-using Chirp.Razor.Tests.Infrastructure;
+//using Chirp.Razor.Tests.Infrastructure;
+using Chirp.Tests.Infrastructure;
 using Chirp.Tests.Mock_Stub_Classes;
 using Chirp.Tests.Tools_to_Test;
 
@@ -20,18 +21,13 @@ public class CheepServiceTests
         _userRepo = new UserRepositoryStub();
         _service = new CheepService(_cheepRepo, _userRepo);
     }
+    
 
     [Fact]
     public async Task Get_Cheeps_From_Author_Is_Usable()
     {
-        var name = InputFuzzers.RandomString(100);
-        var testUser = new User
-        {
-            Id = Guid.NewGuid().ToString(),
-            Name = name,
-            Email = "TestMail@1234.dk",
-            Cheeps = new List<Cheep>()
-        };
+        
+        var testUser = HelperClasses.createRandomUser();
 
         // Instead of _context.Add, insert directly into stub
         await _cheepRepo.InsertNewCheepAsync(new CheepDTO
@@ -51,14 +47,8 @@ public class CheepServiceTests
     [Fact]
     public async Task GetCheepsFromUser_returns_cheeps_from_stub()
     {
-        var user = new User
-        {
-            Id = Guid.NewGuid().ToString(),
-            Name = "TestUser",
-            Email = "test@itu.dk",
-            Cheeps = new List<Cheep>()
-        };
-
+        var user = HelperClasses.createRandomUser();
+        
         await _cheepRepo.InsertNewCheepAsync(new CheepDTO
         {
             Text = "Hello world",
