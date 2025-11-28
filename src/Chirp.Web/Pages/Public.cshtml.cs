@@ -88,7 +88,7 @@ public class PublicModel : PageModel
     public async Task<IActionResult> OnPostUnfollowAsync(string unfolloweeId)
     {
         Console.WriteLine("UnFollow activates");
-        UserName= User.Identity?.Name;
+        UserName = User.Identity?.Name;
         if (string.IsNullOrEmpty(UserName))
         {
             Console.WriteLine("Sorry hombre pt. 1");
@@ -104,6 +104,52 @@ public class PublicModel : PageModel
 
         var ack = await _service.UnfollowUser(CurrentUser, unfolloweeId);
         followedUsers = await _service.getFollowings(CurrentUser);
+        Console.WriteLine(ack);
+
+        return RedirectToPage("./Public");
+    }
+
+    public async Task<IActionResult> OnPostUnLikeAsync(int cheepId)
+    {
+        Console.WriteLine("UnLike activates");
+        UserName = User.Identity?.Name;
+        if (string.IsNullOrEmpty(UserName))
+        {
+            Console.WriteLine("Sorry hombre pt. 1");
+            return Unauthorized();
+        }
+
+        var CurrentUser = await _service.findUserByName(UserName);
+        if (CurrentUser == null)
+        {
+            Console.WriteLine("Sorry hombre pt. 2");
+            return Unauthorized();
+        }
+
+        var ack = await _service.UnLikeCheep(CurrentUser, cheepId);
+        Console.WriteLine(ack);
+
+        return RedirectToPage("./Public");
+    }
+    
+    public async Task<IActionResult> OnPostLikeAsync(int cheepId)
+    {
+        Console.WriteLine("Like activates");
+        UserName = User.Identity?.Name;
+        if (string.IsNullOrEmpty(UserName))
+        {
+            Console.WriteLine("Sorry hombre pt. 1");
+            return Unauthorized();
+        }
+
+        var CurrentUser = await _service.findUserByName(UserName);
+        if (CurrentUser == null)
+        {
+            Console.WriteLine("Sorry hombre pt. 2");
+            return Unauthorized();
+        }
+
+        var ack = await _service.LikeCheep(CurrentUser, cheepId);
         Console.WriteLine(ack);
 
         return RedirectToPage("./Public");

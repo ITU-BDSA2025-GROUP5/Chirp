@@ -9,29 +9,41 @@
 <div>
     <h2>@routeName's Timeline</h2>
 
-    @if (Model.Cheeps.Any()) // Display cheeps for the specified author
+    @* --- Cheeps by this user --- *@
+    @if (Model.Cheeps.Any())
     {
         <ul id="messagelist" class="cheeps">
             @foreach (var cheep in Model.Cheeps)
             {
-                <li>
-                            <div class="profile-picture-container">
-                            @if (cheep.User.ProfilePicture != null)
-                            {
-                                <img src="data:image/png;base64,@Convert.ToBase64String(cheep.User.ProfilePicture)" alt="Profile Picture" class="profile-picture" />
-                            }
-                            else
-                            {
-                                <img src="/images/default-profile.png" alt="Default Profile Picture" class="profile-picture" />
-                            }
-                            </div>
-                    <p>
-                        <strong>
-                            <a href="/@cheep.User.UserName">@cheep.User.UserName</a>
-                        </strong>
-                        @cheep.Text
-                    </p>
-                    <p>@cheep.TimeStamp</p>
+                <li class="cheep">
+                    <div class="profile-picture-container">
+                        @if (cheep.User.ProfilePicture != null)
+                        {
+                            <img src="data:image/png;base64,@Convert.ToBase64String(cheep.User.ProfilePicture)"
+                                 alt="Profile Picture" class="profile-picture" />
+                        }
+                        else
+                        {
+                            <img src="/images/default-profile.png"
+                                 alt="Default Profile Picture" class="profile-picture" />
+                        }
+                    </div>
+
+                    <div class="cheep-content">
+                        <div class="cheep-header">
+                            <strong class="cheep-username">
+                                <a href="/@cheep.User.UserName">@cheep.User.UserName</a>
+                            </strong>
+                        </div>
+
+                        <div class="cheep-text">
+                            @cheep.Text
+                        </div>
+
+                        <div class="cheep-footer">
+                            <small class="cheep-timestamp">@cheep.TimeStamp</small>
+                        </div>
+                    </div>
                 </li>
             }
         </ul>
@@ -41,39 +53,56 @@
         <p>No cheeps found for this user.</p>
     }
 
-    @if (Model.CurrentUser != null && string.Equals(Model.CurrentUser.UserName, routeName as string, StringComparison.Ordinal))
+    @* --- Cheeps from followings (only on own timeline) --- *@
+    @if (Model.CurrentUser != null &&
+         string.Equals(Model.CurrentUser.UserName, routeName as string, StringComparison.Ordinal))
     {
         <h3>Cheeps from Followed Users</h3>
+
         @if (Model.CheepsFromFollowings.Any())
         {
-            <ul id="followedCheeps" class="cheeps">
+            <ul id="followedCheeps" class="cheeps cheeps-followings">
                 @foreach (var cheep in Model.CheepsFromFollowings)
                 {
-                    <li>
-                            <div class="profile-picture-container">
+                    <li class="cheep">
+                        <div class="profile-picture-container">
                             @if (cheep.User.ProfilePicture != null)
                             {
-                                <img src="data:image/png;base64,@Convert.ToBase64String(cheep.User.ProfilePicture)" alt="Profile Picture" class="profile-picture" />
+                                <img src="data:image/png;base64,@Convert.ToBase64String(cheep.User.ProfilePicture)"
+                                     alt="Profile Picture" class="profile-picture" />
                             }
                             else
                             {
-                                <img src="/images/default-profile.png" alt="Default Profile Picture" class="profile-picture" />
+                                <img src="/images/default-profile.png"
+                                     alt="Default Profile Picture" class="profile-picture" />
                             }
+                        </div>
+
+                        <div class="cheep-content">
+                            <div class="cheep-header">
+                                <strong class="cheep-username">
+                                    <a href="/@cheep.User.UserName">@cheep.User.UserName</a>
+                                </strong>
                             </div>
-                        <p>
-                            <strong>
-                                <a href="/@cheep.User.UserName">@cheep.User.UserName</a>
-                            </strong>
-                            @cheep.Text
-                        </p>
-                        <p>
-                            <form method="post" asp-page-handler="Unfollow">
-                                @Html.AntiForgeryToken()
-                                <input type="hidden" name="unfolloweeId" value="@cheep.User.Id" />
-                                <button type="submit" style="float:right;" class="btn btn-outline-secondary btn-sm">Unfollow</button>
-                            </form>
-                        </p>
-                        <p>@cheep.TimeStamp</p>
+
+                            <div class="cheep-text">
+                                @cheep.Text
+                            </div>
+
+                            <div class="cheep-footer">
+                                <small class="cheep-timestamp">@cheep.TimeStamp</small>
+
+                                <div class="followField">
+                                    <form method="post" asp-page-handler="Unfollow">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="unfolloweeId" value="@cheep.User.Id" />
+                                        <button type="submit" class="cheep-follow-btn">
+                                            Unfollow
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </li>
                 }
             </ul>
@@ -83,3 +112,4 @@
             <p>You are not following anyone yet.</p>
         }
     }
+</div>
