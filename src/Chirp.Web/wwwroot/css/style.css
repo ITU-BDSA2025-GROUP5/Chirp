@@ -141,11 +141,12 @@ div.page ul.cheeps li {
 div.page ul.cheeps p {
   margin: 0;
 }
-
+/*
 div.page ul.cheeps li img {
   float: left;
   padding: 0 10px 0 0;
 }
+  */
 
 div.page ul.cheeps li small {
   font-size: 0.9em;
@@ -290,4 +291,18 @@ ul.nav li a:hover {
 
 .followfield {
   text-align: right;
+}
+
+.profile-picture-container {
+  flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+}
+
+.profile-picture {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
+  border-radius: 50%; 
+  border: 2px solid #ccc; 
 }

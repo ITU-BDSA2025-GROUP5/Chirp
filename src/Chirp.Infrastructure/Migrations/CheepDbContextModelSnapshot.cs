@@ -107,6 +107,9 @@ namespace Chirp.Infrastructure.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("INTEGER");
 
+                    b.Property<byte[]>("ProfilePicture")
+                        .HasColumnType("BLOB");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("TEXT");
 

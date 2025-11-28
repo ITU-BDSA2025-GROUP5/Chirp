@@ -26,7 +26,16 @@
             @foreach (var cheep in Model.Cheeps)
             {
                 <li>
-                    <p>
+                            <div class="profile-picture-container">
+                            @if (cheep.User.ProfilePicture != null)
+                            {
+                                <img src="data:image/png;base64,@Convert.ToBase64String(cheep.User.ProfilePicture)" alt="Profile Picture" class="profile-picture" />
+                            }
+                            else
+                            {
+                                <img src="/images/default-profile.png" alt="Default Profile Picture" class="profile-picture" />
+                            }
+                            </div>
                         <strong>
                             <a href="/@cheep.User.UserName">@cheep.User.UserName</a>
                         </strong>
@@ -58,7 +67,6 @@
                                 }
                             }
                         }
-                        </p>
                     </p>
                     @cheep.TimeStamp
                 </li>

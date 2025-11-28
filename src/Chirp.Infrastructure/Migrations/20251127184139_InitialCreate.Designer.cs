@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chirp.Infrastructure.Migrations
 {
     [DbContext(typeof(CheepDbContext))]
-    [Migration("20251127100235_InitialCreate")]
+    [Migration("20251127184139_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -109,6 +109,9 @@ namespace Chirp.Infrastructure.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("INTEGER");
+
+                    b.Property<byte[]>("ProfilePicture")
+                        .HasColumnType("BLOB");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("TEXT");
