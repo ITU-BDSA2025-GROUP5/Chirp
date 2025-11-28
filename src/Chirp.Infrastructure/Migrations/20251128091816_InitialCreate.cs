@@ -166,7 +166,8 @@ namespace Chirp.Infrastructure.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Text = table.Column<string>(type: "TEXT", maxLength: 160, nullable: false),
                     UserId = table.Column<string>(type: "TEXT", nullable: false),
-                    TimeStamp = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    TimeStamp = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Likes = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {

@@ -60,10 +60,20 @@ public class CheepService : ICheepService
     {
         throw new NotImplementedException();
     }
-    
+
     public async Task<List<CheepDTO>> GetCheepsFromUserId(string userId)
     {
         return await _cheepRepo.getCheepsFromUserId(userId) ?? new List<CheepDTO>();
+    }
+
+    public async Task<string> LikeCheep(User currentUser, int cheepId)
+    {
+        return await _cheepRepo.LikeCheep(currentUser, cheepId);
+    }
+    
+    public async Task<string> UnLikeCheep(User currentUser, int cheepId)
+    {
+        return await _cheepRepo.UnLikeCheep(currentUser,cheepId);
     }
 }
 

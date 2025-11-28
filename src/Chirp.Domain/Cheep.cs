@@ -10,4 +10,5 @@ public class Cheep
     public required string UserId { get; set; }
     public required User User { get; set; }
     public DateTime TimeStamp { get; set; }
+    public List<string>? Likes { get; set; }
 }
