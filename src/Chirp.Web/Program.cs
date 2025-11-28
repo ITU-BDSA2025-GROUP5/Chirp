@@ -3,6 +3,7 @@ using Chirp.Domain;
 using SQLitePCL;
 using Microsoft.EntityFrameworkCore;
 using Chirp.Infrastructure;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 
 
@@ -22,6 +23,14 @@ builder.Services.AddRazorPages();
 builder.Services.AddDefaultIdentity<User>(options =>
     options.SignIn.RequireConfirmedAccount = true)
 .AddEntityFrameworkStores<CheepDbContext>();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+        options.SlidingExpiration = true;
+        options.AccessDeniedPath = "/Forbidden/";
+    });
 
 
 

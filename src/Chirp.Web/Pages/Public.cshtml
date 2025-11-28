@@ -9,15 +9,16 @@
 
 <div>
     <h2> Public Timeline </h2>
-    @if (User?.Identity?.IsAuthenticated == true){
-    <h3>What's on your mind @Model.UserName! ?</h3>
+    @if (User?.Identity?.IsAuthenticated == true)
+    {
+        <h3>What's on your mind @Model.UserName! ?</h3>
         <form method="post"
-            action='@Url.Page("./Public",
-            pageHandler: "NewMessage",
-            values: new { pagenumber = Model.PageNumber })'>
-                @Html.AntiForgeryToken()
-                <input type="text" name="Input" value="">
-                <input type="submit" value="Share">
+              action='@Url.Page("./Public",
+                          pageHandler: "NewMessage",
+                          values: new { pagenumber = Model.PageNumber })'>
+            @Html.AntiForgeryToken()
+            <input type="text" name="Input" value="">
+            <input type="submit" value="Share">
         </form>
     }
     @if (Model.Cheeps.Any())
@@ -29,13 +30,13 @@
                     <div class="profile-picture-container">
                         @if (cheep.User.ProfilePicture != null)
                         {
-                            <img src="data:image/png;base64,@Convert.ToBase64String(cheep.User.ProfilePicture)" 
-                                alt="Profile Picture" class="profile-picture" />
+                            <img src="data:image/png;base64,@Convert.ToBase64String(cheep.User.ProfilePicture)"
+                                 alt="Profile Picture" class="profile-picture"/>
                         }
                         else
                         {
-                            <img src="/images/default-profile.png" 
-                                alt="Default Profile Picture" class="profile-picture" />
+                            <img src="/images/default-profile.png"
+                                 alt="Default Profile Picture" class="profile-picture"/>
                         }
                     </div>
 
@@ -61,7 +62,7 @@
                                         // Already following -> Unfollow
                                         <form method="post" asp-page-handler="Unfollow">
                                             @Html.AntiForgeryToken()
-                                            <input type="hidden" name="unfolloweeId" value="@cheep.User.Id" />
+                                            <input type="hidden" name="unfolloweeId" value="@cheep.User.Id"/>
                                             <button type="submit" class="cheep-follow-btn">
                                                 Unfollow
                                             </button>
@@ -72,11 +73,12 @@
                                         // Not following -> Follow
                                         <form method="post" asp-page-handler="Follow">
                                             @Html.AntiForgeryToken()
-                                            <input type="hidden" name="followeeId" value="@cheep.User.Id" />
+                                            <input type="hidden" name="followeeId" value="@cheep.User.Id"/>
                                             <button type="submit" class="cheep-follow-btn">
                                                 Follow
                                             </button>
                                         </form>
+
                                     }
                                     /*
                                     @* Like / Unlike *@
@@ -101,7 +103,7 @@
                                         </form>
                                     } */
                                 }
-                            
+
                             </div>
                         </div>
                     </div>
@@ -109,13 +111,37 @@
             }
         </ul>
         <div class="pager">
-        <a class="btn" href="/@(Model.PageNumber - 1)">← Previous</a>
-        <a class="btn" href="/@(Model.PageNumber + 1)">Next →</a>
+            <a class="btn" href="/@(Model.PageNumber - 1)">← Previous</a>
+            <a class="btn" href="/@(Model.PageNumber + 1)">Next →</a>
+        </div>
+        
+        <!-- Left side cube -->
+        <div class="cube-container cube-left">
+            <div class="cube">
+                <div class="front"></div>
+                <div class="back"></div>
+                <div class="right"></div>
+                <div class="left"></div>
+                <div class="top"></div>
+                <div class="bottom"></div>
+            </div>
+        </div>
+
+        <!-- Right side cube -->
+        <div class="cube-container cube-right">
+            <div class="cube">
+                <div class="front"></div>
+                <div class="back"></div>
+                <div class="right"></div>
+                <div class="left"></div>
+                <div class="top"></div>
+                <div class="bottom"></div>
+            </div>
         </div>
     }
     else
     {
         <em>There are no cheeps so far.</em>
     }
-   
+
 </div>

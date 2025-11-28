@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        
         <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="8.1.0" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.0" />
@@ -22,4 +23,6 @@
         <ProjectReference Include="..\Chirp.Application\Chirp.Application.csproj" />
         <ProjectReference Include="..\Chirp.Infrastructure\Chirp.Infrastructure.csproj" />
     </ItemGroup>
+
+    
 </Project>
