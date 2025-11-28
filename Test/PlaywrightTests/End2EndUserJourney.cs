@@ -7,7 +7,7 @@ namespace PlaywrightTests;
 [TestFixture]
 public class End2EndUserJourney : PageTest
 {
-    [Test]
+    [Test, Order(1)]
     public async Task RegisterLoginAndPostACheep()
     {
         // this is the process of going to homepage, logging in with test account, and posting a cheep (and its visible).
@@ -27,7 +27,7 @@ public class End2EndUserJourney : PageTest
         
     }
 
-    [Test]
+    [Test, Order(2)]
     public async Task LoginAndGoToMyTimeline()
     {
         // This is the process of a user logging in with test account, and going to its own timeline
@@ -43,8 +43,8 @@ public class End2EndUserJourney : PageTest
         
         await Expect(Page.GetByText("TestMail@Chirp.com's Timeline")).ToBeVisibleAsync();
     }
-
-    [Test]
+    
+    [Test, Order(3)]
     public async Task LoginAndLogoutAgain()
     {
         // This is the process of a user logging in with test account and logging out again.
