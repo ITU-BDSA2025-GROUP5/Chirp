@@ -45,7 +45,7 @@ public class FollowUnitTests
     }
 
     [Fact]
-    public async Task FollowAUserAndGetItOnMyTimeline()
+    public async Task FollowAUserAndGetItOnFollowlist()
     {
         var user = new User { UserName = "validname", Email = "Very_Much_an_email@itu.dk" , Cheeps = new List<Cheep>() };
         var user2 = new User { UserName = "validname2", Email = "Very_Much_an_email2@itu.dk" , Cheeps = new List<Cheep>() };
@@ -56,5 +56,16 @@ public class FollowUnitTests
         followedUsers = await _service.getFollowings(user);
 
         Assert.True(followedUsers.Contains(user2.Id));
+    }
+    public async Task UnFollowAUser()
+    {
+        var user = new User { UserName = "validname", Email = "Very_Much_an_email@itu.dk" , Cheeps = new List<Cheep>() };
+        var user2 = new User { UserName = "validname2", Email = "Very_Much_an_email2@itu.dk" , Cheeps = new List<Cheep>() };
+
+        
+        var result = await _service.followUser(user, user2.Id);
+        var result2 = await _service.UnfollowUser(user, user2.Id);
+
+        Assert.True(result2 is null);
     }
 }
