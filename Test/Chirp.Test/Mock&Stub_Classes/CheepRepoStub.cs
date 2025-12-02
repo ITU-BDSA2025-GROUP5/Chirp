@@ -33,4 +33,14 @@ public class CheepRepositoryStub : ICheepRepository
         var cheeps = _cheeps.Where(c => c.User.Id == userId).ToList();
         return Task.FromResult<List<CheepDTO>?>(cheeps);
     }
+
+    public Task<string> LikeCheep(User currentUser, int cheepId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<string> UnLikeCheep(User currentUser, int cheepId)
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -14,6 +14,16 @@ public class CheepServiceStub : ICheepService
     public Task<List<CheepDTO>> GetCheepsFromUserId(string userId)
         => Task.FromResult(new List<CheepDTO>());
 
+    public Task<string> LikeCheep(User currentUser, int cheepId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<string> UnLikeCheep(User currentUser, int cheepId)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task InsertCheepAsync(CheepDTO cheep)
         => Task.CompletedTask;
 
@@ -23,8 +33,18 @@ public class CheepServiceStub : ICheepService
         return Task.FromResult(user);
     }
 
+    public Task<User?> findUserByName(string name)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task<List<CheepDTO>> getCheepsFromUser(User user, int page)
         => Task.FromResult(new List<CheepDTO>());
+
+    public Task<User?> FindTimelineByUserNameAsync(string userName)
+    {
+        throw new NotImplementedException();
+    }
 
     public Task<List<User>> getFollowers(User user)
     {

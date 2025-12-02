@@ -7,7 +7,7 @@ namespace Chirp.Infrastructure;
 public class CheepDbContext : IdentityDbContext<User>
 {
     public DbSet<Cheep> Cheeps { get; set; } = default!;
-    public DbSet<User> Users { get; set; } = default!;
+    public new DbSet<User> Users { get; set; } = default!;
     public DbSet<Follow> Follows { get; set; } = default!;
 
     public CheepDbContext(DbContextOptions<CheepDbContext> options) : base(options)

@@ -23,7 +23,7 @@ public class CheepService(ICheepRepository cheepRepo, IUserRepository userRepo) 
 
     public async Task<User?> findUserByName(string name)
     {
-        return await _userRepo.findUserByName(name);
+        return await userRepo.findUserByName(name);
     }
 
     public async Task<List<CheepDTO>> getCheepsFromUser(User user, int page)
@@ -58,17 +58,17 @@ public class CheepService(ICheepRepository cheepRepo, IUserRepository userRepo) 
 
     public async Task<List<CheepDTO>> GetCheepsFromUserId(string userId)
     {
-        return await _cheepRepo.getCheepsFromUserId(userId) ?? new List<CheepDTO>();
+        return await cheepRepo.getCheepsFromUserId(userId) ?? new List<CheepDTO>();
     }
 
     public async Task<string> LikeCheep(User currentUser, int cheepId)
     {
-        return await _cheepRepo.LikeCheep(currentUser, cheepId);
+        return await cheepRepo.LikeCheep(currentUser, cheepId);
     }
     
     public async Task<string> UnLikeCheep(User currentUser, int cheepId)
     {
-        return await _cheepRepo.UnLikeCheep(currentUser,cheepId);
+        return await cheepRepo.UnLikeCheep(currentUser,cheepId);
     }
 }
 
