@@ -27,8 +27,8 @@ builder.Services.AddDefaultIdentity<User>(options =>
 
 var githubClientId = builder.Configuration["Authentication:GitHub:ClientId"];
 var githubClientSecret = builder.Configuration["Authentication:GitHub:ClientSecret"];
-Console.WriteLine(githubClientId);
-Console.WriteLine(githubClientSecret);
+//Console.WriteLine(githubClientId);
+//Console.WriteLine(githubClientSecret);
 
 if (!string.IsNullOrEmpty(githubClientId) && !string.IsNullOrEmpty(githubClientSecret))
 {
@@ -59,8 +59,9 @@ if (!app.Environment.IsDevelopment())
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<CheepDbContext>();
-    db.Database.Migrate();                   
-    //DbInitializer.SeedDatabase(db);           
+    db.Database.Migrate();
+    DbInitializer.SeedDatabase(db);
+    Console.WriteLine("I tried");        
 }
 
 app.UseHttpsRedirection();

@@ -77,29 +77,24 @@
                                                 Follow
                                             </button>
                                         </form>
-                                    }
-                                    /*
-                                    @* Like / Unlike *@
-                                    if (cheep.Likes != null && Model.CurrentUser != null && cheep.Likes.Contains(Model.CurrentUser.Id))
-                                    {
-                                        <form method="post" asp-page-handler="Unlike">
-                                            @Html.AntiForgeryToken()
-                                            <input type="hidden" name="cheepId" value="@cheep.CheepId" />
-                                            <button type="submit" class="like-toggle-button">
-                                                <img src="/images/unlike.png" alt="Unlike" class="like-button" />
-                                            </button>
-                                        </form>
-                                    }
-                                    else
-                                    {
-                                        <form method="post" asp-page-handler="Like">
-                                            @Html.AntiForgeryToken()
-                                            <input type="hidden" name="cheepId" value="@cheep.CheepId" />
-                                            <button type="submit" class="like-toggle-button">
-                                                <img src="/images/like.png" alt="Like" class="like-button" />
-                                            </button>
-                                        </form>
-                                    } */
+                                    }                   
+                                    <div class="like-wrapper">
+                                    <form method="post" asp-page-handler="@(cheep.Likes != null && Model.CurrentUser != null && cheep.Likes.Contains(Model.CurrentUser.Id) ? "Unlike" : "Like")">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="cheepId" value="@cheep.CheepId" />
+                                        <button type="submit" class="like-toggle-button">
+                                            @if (cheep.Likes != null && Model.CurrentUser != null && cheep.Likes.Contains(Model.CurrentUser.Id))
+                                            {
+                                                <img src="/images/heart-filled.png" class="like-icon liked" alt="Unlike" />
+                                            }
+                                            else
+                                            {
+                                                <img src="/images/heart-outline.png" class="like-icon" alt="Like" />
+                                            }
+                                        </button>
+                                    </form>
+                                    <span class="like-count">@((cheep.Likes?.Count ?? 0))</span>
+                                </div> 
                                 }
                             
                             </div>

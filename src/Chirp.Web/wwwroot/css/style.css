@@ -398,3 +398,55 @@ div.page ul.cheeps li.cheep {
   transform: scale(1.15);
   opacity: 0.9;
 }
+
+/* ====== LIKE / HEART STYLES (copy-paste) ====== */
+
+/* Container for heart + count */
+.like-wrapper {
+  display: inline-flex;        /* keep it compact */
+  align-items: center;
+  gap: 4px;
+}
+
+/* The button itself (no default button styling) */
+.like-toggle-button {
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  line-height: 0;              /* remove extra vertical space */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Heart icons */
+.like-icon {
+  width: 18px;                 /* force consistent size */
+  height: 18px;
+  display: block;              /* no descender gap */
+  object-fit: contain;         /* keep aspect ratio */
+  opacity: 0.6;
+  transition: transform 0.1s ease-in-out, opacity 0.1s ease-in-out;
+}
+
+/* When liked (filled heart) */
+.like-icon.liked {
+  opacity: 1;
+}
+
+/* Hover effect */
+.like-toggle-button:hover .like-icon {
+  transform: scale(1.15);
+  opacity: 1;
+}
+
+/* Count next to heart */
+.like-count {
+  font-size: 13px;
+  color: #555;
+  min-width: 18px;
+}
+
+

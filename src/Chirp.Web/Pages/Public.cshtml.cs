@@ -29,7 +29,6 @@ public class PublicModel : PageModel
         PageNumber = Math.Max(1, PageNumber);
 
         UserName = User.Identity?.Name;
-        Console.WriteLine("Username is: " + UserName);
         Cheeps = await _service.GetCheepsAsync(PageNumber);
         if (User.Identity?.IsAuthenticated == true && UserName != null)
         {
@@ -115,14 +114,14 @@ public class PublicModel : PageModel
         UserName = User.Identity?.Name;
         if (string.IsNullOrEmpty(UserName))
         {
-            Console.WriteLine("Sorry hombre pt. 1");
+            Console.WriteLine("Sorry hombre pt. 3");
             return Unauthorized();
         }
 
         var CurrentUser = await _service.findUserByName(UserName);
         if (CurrentUser == null)
         {
-            Console.WriteLine("Sorry hombre pt. 2");
+            Console.WriteLine("Sorry hombre pt. 4");
             return Unauthorized();
         }
 
@@ -138,14 +137,14 @@ public class PublicModel : PageModel
         UserName = User.Identity?.Name;
         if (string.IsNullOrEmpty(UserName))
         {
-            Console.WriteLine("Sorry hombre pt. 1");
+            Console.WriteLine("Sorry hombre pt. 5");
             return Unauthorized();
         }
 
         var CurrentUser = await _service.findUserByName(UserName);
         if (CurrentUser == null)
         {
-            Console.WriteLine("Sorry hombre pt. 2");
+            Console.WriteLine("Sorry hombre pt. 6");
             return Unauthorized();
         }
 
