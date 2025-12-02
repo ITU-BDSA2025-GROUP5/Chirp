@@ -45,14 +45,14 @@ public class FollowIntegrationTests
         {
             var follower = new User
             {
-                UserName = "validname",
+                UserName = "name",
                 Email = "Very_Much_an_email@itu.dk",
                 Cheeps = new List<Cheep>()
             };
 
             var followee = new User
             {
-                UserName = "validname2",
+                UserName = "name2",
                 Email = "Very_Much_an_email2@itu.dk",
                 Cheeps = new List<Cheep>()
             };
