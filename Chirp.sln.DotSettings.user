@@ -1,0 +1,20 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=61e5478e_002Dee50_002D411e_002D98bd_002D6ab98ccc1a76/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="End2EndUserJourney" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::33A60C89-3A62-4E34-82A0-83F61FACD5A8::net8.0::PlaywrightTests.End2EndUserJourney&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b1609017_002Dccd3_002D4bc5_002Dab53_002D58c6e5f442d5/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="RegistrationEndpointTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::2950003C-88C8-4849-818C-E9DBEFB1A35C::net8.0::RegistrationEndpointTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::2950003C-88C8-4849-818C-E9DBEFB1A35C::net8.0::CheepServiceTests.Get_Cheeps_From_Author_Is_Usable&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::2950003C-88C8-4849-818C-E9DBEFB1A35C::net8.0::IdentityUserTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::2950003C-88C8-4849-818C-E9DBEFB1A35C::net8.0::Cheep_Integration_Test&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::2950003C-88C8-4849-818C-E9DBEFB1A35C::net8.0::CheepServiceTests.GetCheepsFromUser_returns_cheeps_from_db&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::33A60C89-3A62-4E34-82A0-83F61FACD5A8::net8.0::PlaywrightTests.End2EndUserJourney.RegisterLoginAndPostACheep&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::33A60C89-3A62-4E34-82A0-83F61FACD5A8::net8.0::PlaywrightTests.End2EndUserJourney&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::33A60C89-3A62-4E34-82A0-83F61FACD5A8::net8.0::PlaywrightTests.HomePageUI&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::33A60C89-3A62-4E34-82A0-83F61FACD5A8::net8.0::PlaywrightTests.LoginPageUI.LoginPageLoadsAndHasCorrectContent&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::33A60C89-3A62-4E34-82A0-83F61FACD5A8::net8.0::PlaywrightTests.RegisterPageUI&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

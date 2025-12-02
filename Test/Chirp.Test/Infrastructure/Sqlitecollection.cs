@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace Chirp.Razor.Tests.Infrastructure
+namespace Chirp.Tests.Infrastructure
 {
     [CollectionDefinition("sqlite-db")]
     public class SqliteCollection : ICollectionFixture<SqliteInMemoryDbFixture>
