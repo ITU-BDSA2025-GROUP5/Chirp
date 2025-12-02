@@ -53,11 +53,13 @@ if (!app.Environment.IsDevelopment())
     app.UseHttpsRedirection();
 }
 
+
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<CheepDbContext>();
-    db.Database.Migrate();                   
-    //DbInitializer.SeedDatabase(db);           
+    db.Database.Migrate();
+    DbInitializer.SeedDatabase(db);
+    Console.WriteLine("I tried");        
 }
 
 

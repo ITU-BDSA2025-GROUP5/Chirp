@@ -14,7 +14,13 @@ public class UserRepository : IUserRepository
 
     public async Task<User?> findUserByName(string name)
     {
-        return await _dbContext.Users.FirstOrDefaultAsync(u => u.Name == name);
+        Console.WriteLine("The authors name is: " + name);
+        var tempUser = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserName == name);
+        if (tempUser == null)
+        {
+            Console.WriteLine("We cryin");
+        }
+        return tempUser;
     }
 
     public async Task<User?> findUserByEmail(string email)

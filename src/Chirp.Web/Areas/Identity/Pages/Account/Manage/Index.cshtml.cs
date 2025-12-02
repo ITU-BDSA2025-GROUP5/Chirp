@@ -58,6 +58,8 @@ namespace Chirp.Razor.web.Areas.Identity.Pages.Account.Manage
             [Required]
             [Display(Name = "Username")]
             public string Username { get; set; }
+
+            public IFormFile ProfilePicture { get; set; }
         }
 
         private async Task LoadAsync(User user)
@@ -65,11 +67,16 @@ namespace Chirp.Razor.web.Areas.Identity.Pages.Account.Manage
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
-
             Input = new InputModel
             {
                 Username = userName,
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                ProfilePicture = user.ProfilePicture != null ? new FormFile(
+                    new MemoryStream(user.ProfilePicture),
+                    0,
+                    user.ProfilePicture.Length,
+                    "ProfilePicture",
+                    "profile.jpg") : null
             };
         }
 
@@ -90,11 +97,13 @@ namespace Chirp.Razor.web.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
+                Console.WriteLine("I stop here");
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
             if (!ModelState.IsValid)
             {
+                Console.WriteLine("I stop here pt 2");
                 await LoadAsync(user);
                 return Page();
             }
@@ -104,13 +113,32 @@ namespace Chirp.Razor.web.Areas.Identity.Pages.Account.Manage
                 var setResult = await _userManager.SetUserNameAsync(user, Input.Username!);
                 if (!setResult.Succeeded)
                 {
+                    Console.WriteLine("I stop here pt 3");
                     foreach (var e in setResult.Errors)
                         ModelState.AddModelError(string.Empty, e.Description);
                     await LoadAsync(user);
                     return Page();
                 }
             }
+            
+            Console.WriteLine("I get here ????");
+            if (Input.ProfilePicture != null)
+            {
+                Console.WriteLine("but what about here???");
+                using var memoryStream = new MemoryStream();
+                await Input.ProfilePicture.CopyToAsync(memoryStream);
 
+                var profilePictureBytes = memoryStream.ToArray();
+
+                if (user != null)
+                {
+                    Console.WriteLine("Im trying to update the picture");
+                    user.ProfilePicture = profilePictureBytes;
+                    await _userManager.UpdateAsync(user);
+                }
+            }
+
+            Console.WriteLine("I als get here ????");
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             if (Input.PhoneNumber != phoneNumber)
             {

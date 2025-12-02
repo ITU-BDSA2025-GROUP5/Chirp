@@ -14,5 +14,8 @@ public interface ICheepRepository
     Task<List<CheepDTO>> getCheepsFromUser(User user, int page);
 
     Task<List<CheepDTO>?> getCheepsFromUserId(string userId);
+
+    Task<string> LikeCheep(User currentUser, int cheepId);
     
+    Task<string> UnLikeCheep(User currentUser, int cheepId);
 }
