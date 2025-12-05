@@ -35,9 +35,9 @@
     </ItemGroup>
 
   <ItemGroup>
-    <Using Include="Xunit" />
+    <Using Include="Xunit" /> 
   </ItemGroup>
-
+  
   <ItemGroup>
     <ProjectReference Include="..\..\src\Chirp.Web\Chirp.Razor.Web.csproj" />
     <ProjectReference Include="..\..\src\Chirp.Domain\Chirp.Domain.csproj" />

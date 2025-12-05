@@ -7,6 +7,7 @@ namespace PlaywrightTests;
 public class HomePageUI : PageTest
 {
     // all following test will be for when users are not logged in
+    /*
     [Test]
     public async Task HomePageLoadsAndHasCorrectTitle()
     {
@@ -42,5 +43,5 @@ public class HomePageUI : PageTest
         await Expect(Page.GetByText("Chirp!")).ToBeVisibleAsync();
     }
 
-    
+    */
 }

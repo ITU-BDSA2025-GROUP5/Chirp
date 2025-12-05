@@ -7,28 +7,24 @@ namespace Chirp.PlaywrightTests;
 [TestFixture]
 public class PlaywrightTestBase : PageTest
 {
-    private CustomWebApplicationFactory _factory = null!;
-    public string BaseUrl { get; private set; } = null!;
+    public CustomWebApplicationFactory _factory = null!;
+    public string BaseUrl { get; set; } = null!;
 
     [SetUp]
     public async Task GlobalSetup()
     {
-        // 1. Create factory
         _factory = new CustomWebApplicationFactory();
+        var client = _factory.CreateClient(); // starts everything
 
-        // 2. Trigger server start
-        _factory.CreateClient();
-
-        // 3. Get URL
         BaseUrl = _factory.ClientOptions.BaseAddress.ToString();
+        TestContext.WriteLine($"BaseUrl: {BaseUrl}");
 
-        // 4. INCREASE TIMEOUT
-        // Give the app 60 seconds to boot up and migrate DB before failing
+        // Quick check that the app responds
+        var response = await client.GetAsync("/");
+        TestContext.WriteLine($"GET / => {(int)response.StatusCode}");
+        response.EnsureSuccessStatusCode();
+
         Page.SetDefaultTimeout(60000);
-
-        // 5. Navigate
-        // We use the extended timeout here specifically for the first load
-        await Page.GotoAsync(BaseUrl, new() { Timeout = 60000 });
     }
 
     [TearDown]
