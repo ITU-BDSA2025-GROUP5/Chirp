@@ -25,8 +25,12 @@ public class FollowIntegrationTests
     private readonly ServiceProvider _provider;
     
     private readonly CheepDbContext _context;
+    private readonly CheepRepository _cheepRepository;
     private readonly UserRepository _userRepository;
-    private readonly CheepService _service;
+    private readonly CheepService _CheepService;
+    private readonly UserService _UserService;
+    private readonly UserManager <User> _UserManager;
+    
     private readonly SqliteInMemoryDbFixture _fixture;
     
     public List<string> followedUsers { get; set; } = new();
@@ -35,9 +39,11 @@ public class FollowIntegrationTests
     {
         _fixture = fixture;
         _context = fixture.CreateContext();
-        var cheepRepo = new CheepRepository(_context);
+        _cheepRepository = new CheepRepository(_context);
         _userRepository = new UserRepository(_context);
-        _service = new CheepService(cheepRepo, _userRepository);
+        _UserService = new UserService(_userRepository,_UserManager);
+        _CheepService = new CheepService(_cheepRepository, _UserService);
+        
     }
     private async Task<(User follower, User followee)> CreateUsersAsync()
     {
@@ -62,7 +68,7 @@ public class FollowIntegrationTests
             
             var (follower, followee) = await CreateUsersAsync();
 
-            var result = await _service.followUser(follower, followee.Id);
+            var result = await _CheepService.followUser(follower, followee.Id);
 
             result.Should().NotBeNull();
         }
@@ -74,10 +80,10 @@ public class FollowIntegrationTests
 
             var (follower, followee) = await CreateUsersAsync();
 
-            var result = await _service.followUser(follower, followee.Id);
+            var result = await _CheepService.followUser(follower, followee.Id);
             result.Should().NotBeNull();
 
-            var followedUsers = await _service.getFollowings(follower);
+            var followedUsers = await _CheepService.getFollowings(follower);
 
             followedUsers.Should().Contain(followee.Id);
         }
@@ -89,10 +95,10 @@ public class FollowIntegrationTests
 
             var (follower, followee) = await CreateUsersAsync();
 
-            var followResult = await _service.followUser(follower, followee.Id);
+            var followResult = await _CheepService.followUser(follower, followee.Id);
             followResult.Should().NotBeNull();
 
-            var unfollowResult = await _service.UnfollowUser(follower, followee.Id);
+            var unfollowResult = await _CheepService.UnfollowUser(follower, followee.Id);
 
             unfollowResult.Should().NotBeNull();
         }
@@ -103,16 +109,16 @@ public class FollowIntegrationTests
             _fixture.ResetDatabase();
             var (follower, followee) = await CreateUsersAsync();
             
-            var followResult = await _service.followUser(follower, followee.Id);
+            var followResult = await _CheepService.followUser(follower, followee.Id);
             followResult.Should().NotBeNull();
 
-            var followedUsersBefore = await _service.getFollowings(follower);
+            var followedUsersBefore = await _CheepService.getFollowings(follower);
             followedUsersBefore.Should().Contain(followee.Id);
 
-            var unfollowResult = await _service.UnfollowUser(follower, followee.Id);
+            var unfollowResult = await _CheepService.UnfollowUser(follower, followee.Id);
             unfollowResult.Should().NotBeNull();
 
-            var followedUsersAfter = await _service.getFollowings(follower);
+            var followedUsersAfter = await _CheepService.getFollowings(follower);
             followedUsersAfter.Should().NotContain(followee.Id);
         }
 
