@@ -1,29 +1,17 @@
 ﻿using System.Text.RegularExpressions;
+using Chirp.PlaywrightTests;
 using Microsoft.Playwright;
 using Microsoft.Playwright.NUnit;
 
 namespace PlaywrightTests;
 [Parallelizable(ParallelScope.Self)]
 [TestFixture]
-public class End2EndUserJourney : PageTest
+public class End2EndUserJourney : PlaywrightTestBase
 {
-    
-    //because of github login and cookies saved automatically by dotnet identity it might be worth it to clear cookie before perchance?
-    [SetUp]
-    public async Task ClearCookies()
-    {
-        await Context.ClearCookiesAsync();
-    }
-
-    
     [Test, Order(1)]
     public async Task RegisterLoginAndPostACheep()
     {
-        // creating a new context?
-        await using var context = await Browser.NewContextAsync();
-        var page = await context.NewPageAsync();
-        // this is the process of going to homepage, logging in with test account, and posting a cheep (and its visible).
-        await Page.GotoAsync("http://localhost:7103/");
+        await Page.GotoAsync(BaseUrl);
 
         await Page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
         
@@ -31,7 +19,7 @@ public class End2EndUserJourney : PageTest
         await Page.GetByLabel("Password").FillAsync("Password123.");
         await Page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
         
-        await Page.WaitForURLAsync("http://localhost:7103/");
+        await Page.WaitForURLAsync(BaseUrl);
 
         await Page.WaitForSelectorAsync("input[name='Input']");
 
@@ -46,7 +34,7 @@ public class End2EndUserJourney : PageTest
     public async Task LoginAndGoToMyTimeline()
     {
         // This is the process of a user logging in with test account, and going to its own timeline
-        await Page.GotoAsync("http://localhost:7103/");
+        await Page.GotoAsync(BaseUrl);
 
         await Page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
         
@@ -63,7 +51,7 @@ public class End2EndUserJourney : PageTest
     public async Task LoginAndLogoutAgain()
     {
         // This is the process of a user logging in with test account and logging out again.
-        await Page.GotoAsync("http://localhost:7103/");
+        await Page.GotoAsync(BaseUrl);
 
         await Page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
         
