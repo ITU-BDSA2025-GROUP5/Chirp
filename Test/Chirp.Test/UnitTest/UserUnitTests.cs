@@ -1,6 +1,7 @@
 using Chirp.Domain;
 using Chirp.Infrastructure;
 using Chirp.Tests.Infrastructure;
+using Chirp.Tests.Mock_Stub_Classes;
 using Chirp.Tests.Tools_to_Test;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,8 @@ public class IdentityUserTests
     private readonly ServiceProvider _provider;
     private readonly UserManager<User> _userManager;
     private InputFuzzers  _inputFuzzers;
+    
+    
     public IdentityUserTests(SqliteInMemoryDbFixture fixture)
     {
         // Build a service provider with EF Core + Identity
@@ -32,16 +35,28 @@ public class IdentityUserTests
 
         _provider = services.BuildServiceProvider();
         _userManager = _provider.GetRequiredService<UserManager<User>>();
+        
     }
 
     [Fact]
-    public async Task CreateUserWithIncorrectUserName_fails()
+    public async Task CreateUserWithIncorrectEmail_fails()
     {
         var user = new User { UserName = "validname", Email = "not-an-email" , Cheeps = new List<Cheep>() };
         var result = await _userManager.CreateAsync(user, password: "pA88w0rd.");
 
         Assert.False(result.Succeeded);
         Assert.Contains(result.Errors, e => e.Code == "InvalidEmail");
+
+    }
+    
+    [Fact]
+    public async Task CreateUserWithIncorrectUserName_fails()
+    {
+        var user = new User { UserName = "invalid name", Email = "is-emai@.itu.dkl" , Cheeps = new List<Cheep>() };
+        var result = await _userManager.CreateAsync(user, password: "pA88w0rd.");
+
+        Assert.False(result.Succeeded);
+        Assert.Contains(result.Errors, e => e.Code == "InvalidUserName");
 
     }
 

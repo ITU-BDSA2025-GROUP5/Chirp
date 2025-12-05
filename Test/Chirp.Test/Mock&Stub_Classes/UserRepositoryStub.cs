@@ -57,4 +57,9 @@ public class UserRepositoryStub : IUserRepository
         }
         return Task.FromResult("failure to unfollow user");
     }
+    
+    public void addUser(User user)
+    {
+        _users.Add(user);
+    }
 }
