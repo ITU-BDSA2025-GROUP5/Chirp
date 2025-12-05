@@ -43,19 +43,9 @@ public class FollowIntegrationTests
     }
     private async Task<(User follower, User followee)> CreateUsersAsync(CheepDbContext ctx)
         {
-            var follower = new User
-            {
-                UserName = "name",
-                Email = "Very_Much_an_email@itu.dk",
-                Cheeps = new List<Cheep>()
-            };
+            var follower = HelperClasses.createRandomUser();
 
-            var followee = new User
-            {
-                UserName = "name2",
-                Email = "Very_Much_an_email2@itu.dk",
-                Cheeps = new List<Cheep>()
-            };
+            var followee = HelperClasses.createRandomUser();
 
             ctx.Users.Add(follower);
             ctx.Users.Add(followee);

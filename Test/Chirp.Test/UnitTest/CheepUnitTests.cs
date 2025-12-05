@@ -25,7 +25,7 @@ public class CheepServiceTests
     {
         
         var testUser = HelperClasses.createRandomUser();
-        var cheep = HelperClasses.createRandomCheep(testUser);
+        var cheep = HelperClasses.createRandomCheepDTO(testUser);
 
         await _cheepRepo.InsertNewCheepAsync(cheep);
 
@@ -40,7 +40,7 @@ public class CheepServiceTests
     public async Task GetCheepsFromUser_returns_cheeps_from_stub()
     {
         var user = HelperClasses.createRandomUser();
-        var cheep = HelperClasses.createRandomCheep(user);
+        var cheep = HelperClasses.createRandomCheepDTO(user);
         await _cheepRepo.InsertNewCheepAsync(cheep);
 
         var cheeps = await _service.getCheepsFromUser(user, 0);
@@ -53,7 +53,7 @@ public class CheepServiceTests
     public async Task GetCheepsFromUserIdIsUsable()
     {
         var user = HelperClasses.createRandomUser();
-        var cheep = HelperClasses.createRandomCheep(user);
+        var cheep = HelperClasses.createRandomCheepDTO(user);
         await _cheepRepo.InsertNewCheepAsync(cheep);
         var cheeps = await _service.GetCheepsFromUserId(user.Id);
         
