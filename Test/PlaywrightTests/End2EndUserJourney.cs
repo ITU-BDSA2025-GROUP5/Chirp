@@ -20,10 +20,10 @@ public class End2EndUserJourney : PageTest
         await Page.GetByLabel("Password").FillAsync("Password123.");
         await Page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
         
-        await Page.Locator("input[name='Input']").FillAsync("This is a test cheep!"); // got this from copilot
+        await Page.Locator("input[name='Input']").FillAsync("This is a test cheep2!"); // got this from copilot
         await Page.GetByRole(AriaRole.Button, new() { Name = "Share" }).ClickAsync();
         
-        await Expect(Page.GetByText("TestMail@Chirp.com This is a test cheep!")).ToBeVisibleAsync();
+        await Expect(Page.GetByText("TestMail@Chirp.com This is a test cheep2!")).ToBeVisibleAsync();
         
     }
 
