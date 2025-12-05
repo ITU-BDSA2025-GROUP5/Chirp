@@ -24,9 +24,7 @@ public class Cheep_Integration_Test
     [Fact]
     public async Task Get_Cheeps_From_Author_Is_Usable()
     {
-
-        var name = InputFuzzers.RandomString(100);
-        //a
+        
         var testUser = HelperClasses.createRandomUser();
         _context.Users.Add(testUser);
         await _context.SaveChangesAsync();
@@ -38,6 +36,6 @@ public class Cheep_Integration_Test
         var Cheeps = await _service.getCheepsFromUser(testUser, 0);
         Assert.NotNull(Cheeps);
         Assert.NotEmpty(Cheeps);
-        Assert.Equal("Test Cheep", Cheeps[0].Text);
+        Assert.Equal(cheep.Text, Cheeps[0].Text);
     }
 }
