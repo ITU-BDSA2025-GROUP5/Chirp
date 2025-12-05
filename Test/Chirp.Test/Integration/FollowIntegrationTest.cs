@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Chirp.Tests.Mock_Stub_Classes;
+using Chirp.Tests.Mock_Stub_Classes;
 
 using Xunit;
 [Collection("sqlite-db")]
@@ -42,8 +43,8 @@ public class FollowIntegrationTests
     _service = new CheepServiceStub();
     }
     private async Task<(User follower, User followee)> CreateUsersAsync(CheepDbContext ctx)
-        {
-            var follower = HelperClasses.createRandomUser();
+    {
+        var follower = HelperClasses.createRandomUser();
 
             var followee = HelperClasses.createRandomUser();
 
@@ -59,7 +60,7 @@ public class FollowIntegrationTests
 
 
     [Fact]
-        public async Task FollowAUser_Integration()
+        public async Task FollowAUser()
         {
             _fixture.ResetDatabase();
             using var ctx = CreateContext();
@@ -71,4 +72,61 @@ public class FollowIntegrationTests
 
             result.Should().NotBeNull();
         }
+    
+    [Fact]
+        public async Task FollowAUserAndGetItOnFollowlist()
+        {
+            _fixture.ResetDatabase();
+            using var ctx = CreateContext();
+            var service = CreateCheepService(ctx);
+
+            var (follower, followee) = await CreateUsersAsync(ctx);
+
+            var result = await service.followUser(follower, followee.Id);
+            result.Should().NotBeNull();
+
+            var followedUsers = await service.getFollowings(follower);
+
+            followedUsers.Should().Contain(followee.Id);
+        }
+
+     [Fact]
+        public async Task UnFollowAUser()
+        {
+            _fixture.ResetDatabase();
+            using var ctx = CreateContext();
+            var service = CreateCheepService(ctx);
+
+            var (follower, followee) = await CreateUsersAsync(ctx);
+
+            var followResult = await service.followUser(follower, followee.Id);
+            followResult.Should().NotBeNull();
+
+            var unfollowResult = await service.UnfollowUser(follower, followee.Id);
+
+            unfollowResult.Should().NotBeNull();
+        }
+
+    [Fact]
+        public async Task UnFollowAUserAndRemoveItFromFollowlist()
+        {
+            _fixture.ResetDatabase();
+            using var ctx = CreateContext();
+            var service = CreateCheepService(ctx);
+
+            var (follower, followee) = await CreateUsersAsync(ctx);
+
+            var followResult = await service.followUser(follower, followee.Id);
+            followResult.Should().NotBeNull();
+
+            var followedUsersBefore = await service.getFollowings(follower);
+            followedUsersBefore.Should().Contain(followee.Id);
+
+            var unfollowResult = await service.UnfollowUser(follower, followee.Id);
+            unfollowResult.Should().NotBeNull();
+
+            var followedUsersAfter = await service.getFollowings(follower);
+            followedUsersAfter.Should().NotContain(followee.Id);
+        }
+
 }
