@@ -27,25 +27,12 @@ public class Cheep_Integration_Test
 
         var name = InputFuzzers.RandomString(100);
         //a
-        var testUser = new User
-        {
-            Name = name,
-            Email = "TestMail@1234.dk",
-            Cheeps = new List<Cheep>(),
-            
-        };
+        var testUser = HelperClasses.createRandomUser();
         _context.Users.Add(testUser);
-        await _context.SaveChangesAsync(); 
+        await _context.SaveChangesAsync();
 
-        var newCheep = new Cheep
-        {
-            UserId = testUser.Id,
-            Text = "Test Cheep",
-            User = testUser,
-            TimeStamp = DateTime.UtcNow
-        };
-
-        _context.Cheeps.Add(newCheep);
+        var cheep = HelperClasses.createRandomCheep(testUser);
+        _context.Cheeps.Add(cheep);
         await _context.SaveChangesAsync(); 
         
         var Cheeps = await _service.getCheepsFromUser(testUser, 0);
