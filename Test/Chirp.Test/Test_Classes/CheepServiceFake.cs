@@ -3,10 +3,11 @@ using Chirp.Infrastructure;
 
 namespace Chirp.Tests.Mock_Stub_Classes;
 
-public class CheepServiceStub : ICheepService
+public class CheepServiceFake() : ICheepService
 {
     public Dictionary<string, User> Users = new();
     public Dictionary<string, List<string>> Followings = new();
+    
 
     public Task<List<CheepDTO>> GetCheepsAsync(int page)
         => Task.FromResult(new List<CheepDTO>());

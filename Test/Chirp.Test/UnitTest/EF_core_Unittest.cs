@@ -29,10 +29,10 @@ public class EF_core_Unittest
 
     public void EF_Core_Testing_SetUp(SqliteInMemoryDbFixture fixture)
     {
-        var _context = fixture.CreateContext();
-        var cheepRepo = new CheepRepository(_context);
-        var _userRepository = new UserRepository(_context);
-        var _service = new CheepService(cheepRepo, _userRepository);
+      //  var _context = fixture.CreateContext();
+        //var cheepRepo = new CheepRepository(_context);
+        //var _userRepository = new UserRepository(_context);
+      //  var _service = new CheepService(cheepRepo, _userRepository);
 
     }
 }

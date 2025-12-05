@@ -3,22 +3,26 @@ using Chirp.Tests.Infrastructure;
 using Chirp.Infrastructure;
 using Chirp.Domain;
 using Chirp.Tests.Tools_to_Test;
+using Microsoft.AspNetCore.Identity;
 using Xunit;
 [Collection("sqlite-db")]
 
 public class Cheep_Integration_Test
 {
     private readonly CheepDbContext _context;
+    private readonly CheepRepository _cheepRepository;
     private readonly UserRepository _userRepository;
-    private readonly CheepService _service;
-
+    private readonly CheepService _CheepService;
+    private readonly UserService _UserService;
+private readonly UserManager <User> _UserManager;
 
     public Cheep_Integration_Test(SqliteInMemoryDbFixture fixture)
     {
         _context = fixture.CreateContext();
-        var cheepRepo = new CheepRepository(_context);
+        _cheepRepository = new CheepRepository(_context);
         _userRepository = new UserRepository(_context);
-        _service = new CheepService(cheepRepo, _userRepository);
+        _UserService = new UserService(_userRepository,_UserManager);
+        _CheepService = new CheepService(_cheepRepository, _UserService);
     }
     
     [Fact]
@@ -33,7 +37,7 @@ public class Cheep_Integration_Test
         _context.Cheeps.Add(cheep);
         await _context.SaveChangesAsync(); 
         
-        var Cheeps = await _service.getCheepsFromUser(testUser, 0);
+        var Cheeps = await _CheepService.getCheepsFromUser(testUser, 0);
         Assert.NotNull(Cheeps);
         Assert.NotEmpty(Cheeps);
         Assert.Equal(cheep.Text, Cheeps[0].Text);

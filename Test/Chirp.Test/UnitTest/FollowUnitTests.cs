@@ -28,7 +28,7 @@ public class FollowUnitTests
 
     public FollowUnitTests()
     {
-    _service = new CheepServiceStub();
+    _service = new CheepServiceFake();
     }
 
 
