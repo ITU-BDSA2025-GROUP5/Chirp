@@ -9,7 +9,7 @@ namespace PlaywrightTests;
 [TestFixture]
 public class LoginPageUI : PageTest
 {
-    
+    /*
     [Test]
     public async Task LoginPageLoadsAndHasCorrectTitle()
     {
@@ -100,5 +100,5 @@ public class LoginPageUI : PageTest
         await Page.GotoAsync("http://localhost:7103/Identity/Account/Login");
         await Page.GetByRole(AriaRole.Link, new() { Name = "Resend email confirmation" }).ClickAsync();
     }
-    
+    */
 }

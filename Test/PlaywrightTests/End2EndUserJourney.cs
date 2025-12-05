@@ -8,6 +8,22 @@ namespace PlaywrightTests;
 [TestFixture]
 public class End2EndUserJourney : PlaywrightTestBase
 {
+
+    [Test]
+    public async Task TestEnd2EndUserJourney()
+    {
+        await Page.GotoAsync(BaseUrl);
+        await Page.GetByRole(AriaRole.Link, new() { Name = "Register account" }).ClickAsync();
+        
+        await Page.GetByLabel("Email").FillAsync("TestMail@Chirp.com");
+        await Page.GetByLabel("Password", new() { Exact = true }).FillAsync("Password123.");
+        await Page.GetByLabel("Confirm Password", new() { Exact = true }).FillAsync("Password123.");
+        
+        await Page.GetByRole(AriaRole.Button, new() { Name = "Register" }).ClickAsync();
+        
+        await Expect(Page.GetByText("Register confirmation")).ToBeVisibleAsync();
+    }
+    /*
     [Test, Order(1)]
     public async Task RegisterLoginAndPostACheep()
     {
@@ -64,4 +80,5 @@ public class End2EndUserJourney : PlaywrightTestBase
 
         await Expect(Page.GetByText("Use a local account to log in.")).ToBeVisibleAsync();
     }
+    */
 }

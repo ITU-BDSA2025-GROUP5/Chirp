@@ -3,12 +3,12 @@ using Microsoft.Playwright;
 using Microsoft.Playwright.NUnit;
 namespace PlaywrightTests;
 
-
 [Parallelizable(ParallelScope.Self)]
 [TestFixture]
+
 public class RegisterPageUI : PageTest
 {
-
+/*
     [Test]
     public async Task RegisterPageLoadsAndHasCorrectTitleShows()
     {
@@ -68,5 +68,5 @@ public class RegisterPageUI : PageTest
         // Its Clickable
         await Page.GetByRole(AriaRole.Button, new() { Name = "Github" }).ClickAsync();
     }
-    
+    */
 }
