@@ -120,8 +120,20 @@ namespace Chirp.Razor.web.Areas.Identity.Pages.Account.Manage
                     return Page();
                 }
             }
-            
-            Console.WriteLine("I get here ????");
+            //Check that the image uploaded is of type .png or .jpeg
+            if (Input.ProfilePicture.ContentType != "image/png" && Input.ProfilePicture.ContentType != "image/jpeg")
+            {
+                {
+                    ModelState.AddModelError("Input.ProfilePicture", "Only PNG and JPEG images are allowed.");
+                    return Page();
+                }
+            }           
+            //Check that the image size is a maximum of 2mb
+            if (Input.ProfilePicture.Length > 2 * 1024 * 1024)
+            {
+                ModelState.AddModelError("Input.ProfilePicture", "The file size must not exceed 2 MB.");
+                return Page();
+            }
             if (Input.ProfilePicture != null)
             {
                 Console.WriteLine("but what about here???");
