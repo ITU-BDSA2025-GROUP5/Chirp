@@ -13,15 +13,19 @@ numbersections: true
 ## Domain model
 Our domain model consists of two main elements, and one for infrastructure purposes:
 - User
+\newline
 A 'User' is an entity who can write new Cheeps, and follow other Users. The relation from one user to another user describes a one-to-many relation, where one user can have many followers.
 - Cheep
+\newline
 The 'Cheep' entity is the posts in the Chirp application. An author can write many Cheeps, which explains the one-to-many relation.
 - Follow
+\newline
 The 'Follow' table keeps track of which users follow who, which can both be linked through UserID's, or an entity of a User class.
 
 Below is a diagram visualising the relations between our different entities.
 
 ![Illustration of the _Chirp!_ data model as UML class diagram.](images/domain_model.png)
+\newpage
 
 ## Architecture — In the small
 
