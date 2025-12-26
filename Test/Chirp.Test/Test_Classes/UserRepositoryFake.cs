@@ -2,7 +2,7 @@ using Chirp.Domain;
 using Chirp.Infrastructure;
 
 namespace Chirp.Tests.Mock_Stub_Classes;
-public class UserRepositoryStub : IUserRepository
+public class UserRepositoryFake : IUserRepository
 {
     private readonly List<User> _users = new();
     private readonly List<Follow> _follows = new();
@@ -56,5 +56,10 @@ public class UserRepositoryStub : IUserRepository
             return Task.FromResult("successfully unfollowed");
         }
         return Task.FromResult("failure to unfollow user");
+    }
+    
+    public void addUser(User user)
+    {
+        _users.Add(user);
     }
 }

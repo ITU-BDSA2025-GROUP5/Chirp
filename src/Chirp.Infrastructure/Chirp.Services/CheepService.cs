@@ -3,7 +3,7 @@ namespace Chirp.Infrastructure;
 
 // changed to interface for making libskob principle availible (for tests)
 // changed to primary constructor as well :^)
-public class CheepService(ICheepRepository cheepRepo, IUserRepository userRepo) : ICheepService
+public class CheepService(ICheepRepository cheepRepo, IUserService userService) : ICheepService
 {
 
     public async Task<List<CheepDTO>> GetCheepsAsync(int page)
@@ -18,12 +18,12 @@ public class CheepService(ICheepRepository cheepRepo, IUserRepository userRepo) 
 
     public async Task<User?> findUserByEmail(string email)
     {
-        return await userRepo.findUserByEmail(email);
+        return await userService.FindByEmailAsync(email);
     }
 
     public async Task<User?> findUserByName(string name)
     {
-        return await userRepo.findUserByName(name);
+        return await userService.FindByNameAsync(name);
     }
 
     public async Task<List<CheepDTO>> getCheepsFromUser(User user, int page)
@@ -33,22 +33,22 @@ public class CheepService(ICheepRepository cheepRepo, IUserRepository userRepo) 
 
     public async Task<List<User>> getFollowers(User user)
     {
-        return await userRepo.getFollowers(user);
+        return await userService.GetFollowersAsync(user);
     }
 
     public async Task<List<string>> getFollowings(User user)
     {
-        return await userRepo.getFollowings(user);
+        return await userService.GetFollowingsAsync(user);
     }
 
     public async Task<String> followUser(User user, string followeeID)
     {
-        return await userRepo.followUser(user, followeeID);
+        return await userService.FollowAsync(user, followeeID);
     }
 
     public async Task<String> UnfollowUser(User user, string followeeID)
     {
-        return await userRepo.UnfollowUser(user, followeeID);
+        return await userService.UnfollowAsync(user, followeeID);
     }
 
     public Task<User?> FindTimelineByUserNameAsync(string userName)

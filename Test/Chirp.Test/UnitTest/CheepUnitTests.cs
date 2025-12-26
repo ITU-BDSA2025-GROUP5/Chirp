@@ -9,15 +9,27 @@ namespace Chirp.Tests.UnitTest;
 [Collection("sqlite-db")]
 public class CheepServiceTests
 {
-    private readonly CheepService _service;
-    private readonly CheepRepositoryStub _cheepRepo;
-    private readonly UserRepositoryStub _userRepo;
+    //fakes for
+    private readonly CheepServiceFake _serviceFake;
+    private readonly CheepRepositoryFake _cheepRepoFake;
+    private readonly UserRepositoryFake _userRepoFake;
 
+    
+    //real for isolated tests
+    //private readonly CheepService _service;
+   // private readonly CheepRepository _cheepRepo;
+   // private readonly UserRepositoryFake _userRepo;
     public CheepServiceTests(SqliteInMemoryDbFixture fixture)
     {
-        _cheepRepo = new CheepRepositoryStub();
-        _userRepo = new UserRepositoryStub();
-        _service = new CheepService(_cheepRepo, _userRepo);
+        _cheepRepoFake = new CheepRepositoryFake();
+        _userRepoFake = new UserRepositoryFake();
+        _serviceFake = new CheepServiceFake();
+        
+        /* unused rn
+        _cheepRepo = new CheepRepository();
+        _userRepo = new UserRepository();
+        _service = new CheepService(_cheepRepo,_userRepo);
+        */
     }
 
     [Fact]
@@ -25,11 +37,11 @@ public class CheepServiceTests
     {
         
         var testUser = HelperClasses.createRandomUser();
-        var cheep = HelperClasses.createRandomCheep(testUser);
+        var cheep = HelperClasses.createRandomCheepDTO(testUser);
 
-        await _cheepRepo.InsertNewCheepAsync(cheep);
+        await _cheepRepoFake.InsertNewCheepAsync(cheep);
 
-        var cheeps = await _service.getCheepsFromUser(testUser, 0);
+        var cheeps = await _serviceFake.getCheepsFromUser(testUser, 0);
 
         Assert.NotNull(cheeps);
         Assert.NotEmpty(cheeps);
@@ -40,10 +52,10 @@ public class CheepServiceTests
     public async Task GetCheepsFromUser_returns_cheeps_from_stub()
     {
         var user = HelperClasses.createRandomUser();
-        var cheep = HelperClasses.createRandomCheep(user);
-        await _cheepRepo.InsertNewCheepAsync(cheep);
+        var cheep = HelperClasses.createRandomCheepDTO(user);
+        await _cheepRepoFake.InsertNewCheepAsync(cheep);
 
-        var cheeps = await _service.getCheepsFromUser(user, 0);
+        var cheeps = await _serviceFake.getCheepsFromUser(user, 0);
 
         Assert.Single(cheeps);
         Assert.Equal(cheep.Text, cheeps[0].Text);
@@ -53,9 +65,9 @@ public class CheepServiceTests
     public async Task GetCheepsFromUserIdIsUsable()
     {
         var user = HelperClasses.createRandomUser();
-        var cheep = HelperClasses.createRandomCheep(user);
-        await _cheepRepo.InsertNewCheepAsync(cheep);
-        var cheeps = await _service.GetCheepsFromUserId(user.Id);
+        var cheep = HelperClasses.createRandomCheepDTO(user);
+        await _cheepRepoFake.InsertNewCheepAsync(cheep);
+        var cheeps = await _serviceFake.GetCheepsFromUserId(user.Id);
         
         Assert.NotNull(cheeps);
         Assert.NotEmpty(cheeps);

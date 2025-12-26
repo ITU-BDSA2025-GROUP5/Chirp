@@ -18,13 +18,24 @@ public class HelperClasses
         return user;
     }
 
-    public static CheepDTO createRandomCheep(User user)
+    public static Cheep createRandomCheep(User user)
     {
-        CheepDTO cheep = new CheepDTO
+        var cheep = new Cheep
         {
             Text = InputFuzzers.RandomSentence(),
             User = user,
-            TimeStamp = DateTime.UtcNow
+            TimeStamp = DateTime.UtcNow,
+            UserId = user.Id,
+        };
+        return cheep;
+    }
+    public static CheepDTO createRandomCheepDTO(User user)
+    {
+        var cheep = new CheepDTO
+        {
+            Text = InputFuzzers.RandomSentence(),
+            User = user,
+            TimeStamp = DateTime.UtcNow,
         };
         return cheep;
     }

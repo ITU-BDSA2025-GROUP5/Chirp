@@ -64,3 +64,10 @@ Thumbs.db
 
 # DB
 chirp.db
+
+# Ignore coverage and test output
+TestResults/
+coveragereport/
+coverage*.xml
+
+

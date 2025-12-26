@@ -18,6 +18,8 @@ builder.Services.AddDbContext<CheepDbContext>(options => options.UseSqlite(conne
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICheepService, CheepService>();
+builder.Services.AddScoped<IUserService, UserService>();
+
 builder.Services.AddRazorPages();
 builder.Services.AddDefaultIdentity<User>(options =>
     options.SignIn.RequireConfirmedAccount = true)
@@ -71,3 +73,6 @@ app.UseAuthorization();
 app.MapRazorPages();
 
 app.Run();
+
+// make it partial such that the webapplication factory can access program. 
+public partial class Program { }
