@@ -1,8 +1,9 @@
 ---
 title: _Chirp!_ Project Report
-subtitle: ITU BDSA 2025 Group `<no>`
+subtitle: ITU BDSA 2025 Group `<5>`
 author:
 - "Oscar Dalsgaard Jakobsen <ropf@itu.dk>"
+- "Niels Laier Jensen <niej@itu.dk>"
 - "Adrian Hoff <adho@itu.dk>"
 numbersections: true
 ---
@@ -18,6 +19,9 @@ Here comes a description of our domain model.
 ## Architecture — In the small
 
 ## Architecture of deployed application
+Users send HTTPS requests from their browser (the client) to our application hosted on Azure. Azure runs our ASP.NET Core server, which processes requests using Razor Pages. The server accesses data from a SQLite database via Entity Framework Core and handles user authentication with ASP.NET Core Identity.
+
+include xml diagram over view here
 
 ## User activities
 
