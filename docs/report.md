@@ -21,7 +21,7 @@ The 'Follow' table keeps track of which users follow who, which can both be link
 
 Below is a diagram visualising the relations between our different entities.
 
-![Illustration of the _Chirp!_ data model as UML class diagram.](docs/images/domain_model.png)
+![Illustration of the _Chirp!_ data model as UML class diagram.](/images/domain_model.png)
 
 ## Architecture — In the small
 
