@@ -34,7 +34,7 @@ Below is a diagram visualising the relations between our different entities.
 ## Architecture of deployed application
 Users send HTTPS requests from their browser (the client) to our application hosted on Azure. Azure runs our ASP.NET Core server, which processes requests using Razor Pages. The server accesses data from a SQLite database via Entity Framework Core and handles user authentication with ASP.NET Core Identity.
 
-include xml diagram over view here
+![Arhcitecture of Deployed application](images/Chirpdeploymentarchitecture.jpg) 
 
 ## User activities
 
