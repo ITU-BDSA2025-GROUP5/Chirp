@@ -29,6 +29,8 @@ Below is a diagram visualising the relations between our different entities.
 
 ## Architecture — In the small
 
+![Arhcitecture in The Small](images/inTheSmall.png) 
+
 ## Architecture of deployed application
 Users send HTTPS requests from their browser (the client) to our application hosted on Azure. Azure runs our ASP.NET Core server, which processes requests using Razor Pages. The server accesses data from a SQLite database via Entity Framework Core and handles user authentication with ASP.NET Core Identity.
 
@@ -40,11 +42,11 @@ Users send HTTPS requests from their browser (the client) to our application hos
 This illustrates the flow of messages and data sent through our Chirp application. It is ilustrated for a unauthorized user sending a HTTP request to root endpoint, and ending up with a completely rendered web-page returned to the user.
 ![Sequence Diagram for Chirp unauthorized user](images/Sequence_diagram.jpg)
 
-Small comments on the middleware pipeline: 
+Small comments on the middleware pipeline:  
 Requests also go through the middlewares
-UseExceptionHandler()
-UseHsts()
-UseHttpsRedirection()
+UseExceptionHandler(),
+UseHsts(),
+UseHttpsRedirection(),
 When the app is not in development
 
 We have chosen to show the process of going through middlewares as self-messages.
@@ -56,36 +58,45 @@ The middleware pipeline and Server/Kestrel lifeline is added as lifelines to com
 ## Build, test, release, and deployment
 
 ## Team work
+<strong>Kommentar:</strong> Vi sætter screenshot a project board ind, når vi færdige med alt kode.
 
 ## How to make _Chirp!_ work locally
 
 Install [.NET 8.0 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) (if not already installed)
 
-Clone the repository:
+Clone the repository:  
 From a terminal run:
 <pre>
 git clone https://github.com/ITU-BDSA2025-GROUP5/Chirp.git 
 cd Chirp
 </pre>
 
+To make sure dependencies are installed  
+In Chirp folder run:
+<pre>dotnet restore</pre>
 
-
-
-
-Start the application:
-<pre>dotnet run --project .\src\Chirp.Web\</pre>
-
-or you can run the application from the Chirp.Web folder
+Configure user-secrets for OAuth:
 <pre>
 cd src\Chirp.Web
+dotnet user-secrets init
+dotnet user-secrets set "Authentication:GitHub:ClientId" "Ov23li69eign4jFgBjYv" 
+dotnet user-secrets set "Authentication:GitHub:ClientSecret" "5627aad084cd9a29aeb79c5339cc6a8d9db22c6e"
+</pre>
+
+If your still in the Chirp.Web folder, start the application with:
+<pre>
 dotnet run
 </pre>
 
+or you can start the application from root folder Chirp:
+<pre>dotnet run --project .\src\Chirp.Web\</pre>
+
 Open a browser and go to:
 <pre>http://localhost:7103</pre>
-
+Now you should be at the public timeline for Chirp!
 
 ## How to run test suite locally
+<strong>Kommentar:</strong> Vi skriver lige den her done, når vi har styr på testene.
 
 # Ethics
 
