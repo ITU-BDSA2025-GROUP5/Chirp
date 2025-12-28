@@ -61,16 +61,24 @@ The middleware pipeline and Server/Kestrel lifeline is added as lifelines to com
 
 Install [.NET 8.0 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) (if not already installed)
 
-Clone the repository:
+Clone the repository:  
 From a terminal run:
 <pre>
 git clone https://github.com/ITU-BDSA2025-GROUP5/Chirp.git 
 cd Chirp
 </pre>
 
+To make sure dependencies are installed  
+In Chirp folder run:
+<pre>dotnet restore</pre>
 
-
-
+Configure user-secrets for OAuth:
+<pre>
+cd src\Chirp.Web
+dotnet user-secrets init
+dotnet user-secrets set "Authentication:GitHub:ClientId" "Ov23li69eign4jFgBjYv" 
+dotnet user-secrets set "Authentication:GitHub:ClientSecret" "5627aad084cd9a29aeb79c5339cc6a8d9db22c6e"
+</pre>
 
 Start the application:
 <pre>dotnet run --project .\src\Chirp.Web\</pre>
@@ -83,9 +91,10 @@ dotnet run
 
 Open a browser and go to:
 <pre>http://localhost:7103</pre>
-
+Now you should be at the public timeline for Chirp!
 
 ## How to run test suite locally
+(Kommentar) Vi skriver lige den her done.
 
 # Ethics
 
