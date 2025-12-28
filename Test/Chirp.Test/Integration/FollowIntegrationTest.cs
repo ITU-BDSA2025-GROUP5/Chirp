@@ -5,6 +5,7 @@ using Chirp.Tests.Infrastructure;
 using Chirp.Tests.Tools_to_Test;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using Xunit;
@@ -25,9 +26,18 @@ public class FollowIntegrationTests
         _userRepository = new UserRepository(_context);
         
         // Create a simple mock for UserManager using Moq
+        // Looks a bit wild, but this is needed to prevent build warnings.
         var userManagerMock = new Mock<UserManager<User>>(
             Mock.Of<IUserStore<User>>(),
-            null, null, null, null, null, null, null, null);
+            Mock.Of<IOptions<IdentityOptions>>(),
+            Mock.Of<IPasswordHasher<User>>(),
+            Array.Empty<IUserValidator<User>>(),
+            Array.Empty<IPasswordValidator<User>>(),
+            Mock.Of<ILookupNormalizer>(),
+            new IdentityErrorDescriber(),
+            Mock.Of<IServiceProvider>(),
+            Mock.Of<ILogger<UserManager<User>>>()
+        );
         
         userManagerMock.Setup(um => um.FindByIdAsync(It.IsAny<string>()))
             .ReturnsAsync((string id) => 

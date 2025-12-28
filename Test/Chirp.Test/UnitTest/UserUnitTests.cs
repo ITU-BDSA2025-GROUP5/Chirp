@@ -17,7 +17,7 @@ public class IdentityUserTests
     
     private readonly ServiceProvider _provider;
     private readonly UserManager<User> _userManager;
-    private InputFuzzers _inputFuzzers;
+    
 
 
     public IdentityUserTests(SqliteInMemoryDbFixture fixture)

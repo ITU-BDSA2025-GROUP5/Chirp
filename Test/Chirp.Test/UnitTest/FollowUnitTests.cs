@@ -18,10 +18,6 @@ using Xunit;
 
 public class FollowUnitTests
 {
-    private readonly ServiceProvider _provider;
-    private readonly UserManager<User> _userManager;
-    private InputFuzzers  _inputFuzzers;
-
     private readonly ICheepService _service;
 
     public List<string> followedUsers { get; set; } = new();
@@ -55,7 +51,7 @@ public class FollowUnitTests
 
         followedUsers = await _service.getFollowings(user);
 
-        Assert.True(followedUsers.Contains(user2.Id));
+        Assert.Contains(user2.Id, followedUsers);
     }
 
     [Fact]
@@ -82,12 +78,12 @@ public class FollowUnitTests
 
         followedUsers = await _service.getFollowings(user);
 
-        Assert.True(followedUsers.Contains(user2.Id));
+        Assert.Contains(user2.Id, followedUsers);
 
         var result2 = await _service.UnfollowUser(user, user2.Id);
 
         followedUsers = await _service.getFollowings(user);
 
-        Assert.False(followedUsers.Contains(user2.Id));
+        Assert.DoesNotContain(user2.Id, followedUsers);
     }
 }
