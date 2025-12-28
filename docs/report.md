@@ -64,8 +64,8 @@ Install [.NET 8.0 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) (
 Clone the repository:
 From a terminal run:
 <pre>
-    git clone https://github.com/ITU-BDSA2025-GROUP5/Chirp.git 
-    cd Chirp
+git clone https://github.com/ITU-BDSA2025-GROUP5/Chirp.git 
+cd Chirp
 </pre>
 
 
@@ -77,8 +77,8 @@ Start the application:
 
 or you can run the application from the Chirp.Web folder
 <pre>
-    cd src\Chirp.Web
-    dotnet run
+cd src\Chirp.Web
+dotnet run
 </pre>
 
 Open a browser and go to:
