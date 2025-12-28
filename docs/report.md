@@ -40,7 +40,7 @@ Users send HTTPS requests from their browser (the client) to our application hos
 
 ## Sequence of functionality/calls trough _Chirp!_
 This illustrates the flow of messages and data sent through our Chirp application. It is ilustrated for a unauthorized user sending a HTTP request to root endpoint, and end up with a completely rendered web-page returned to the user.
-![Sequence Diagram for _Chirp!_ unauthorized user](images/Sequence_diagram.jpg)
+![Sequence Diagram for Chirp unauthorized user](images/Sequence_diagram.jpg)
 
 
 # Process
