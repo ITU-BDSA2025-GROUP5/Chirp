@@ -27,8 +27,6 @@ Below is a diagram visualising the relations between our different entities.
 ![Illustration of the _Chirp!_ data model as UML class diagram.](images/domain_model.png)
 
 
-
-
 ## Architecture — In the small
 
 ## Architecture of deployed application
@@ -53,7 +51,6 @@ We have chosen to show the process of going through middlewares as self-messages
 
 The middleware pipeline and Server/Kestrel lifeline is added as lifelines to completely show how the request is handled in ASP.NET (see figure 3.1 p. 32 ASP.NET Core IN ACTION third edition)
 
-
 # Process
 
 ## Build, test, release, and deployment
@@ -75,4 +72,23 @@ This includes:
 - Private use
 
 We chose a permissive license over a copyleft license, since we are developing our project for educational purposes. Since the project doesn't contain any business-critical logic, we don't need to enforce strict ownership.
+
 ## LLMs, ChatGPT, CoPilot, and others
+LLMs was used assisting the development of our project. 
+The LLMs that was used was:
+- ChatGPT
+- CoPilot
+- Gemini
+
+LLMs was used for:
+- Explain and understand ASP.NET core concepts besides the Microsoft documentation.
+- Some error messages was fed to LLMs to help indentify errors.
+- Write html for the UI.
+- Assisting in writing of workflows
+
+The responses were genuinely helpful in understanding the ASP.NET core, writing html for UI and assisting with workflow.
+LLMs responses regarding errors, can be very helpful to indentify the problem, but you have to be careful when looking at its solutions. In our experience, it’s far more reliable to trace through the code yourself and use the LLM’s error analysis as a hint rather than a prescription. Blindly following its solutions can lead into a spiral of new errors.
+
+Overall we like to beleive that the use of LLMs has helped the development of the project. That said, as mentioned above, we have experienced that you should not blindly follow LLMs solutions, because you can end up in a spiral of new errors and issues. Instead trace through the code yourself, or use pen and paper to make it clear for you, how to solve the error.
+
+
