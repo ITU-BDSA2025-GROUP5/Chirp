@@ -63,7 +63,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: pkg-${{ matrix.target }}-${{ matrix.archive_ext }}
+          name: build-artifacts
           path: |
             App-*-${{ matrix.target }}.zip
             App-*-${{ matrix.target }}.tar.gz
