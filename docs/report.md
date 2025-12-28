@@ -28,6 +28,13 @@ Below is a diagram visualising the relations between our different entities.
 
 
 ## Architecture — In the small
+Our project follows the principles in Onion Architechture, where the presentation, the infrastructure and the domain are sepereated into layers. This minimalizes coupling and supports maintainability as well as testability. 
+
+The presentation happens in the Web layer, which handles application startup as well as user interaction.
+
+The Infrastructure layer acts as an intermediary between User Interface and the core logic. managing data persistance, repositories as well as database migrations among other things.
+
+The Domain layer is compleatly independent, since the dependencies are directed inward. This ensures that the core logic is not affected by things happening in the infrastructure layer. 
 
 ![Arhcitecture in The Small](images/inTheSmall.png) 
 
