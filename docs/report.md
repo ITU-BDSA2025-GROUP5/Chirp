@@ -43,6 +43,16 @@ Users send HTTPS requests from their browser (the client) to our application hos
 ![Arhcitecture of Deployed application](images/Chirpdeploymentarchitecture.jpg) 
 
 ## User activities
+A user activity diagram showing what an unauthorized user can do and how they become authorized. 
+
+![Unauthorized user activity diagram](images/Unauthorized_user_activity_diagram.png)
+
+A user activity diagram showing the actions available to an authorized user, such as managing their account, posting cheeps or following other users.   
+
+![Authorized user activity diagram](images/Authorized_user_activity_diagram.png)
+
+A user activity diagram showing the entire process of an unauthorized user becoming authorized and how they can interact with Chirp!
+![Entire user activity diagram](images/Entire_user_activity_diagram.png)
 
 ## Sequence of functionality/calls trough _Chirp!_
 This illustrates the flow of messages and data sent through our Chirp application. It is ilustrated for a unauthorized user sending a HTTP request to root endpoint, and ending up with a completely rendered web-page returned to the user.
