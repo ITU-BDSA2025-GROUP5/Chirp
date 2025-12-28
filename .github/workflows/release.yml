@@ -1,0 +1,36 @@
+name: Release Workflow
+
+on:
+  push:
+    tags:
+      - 'v*.*.*' 
+  workflow_dispatch: 
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: [linux-x64, win-x64, osx-x64]
+        archive_ext: [tar.gz, zip] 
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts-${{ matrix.target }}-${{ matrix.archive_ext }}
+          path: ./artifacts
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          body: |
+            This is an automated release for version ${{ github.ref_name }}.
+            Please find the artifacts attached below.
+          files: ./artifacts/**/* 
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
