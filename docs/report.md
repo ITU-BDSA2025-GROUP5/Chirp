@@ -39,8 +39,21 @@ Users send HTTPS requests from their browser (the client) to our application hos
 ## User activities
 
 ## Sequence of functionality/calls trough _Chirp!_
-This illustrates the flow of messages and data sent through our Chirp application. It is ilustrated for a unauthorized user sending a HTTP request to root endpoint, and end up with a completely rendered web-page returned to the user.
+This illustrates the flow of messages and data sent through our Chirp application. It is ilustrated for a unauthorized user sending a HTTP request to root endpoint, and ending up with a completely rendered web-page returned to the user.
 ![Sequence Diagram for Chirp unauthorized user](images/Sequence_diagram.jpg)
+
+Small comments on the middleware pipeline: 
+Requests also go through the middlewares
+UseExceptionHandler()
+UseHsts()
+UseHttpsRedirection()
+When the app is not in development
+
+We have chosen to show the process of going through middlewares as self-messages.
+
+The middleware pipeline and Server/Kestrel lifeline is added as lifelines to completely show how the request is handled in ASP.NET (see figure 3.1 p. 32 ASP.NET Core IN ACTION third edition)
+
+
 
 
 # Process
