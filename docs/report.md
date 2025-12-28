@@ -54,8 +54,6 @@ We have chosen to show the process of going through middlewares as self-messages
 The middleware pipeline and Server/Kestrel lifeline is added as lifelines to completely show how the request is handled in ASP.NET (see figure 3.1 p. 32 ASP.NET Core IN ACTION third edition)
 
 
-
-
 # Process
 
 ## Build, test, release, and deployment
@@ -69,5 +67,12 @@ The middleware pipeline and Server/Kestrel lifeline is added as lifelines to com
 # Ethics
 
 ## License
+We have chosen the MIT license, which is a common used license. The MIT license is a permissive license, which provides more freedom, if there were other who wanted to reuse the software. 
+This includes:
+- Commercial use
+- Modification
+- Distribution
+- Private use
 
+We chose a permissive license over a copyleft license, since we are developing our project for educational purposes. Since the project doesn't contain any business-critical logic, we don't need to enforce strict ownership.
 ## LLMs, ChatGPT, CoPilot, and others
