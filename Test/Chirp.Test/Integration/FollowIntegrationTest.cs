@@ -1,125 +1,125 @@
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Chirp.Domain;
 using Chirp.Infrastructure;
 using Chirp.Tests.Infrastructure;
 using Chirp.Tests.Tools_to_Test;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Chirp.Tests.Mock_Stub_Classes;
-using Chirp.Tests.Mock_Stub_Classes;
-
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Moq;
 using Xunit;
+
 [Collection("sqlite-db")]
 
 public class FollowIntegrationTests
 {
-    
-
-    private readonly ServiceProvider _provider;
-    
     private readonly CheepDbContext _context;
-    private readonly CheepRepository _cheepRepository;
     private readonly UserRepository _userRepository;
-    private readonly CheepService _CheepService;
-    private readonly UserService _UserService;
-    private readonly UserManager <User> _UserManager;
-    
+    private readonly UserService _userService;
     private readonly SqliteInMemoryDbFixture _fixture;
-    
-    public List<string> followedUsers { get; set; } = new();
-
+  
     public FollowIntegrationTests(SqliteInMemoryDbFixture fixture)
     {
         _fixture = fixture;
         _context = fixture.CreateContext();
-        _cheepRepository = new CheepRepository(_context);
         _userRepository = new UserRepository(_context);
-        _UserService = new UserService(_userRepository,_UserManager);
-        _CheepService = new CheepService(_cheepRepository, _UserService);
         
+        // Create a simple mock for UserManager using Moq
+        var userManagerMock = new Mock<UserManager<User>>(
+            Mock.Of<IUserStore<User>>(),
+            null, null, null, null, null, null, null, null);
+        
+        userManagerMock.Setup(um => um.FindByIdAsync(It.IsAny<string>()))
+            .ReturnsAsync((string id) => 
+                _context.Users.FirstOrDefault(u => u.Id == id));
+        
+        _userService = new UserService(_userRepository, userManagerMock.Object);
     }
+
+
+
     private async Task<(User follower, User followee)> CreateUsersAsync()
     {
-            var follower = HelperClasses.createRandomUser();
-            var followee = HelperClasses.createRandomUser();
+        var follower = HelperClasses.createRandomUser();
+        var followee = HelperClasses.createRandomUser();
 
-            _context.Users.Add(follower);
-            _context.Users.Add(followee);
-            await _context.SaveChangesAsync();
+        _context.Users.Add(follower);
+        _context.Users.Add(followee);
+        await _context.SaveChangesAsync();
 
-            await _context.Entry(follower).ReloadAsync();
-            await _context.Entry(followee).ReloadAsync();
+        await _context.Entry(follower).ReloadAsync();
+        await _context.Entry(followee).ReloadAsync();
 
-            return (follower, followee);
+        return (follower, followee);
     }
 
-
     [Fact]
-        public async Task FollowAUser()
-        {
-            _fixture.ResetDatabase();
-            
-            var (follower, followee) = await CreateUsersAsync();
+    public async Task FollowAUser()
+    {
+        _fixture.ResetDatabase();
+        
+        var (follower, followee) = await CreateUsersAsync();
 
-            var result = await _CheepService.followUser(follower, followee.Id);
+        // Use UserService ONLY for follow operations
+        var result = await _userService.FollowAsync(follower, followee.Id);
 
-            result.Should().NotBeNull();
-        }
+        result.Should().NotBeNull();
+    }
     
     [Fact]
-        public async Task FollowAUserAndGetItOnFollowlist()
-        {
-            _fixture.ResetDatabase();
+    public async Task FollowAUserAndGetItOnFollowlist()
+    {
+        _fixture.ResetDatabase();
 
-            var (follower, followee) = await CreateUsersAsync();
+        var (follower, followee) = await CreateUsersAsync();
 
-            var result = await _CheepService.followUser(follower, followee.Id);
-            result.Should().NotBeNull();
+        // Use UserService for follow
+        var result = await _userService.FollowAsync(follower, followee.Id);
+        result.Should().NotBeNull();
 
-            var followedUsers = await _CheepService.getFollowings(follower);
+        // Use UserService to get followings
+        var followedUsers = await _userService.GetFollowingsAsync(follower);
 
-            followedUsers.Should().Contain(followee.Id);
-        }
-
-     [Fact]
-        public async Task UnFollowAUser()
-        {
-            _fixture.ResetDatabase();
-
-            var (follower, followee) = await CreateUsersAsync();
-
-            var followResult = await _CheepService.followUser(follower, followee.Id);
-            followResult.Should().NotBeNull();
-
-            var unfollowResult = await _CheepService.UnfollowUser(follower, followee.Id);
-
-            unfollowResult.Should().NotBeNull();
-        }
+        followedUsers.Should().Contain(followee.Id);
+    }
 
     [Fact]
-        public async Task UnFollowAUserAndRemoveItFromFollowlist()
-        {
-            _fixture.ResetDatabase();
-            var (follower, followee) = await CreateUsersAsync();
-            
-            var followResult = await _CheepService.followUser(follower, followee.Id);
-            followResult.Should().NotBeNull();
+    public async Task UnFollowAUser()
+    {
+        _fixture.ResetDatabase();
 
-            var followedUsersBefore = await _CheepService.getFollowings(follower);
-            followedUsersBefore.Should().Contain(followee.Id);
+        var (follower, followee) = await CreateUsersAsync();
 
-            var unfollowResult = await _CheepService.UnfollowUser(follower, followee.Id);
-            unfollowResult.Should().NotBeNull();
+        // Follow first using UserService
+        var followResult = await _userService.FollowAsync(follower, followee.Id);
+        followResult.Should().NotBeNull();
 
-            var followedUsersAfter = await _CheepService.getFollowings(follower);
-            followedUsersAfter.Should().NotContain(followee.Id);
-        }
+        // Then unfollow using UserService
+        var unfollowResult = await _userService.UnfollowAsync(follower, followee.Id);
 
+        unfollowResult.Should().NotBeNull();
+    }
+
+    [Fact]
+    public async Task UnFollowAUserAndRemoveItFromFollowlist()
+    {
+        _fixture.ResetDatabase();
+        var (follower, followee) = await CreateUsersAsync();
+        
+        // Follow using UserService
+        var followResult = await _userService.FollowAsync(follower, followee.Id);
+        followResult.Should().NotBeNull();
+
+        // Get followings using UserService
+        var followedUsersBefore = await _userService.GetFollowingsAsync(follower);
+        followedUsersBefore.Should().Contain(followee.Id);
+
+        // Unfollow using UserService
+        var unfollowResult = await _userService.UnfollowAsync(follower, followee.Id);
+        unfollowResult.Should().NotBeNull();
+
+        // Get followings again using UserService
+        var followedUsersAfter = await _userService.GetFollowingsAsync(follower);
+        followedUsersAfter.Should().NotContain(followee.Id);
+    }
 }

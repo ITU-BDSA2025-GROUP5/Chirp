@@ -13,6 +13,11 @@ public class UserService : IUserService
         _userRepo = users;
         _userManager = userManager;
     }
+ 
+    public UserService(UserRepository userRepository) // for tests
+    {
+        _userRepo = userRepository;
+    }
 
     public Task<User?> FindByIdAsync(string id)
         => _userManager.FindByIdAsync(id);

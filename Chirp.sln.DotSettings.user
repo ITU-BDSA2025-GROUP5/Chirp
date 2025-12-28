@@ -5,7 +5,7 @@
     &lt;TestId&gt;xUnit::2950003C-88C8-4849-818C-E9DBEFB1A35C::net8.0::Chirp.Tests.UnitTest.IdentityUserTests.CreateUserWithInCorrectPassword&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b1609017_002Dccd3_002D4bc5_002Dab53_002D58c6e5f442d5/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="RegistrationEndpointTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b1609017_002Dccd3_002D4bc5_002Dab53_002D58c6e5f442d5/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="RegistrationEndpointTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::2950003C-88C8-4849-818C-E9DBEFB1A35C::net8.0::RegistrationEndpointTests&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::2950003C-88C8-4849-818C-E9DBEFB1A35C::net8.0::CheepServiceTests.Get_Cheeps_From_Author_Is_Usable&lt;/TestId&gt;&#xD;
@@ -19,5 +19,17 @@
     &lt;TestId&gt;NUnit3x::33A60C89-3A62-4E34-82A0-83F61FACD5A8::net8.0::PlaywrightTests.RegisterPageUI&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::2950003C-88C8-4849-818C-E9DBEFB1A35C::net8.0::Chirp.Tests.UnitTest.IdentityUserTests.CreateUserWithInCorrectPassword&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::2950003C-88C8-4849-818C-E9DBEFB1A35C::net8.0::Chirp.Tests.UnitTest.CheepServiceTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::2950003C-88C8-4849-818C-E9DBEFB1A35C::net8.0::FollowUnitTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f9f50fbb_002D00b7_002D4659_002Daf32_002D6089837b7b17/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="FollowUnitTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Or&gt;&#xD;
+    &lt;TestAncestor&gt;&#xD;
+      &lt;TestId&gt;xUnit::2950003C-88C8-4849-818C-E9DBEFB1A35C::net8.0::FollowUnitTests&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::2950003C-88C8-4849-818C-E9DBEFB1A35C::net8.0::Chirp.Tests.UnitTest.CheepServiceTests&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::2950003C-88C8-4849-818C-E9DBEFB1A35C::net8.0::Cheep_Integration_Test&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::2950003C-88C8-4849-818C-E9DBEFB1A35C::net8.0::FollowIntegrationTests&lt;/TestId&gt;&#xD;
+    &lt;/TestAncestor&gt;&#xD;
+    &lt;ProjectFile&gt;2950003C-88C8-4849-818C-E9DBEFB1A35C/d:UnitTest/f:UserUnitTests.cs&lt;/ProjectFile&gt;&#xD;
+  &lt;/Or&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
