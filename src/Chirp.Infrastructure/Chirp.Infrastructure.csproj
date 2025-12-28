@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\Chirp.Application\Chirp.Application.csproj" />
     <ProjectReference Include="..\Chirp.Domain\Chirp.Domain.csproj" />
   </ItemGroup>
 

@@ -35,8 +35,7 @@ The presentation happens in the Web layer, which handles application startup as 
 The Infrastructure layer acts as an intermediary between User Interface and the core logic. managing data persistance, repositories as well as database migrations among other things.
 
 The Domain layer is compleatly independent, since the dependencies are directed inward. This ensures that the core logic is not affected by things happening in the infrastructure layer. 
-
-![Arhcitecture in The Small](images/inTheSmall.png) 
+![Architecture in the small diagram](images/inTheSmall.png)
 
 ## Architecture of deployed application
 Users send HTTPS requests from their browser (the client) to our application hosted on Azure. Azure runs our ASP.NET Core server, which processes requests using Razor Pages. The server accesses data from a SQLite database via Entity Framework Core and handles user authentication with ASP.NET Core Identity.
@@ -49,11 +48,11 @@ Users send HTTPS requests from their browser (the client) to our application hos
 This illustrates the flow of messages and data sent through our Chirp application. It is ilustrated for a unauthorized user sending a HTTP request to root endpoint, and ending up with a completely rendered web-page returned to the user.
 ![Sequence Diagram for Chirp unauthorized user](images/Sequence_diagram.jpg)
 
-Small comments on the middleware pipeline: 
+Small comments on the middleware pipeline:  
 Requests also go through the middlewares
-UseExceptionHandler()
-UseHsts()
-UseHttpsRedirection()
+UseExceptionHandler(),
+UseHsts(),
+UseHttpsRedirection(),
 When the app is not in development
 
 We have chosen to show the process of going through middlewares as self-messages.
@@ -65,6 +64,10 @@ The middleware pipeline and Server/Kestrel lifeline is added as lifelines to com
 ## Build, test, release, and deployment
 
 ## Team work
+<strong>Kommentar:</strong> Vi sætter screenshot a project board ind, når vi færdige med alt kode.
+
+![Workflow for issue created](images/Issue_Workflow.jpg)
+This is a illustration which briefly shows the flow of an issue being created to the feature being merged into main.
 
 ## How to make _Chirp!_ work locally
 
@@ -89,21 +92,20 @@ dotnet user-secrets set "Authentication:GitHub:ClientId" "Ov23li69eign4jFgBjYv"
 dotnet user-secrets set "Authentication:GitHub:ClientSecret" "5627aad084cd9a29aeb79c5339cc6a8d9db22c6e"
 </pre>
 
-Start the application:
-<pre>dotnet run --project .\src\Chirp.Web\</pre>
-
-or you can run the application from the Chirp.Web folder
+If your still in the Chirp.Web folder, start the application with:
 <pre>
-cd src\Chirp.Web
 dotnet run
 </pre>
+
+or you can start the application from root folder Chirp:
+<pre>dotnet run --project .\src\Chirp.Web\</pre>
 
 Open a browser and go to:
 <pre>http://localhost:7103</pre>
 Now you should be at the public timeline for Chirp!
 
 ## How to run test suite locally
-(Kommentar) Vi skriver lige den her done.
+<strong>Kommentar:</strong> Vi skriver lige den her done, når vi har styr på testene.
 
 # Ethics
 
