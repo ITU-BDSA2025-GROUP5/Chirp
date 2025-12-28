@@ -59,6 +59,32 @@ The middleware pipeline and Server/Kestrel lifeline is added as lifelines to com
 
 ## How to make _Chirp!_ work locally
 
+Install [.NET 8.0 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) (if not already installed)
+
+Clone the repository:
+From a terminal run:
+<pre>
+    git clone https://github.com/ITU-BDSA2025-GROUP5/Chirp.git 
+    cd Chirp
+</pre>
+
+
+
+
+
+Start the application:
+<pre>dotnet run --project .\src\Chirp.Web\</pre>
+
+or you can run the application from the Chirp.Web folder
+<pre>
+    cd src\Chirp.Web
+    dotnet run
+</pre>
+
+Open a browser and go to:
+<pre>http://localhost:7103</pre>
+
+
 ## How to run test suite locally
 
 # Ethics
@@ -89,6 +115,4 @@ LLMs was used for:
 The responses were genuinely helpful in understanding the ASP.NET core, writing html for UI and assisting with workflow.
 LLMs responses regarding errors, can be very helpful to indentify the problem, but you have to be careful when looking at its solutions. In our experience, it’s far more reliable to trace through the code yourself and use the LLM’s error analysis as a hint rather than a prescription. Blindly following its solutions can lead into a spiral of new errors.
 
-Overall we like to beleive that the use of LLMs has helped the development of the project. That said, as mentioned above, we have experienced that you should not blindly follow LLMs solutions, because you can end up in a spiral of new errors and issues. Instead trace through the code yourself, or use pen and paper to make it clear for you, how to solve the error.
-
-
+Overall we like to beleive that the use of LLMs has helped the development of the project. That said, as mentioned above, we have experienced that you should not blindly follow LLMs solutions, because you can end up in a spiral of new errors and issues. Instead we experienced, we benefited more from tracing through the code yourself, or using pen and paper to make it clear for you, how to solve the error.
