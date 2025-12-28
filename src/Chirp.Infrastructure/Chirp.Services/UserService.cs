@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 public class UserService : IUserService
 {
     private readonly IUserRepository _userRepo;
-    private readonly UserManager<User> _userManager;
+    private readonly UserManager<User>? _userManager;
 
     public UserService(IUserRepository users, UserManager<User> userManager)
     {
@@ -20,7 +20,7 @@ public class UserService : IUserService
     }
 
     public Task<User?> FindByIdAsync(string id)
-        => _userManager.FindByIdAsync(id);
+        => _userManager!.FindByIdAsync(id);
 
     public Task<User?> FindByNameAsync(string name)
         => _userRepo.findUserByName(name); // or _userManager.FindByNameAsync(name) if that’s canonical
