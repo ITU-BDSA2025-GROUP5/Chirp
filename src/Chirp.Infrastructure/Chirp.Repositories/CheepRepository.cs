@@ -11,12 +11,12 @@ public class CheepRepository : ICheepRepository
     {
         _dbContext = dbContext;
     }
-
-    public async Task<int> GetCheepCount()
-    {
-        return await _dbContext.Cheeps.AsNoTracking().CountAsync();
-    }
-
+    
+    /// <summary>
+    /// Gets a paginated list of cheeps ordered by most recent first.
+    /// </summary>
+    /// <param name="page">The page number to retrieve.</param>
+    /// <returns>A list of cheeps for the specified page.</returns>
     public async Task<List<CheepDTO>> ReadCheeps(int page)
     {
         const int pageSize = 32;
@@ -40,6 +40,10 @@ public class CheepRepository : ICheepRepository
         return cheeps;
     }
 
+    /// <summary>
+    /// Converts a CheepDTO into a cheep, and adds it to the database. 
+    /// </summary>
+    /// <param name="message">The CheepDTO to add.</param>
     public async Task InsertNewCheepAsync(CheepDTO message)
     {
         var newCheep = new Cheep
@@ -53,7 +57,12 @@ public class CheepRepository : ICheepRepository
         await _dbContext.SaveChangesAsync();
     }
 
-
+    /// <summary>
+    /// Retrieves a paginated list of cheeps written by a specified user, ordered by most recent first.
+    /// </summary>
+    /// <param name="user">The user whose cheeps to retrieve.</param>
+    /// <param name="page">The page number to retrieve.</param>
+    /// <returns>A list of <see cref="CheepDTO"/> objects authored by the specified user.</returns>
     public async Task<List<CheepDTO>> getCheepsFromUser(User user, int page)
     {
         const int pageSize = 32;
@@ -78,10 +87,16 @@ public class CheepRepository : ICheepRepository
         return cheeps;
     }
 
-    public async Task<List<CheepDTO>?> getCheepsFromUserId(string userId,int PageNumber)
+    /// <summary>
+    /// Retrieves a paginated list of cheeps authored by the specified user, ordered by most recent first.
+    /// </summary>
+    /// <param name="userId">The unique identifier of the user whose cheeps to retrieve.</param>
+    /// <param name="page">The page number to retrieve.</param>
+    /// <returns>A list of <see cref="CheepDTO"/> objects authored by the specified userId.</returns>
+    public async Task<List<CheepDTO>?> getCheepsFromUserId(string userId,int page)
     {
         const int pageSize = 32;
-        var skip = Math.Max(0, (PageNumber - 1) * pageSize);
+        var skip = Math.Max(0, (page - 1) * pageSize);
 
         var cheeps = await _dbContext.Cheeps
             .AsNoTracking()
@@ -103,6 +118,11 @@ public class CheepRepository : ICheepRepository
         return cheeps;
     }
 
+    /// <summary>
+    /// Adds a like from the specified user to the cheep with the given ID.
+    /// </summary>
+    /// <param name="currentUser">The user who is liking the cheep.</param>
+    /// <param name="cheepId">The unique identifier of the cheep to like.</param>
     public async Task<string> LikeCheep(User currentUser, int cheepId)
     {
         List<string> Likes = new List<string>();
@@ -129,6 +149,11 @@ public class CheepRepository : ICheepRepository
 
         return "Success";
     }
+    /// <summary>
+    /// Removes a like from a cheep given by the specified user.
+    /// </summary>
+    /// <param name="currentUser">The user who is unlike the cheep.</param>
+    /// <param name="cheepId">The unique identifier of the cheep to unlike.</param>
     public async Task<string> UnLikeCheep(User currentUser, int cheepId)
     {
         var cheep = await _dbContext.Cheeps.FindAsync(cheepId);

@@ -1,10 +1,13 @@
 ---
 title: _Chirp!_ Project Report
-subtitle: ITU BDSA 2025 Group `<5>`
+subtitle: ITU BDSA 2025 Group <5>
 author:
 - "Oscar Dalsgaard Jakobsen <osja@itu.dk>"
 - "Niels Laier Jensen <niej@itu.dk>"
-- "Adrian Hoff <adho@itu.dk>"
+- "Tobias Oliver Nielsen <toon@itu.dk>"
+- "Martin Antonius Jæger <maraj@itu.dk>"
+- "Carl Frederik Thomsen <cfth@itu.dk>"
+
 numbersections: true
 ---
 

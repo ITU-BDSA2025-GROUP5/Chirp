@@ -22,7 +22,7 @@ public interface ICheepService
 
 
     Task<String> UnfollowUser(User user, string followeeID);
-    Task<List<CheepDTO>> GetCheepsFromUserId(string userId,int PageNumber);
+    Task<List<CheepDTO>?> GetCheepsFromUserId(string userId, int PageNumber);
     Task<string> LikeCheep(User currentUser, int cheepId);
     Task<string> UnLikeCheep(User currentUser, int cheepId);
 }

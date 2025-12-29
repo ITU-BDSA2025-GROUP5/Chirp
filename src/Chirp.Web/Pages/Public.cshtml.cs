@@ -9,6 +9,10 @@ using System;
 
 namespace Chirp.Razor.Pages;
 
+/// <summary>
+/// Represents the public timeline page of Chirp, displaying all cheeps and allowing
+/// authenticated users to post new messages, follow/unfollow other users, and like/unlike cheeps.
+/// </summary>
 public class PublicModel : PageModel
 {
     private readonly ICheepService _service;
@@ -24,6 +28,11 @@ public class PublicModel : PageModel
         _service = service;
     }
 
+    /// <summary>
+    /// Handles GET requests to the public timeline page.
+    /// Retrieves the current user's data (if authenticated) and loads paginated cheeps.
+    /// </summary>
+    /// <returns>The <see cref="IActionResult"/> representing the rendered page.</returns>
     public async Task<IActionResult> OnGetAsync()
     {
         PageNumber = Math.Max(1, PageNumber);
@@ -46,6 +55,11 @@ public class PublicModel : PageModel
         return Page();
     }
 
+    /// <summary>
+    /// Handles POST requests for creating a new cheep.
+    /// </summary>
+    /// <param name="Input">The text content of the new cheep.</param>
+    /// <returns>A redirect to the public timeline after successfully posting.</returns>
     public async Task<IActionResult> OnPostNewMessageAsync(String Input)
     {
         if (User.Identity?.IsAuthenticated == false || User.Identity?.Name == null)
@@ -67,6 +81,11 @@ public class PublicModel : PageModel
         return RedirectToPage("Public");
     }
 
+    /// <summary>
+    /// Handles POST requests for following another user.
+    /// </summary>
+    /// <param name="followeeId">The ID of the user to follow.</param>
+    /// <returns>A redirect to the public timeline after updating the follow list.</returns>
     public async Task<IActionResult> OnPostFollowAsync(string followeeId)
     {
         Console.WriteLine("This activates");
@@ -84,6 +103,11 @@ public class PublicModel : PageModel
 
     }
 
+    /// <summary>
+    /// Handles POST requests for unfollowing a user.
+    /// </summary>
+    /// <param name="unfolloweeId">The ID of the user to unfollow.</param>
+    /// <returns>A redirect to the public timeline after the unfollow action.</returns>
     public async Task<IActionResult> OnPostUnfollowAsync(string unfolloweeId)
     {
         Console.WriteLine("UnFollow activates");
@@ -108,6 +132,11 @@ public class PublicModel : PageModel
         return RedirectToPage("./Public");
     }
 
+    /// <summary>
+    /// Handles POST requests for unliking a cheep.
+    /// </summary>
+    /// <param name="cheepId">The ID of the cheep to unlike.</param>
+    /// <returns>A redirect to the public timeline after the unlike action.</returns>
     public async Task<IActionResult> OnPostUnLikeAsync(int cheepId)
     {
         Console.WriteLine("UnLike activates");
@@ -131,6 +160,11 @@ public class PublicModel : PageModel
         return RedirectToPage("./Public");
     }
     
+    /// <summary>
+    /// Handles POST requests for liking a cheep.
+    /// </summary>
+    /// <param name="cheepId">The ID of the cheep to like.</param>
+    /// <returns>A redirect to the public timeline after the like action.</returns>
     public async Task<IActionResult> OnPostLikeAsync(int cheepId)
     {
         Console.WriteLine("Like activates");

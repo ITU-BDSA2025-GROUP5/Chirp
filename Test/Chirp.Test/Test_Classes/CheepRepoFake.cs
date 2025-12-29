@@ -5,12 +5,7 @@ public class CheepRepositoryFake : ICheepRepository
 {
     // to isolate the CheepRepository 
     private readonly List<CheepDTO> _cheeps = new();
-
-    public Task<int> GetCheepCount()
-    {
-        return Task.FromResult(_cheeps.Count);
-    }
-
+    
     public Task<List<CheepDTO>> ReadCheeps(int page)
     {
         return Task.FromResult(_cheeps.ToList());
