@@ -78,13 +78,18 @@ public class CheepRepository : ICheepRepository
         return cheeps;
     }
 
-    public async Task<List<CheepDTO>?> getCheepsFromUserId(string userId)
+    public async Task<List<CheepDTO>?> getCheepsFromUserId(string userId,int PageNumber)
     {
+        const int pageSize = 32;
+        var skip = Math.Max(0, (PageNumber - 1) * pageSize);
+
         var cheeps = await _dbContext.Cheeps
-            .AsNoTracking() // Ensures the entities are not tracked by EF Core
-            .OrderByDescending(c => c.TimeStamp) // Orders cheeps by timestamp (most recent first)
-            .Include(c => c.User) // Eagerly loads the User navigation property
-            .Where(c => c.UserId == userId) // Filters cheeps by UserId
+            .AsNoTracking()
+            .OrderByDescending(c => c.TimeStamp)
+            .Include(c => c.User)
+            .Skip(skip)
+            .Take(pageSize)
+            .Where(c => c.UserId == userId)
             .Select(c => new CheepDTO
             {
                 CheepId = c.CheepId,
@@ -93,7 +98,7 @@ public class CheepRepository : ICheepRepository
                 Likes = c.Likes,
                 TimeStamp = c.TimeStamp
             })
-            .ToListAsync(); // Executes the query and returns the result as a list
+            .ToListAsync(); 
 
         return cheeps;
     }

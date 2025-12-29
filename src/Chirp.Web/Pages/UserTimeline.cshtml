@@ -1,4 +1,4 @@
-﻿@page "/{author}"
+﻿@page "/{author}/{pagenumber:int?}"
 @model Chirp.Razor.Pages.UserTimelineModel
 @{
     ViewData["Title"] = "Chirp!";
@@ -112,4 +112,8 @@
             <p>You are not following anyone yet.</p>
         }
     }
+    <div class="pager">
+        <a class="btn" href="/@Model.AuthorName/@(Model.PageNumber - 1)">← Previous</a>
+        <a class="btn" href="/@Model.AuthorName/@(Model.PageNumber + 1)">Next →</a>
+    </div>
 </div>

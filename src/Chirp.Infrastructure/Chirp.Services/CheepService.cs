@@ -56,9 +56,9 @@ public class CheepService(ICheepRepository cheepRepo, IUserService userService) 
         throw new NotImplementedException();
     }
 
-    public async Task<List<CheepDTO>> GetCheepsFromUserId(string userId)
+    public async Task<List<CheepDTO>> GetCheepsFromUserId(string userId,int PageNumber)
     {
-        return await cheepRepo.getCheepsFromUserId(userId) ?? new List<CheepDTO>();
+        return await cheepRepo.getCheepsFromUserId(userId,PageNumber) ?? new List<CheepDTO>();
     }
 
     public async Task<string> LikeCheep(User currentUser, int cheepId)

@@ -13,7 +13,7 @@ public interface ICheepRepository
 
     Task<List<CheepDTO>> getCheepsFromUser(User user, int page);
 
-    Task<List<CheepDTO>?> getCheepsFromUserId(string userId);
+    Task<List<CheepDTO>?> getCheepsFromUserId(string userId,int PageNumber);
 
     Task<string> LikeCheep(User currentUser, int cheepId);
     

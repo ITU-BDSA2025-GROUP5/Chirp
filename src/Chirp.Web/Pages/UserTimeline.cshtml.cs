@@ -17,6 +17,8 @@ public class UserTimelineModel : PageModel
     [BindProperty(SupportsGet = true, Name = "pagenumber")]
     public int PageNumber { get; set; } = 1;
 
+    public string? AuthorName { get; set; }
+
     public User? CurrentUser { get; set; }
 
     public List<string> followedUsers { get; set; } = new();
@@ -29,6 +31,7 @@ public class UserTimelineModel : PageModel
     public async Task<IActionResult> OnGet(string author)
 {
     UserName = User.Identity?.Name;
+    AuthorName = author;
     PageNumber = Math.Max(1, PageNumber);
         Console.WriteLine("Looking for a corresponding user for: " + author);
     var timelineUser = await _service.findUserByName(author);
@@ -52,7 +55,7 @@ public class UserTimelineModel : PageModel
             {
                 foreach (var userId in followedUsers)
                 {
-                    var tempCheeps = await _service.GetCheepsFromUserId(userId);
+                    var tempCheeps = await _service.GetCheepsFromUserId(userId,PageNumber);
                     CheepsFromFollowings.AddRange(tempCheeps);
                 }
             }

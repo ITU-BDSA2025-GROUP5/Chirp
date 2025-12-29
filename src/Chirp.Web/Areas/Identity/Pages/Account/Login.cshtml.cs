@@ -122,6 +122,13 @@ namespace Chirp.Razor.web.Areas.Identity.Pages.Account
                 {
                     return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
                 }
+                if (result.IsNotAllowed)
+                {
+                    return RedirectToPage(
+                        "/Account/RegisterConfirmation",
+                        new { email = Input.Email, returnUrl = returnUrl }
+                    );
+                }
                 if (result.IsLockedOut)
                 {
                     _logger.LogWarning("User account locked out.");
