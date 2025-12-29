@@ -17,11 +17,11 @@ public class PlaywrightTestBase : PageTest
         var client = _factory.CreateClient(); // starts everything
 
         BaseUrl = _factory.ClientOptions.BaseAddress.ToString();
-        TestContext.WriteLine($"BaseUrl: {BaseUrl}");
+        //TestContext.WriteLine($"BaseUrl: {BaseUrl}");
 
         // Quick check that the app responds
         var response = await client.GetAsync("/");
-        TestContext.WriteLine($"GET / => {(int)response.StatusCode}");
+        //TestContext.WriteLine($"GET / => {(int)response.StatusCode}");
         response.EnsureSuccessStatusCode();
 
         Page.SetDefaultTimeout(60000);
