@@ -6,7 +6,7 @@ using Microsoft.Playwright.NUnit;
 namespace PlaywrightTests;
 
 
-[Parallelizable(ParallelScope.Self)]
+[Parallelizable(ParallelScope.None)]
 [TestFixture]
 public class LoginPageUI : PlaywrightTestBase
 {
