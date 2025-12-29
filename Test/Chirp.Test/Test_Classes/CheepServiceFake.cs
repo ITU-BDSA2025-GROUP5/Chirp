@@ -3,82 +3,79 @@ using Chirp.Infrastructure;
 
 namespace Chirp.Tests.Mock_Stub_Classes;
 
-public class CheepServiceFake() : ICheepService
+public class CheepServiceFake : ICheepService
 {
-    public Dictionary<string, User> Users = new();
-    public Dictionary<string, List<string>> Followings = new();
-    
+    private readonly ICheepRepository _cheepRepository;
+    private readonly IUserService _userService;
+
+    public CheepServiceFake(ICheepRepository cheepRepository, IUserService userService)
+    {
+        _cheepRepository = cheepRepository;
+        _userService = userService;
+    }
 
     public Task<List<CheepDTO>> GetCheepsAsync(int page)
-        => Task.FromResult(new List<CheepDTO>());
-
-    public Task<List<CheepDTO>> GetCheepsFromUserId(string userId,int PageNumber)
-        => Task.FromResult(new List<CheepDTO>());
-
-    public Task<string> LikeCheep(User currentUser, int cheepId)
     {
-        throw new NotImplementedException();
+        return _cheepRepository.ReadCheeps(page);
     }
 
-    public Task<string> UnLikeCheep(User currentUser, int cheepId)
+    public async Task InsertCheepAsync(CheepDTO cheep)
     {
-        throw new NotImplementedException();
+        await _cheepRepository.InsertNewCheepAsync(cheep);
     }
-
-    public Task InsertCheepAsync(CheepDTO cheep)
-        => Task.CompletedTask;
 
     public Task<User?> findUserByEmail(string email)
     {
-        var user = Users.Values.FirstOrDefault(u => u.Email == email);
-        return Task.FromResult(user);
+        return _userService.FindByEmailAsync(email);
     }
 
     public Task<User?> findUserByName(string name)
     {
-        throw new NotImplementedException();
+        return _userService.FindByNameAsync(name);
     }
 
     public Task<List<CheepDTO>> getCheepsFromUser(User user, int page)
-        => Task.FromResult(new List<CheepDTO>());
-
-    public Task<User?> FindTimelineByUserNameAsync(string userName)
     {
-        throw new NotImplementedException();
+        return _cheepRepository.getCheepsFromUser(user, page);
+    }
+
+    public async Task<User?> FindTimelineByUserNameAsync(string userName)
+    {
+        return await _userService.FindByNameAsync(userName);
     }
 
     public Task<List<User>> getFollowers(User user)
     {
-        var followers = Users.Values
-            .Where(u => Followings.ContainsKey(u.Id) &&
-                        Followings[u.Id].Contains(user.Id))
-            .ToList();
-
-        return Task.FromResult(followers);
+        return _userService.GetFollowersAsync(user);
     }
 
     public Task<List<string>> getFollowings(User user)
     {
-        if (Followings.TryGetValue(user.Id, out var follows))
-            return Task.FromResult(follows);
-
-        return Task.FromResult(new List<string>());
+        return _userService.GetFollowingsAsync(user);
     }
 
-    public Task<string> followUser(User user, string followeeId)
+    public Task<string> followUser(User user, string followeeID)
     {
-        if (!Followings.ContainsKey(user.Id))
-            Followings[user.Id] = new List<string>();
-
-        Followings[user.Id].Add(followeeId);
-        return Task.FromResult("ok");
+        return _userService.FollowAsync(user, followeeID);
     }
 
-    public Task<string> UnfollowUser(User user, string followeeId)
+    public Task<string> UnfollowUser(User user, string followeeID)
     {
-        if (Followings.TryGetValue(user.Id, out var follows))
-            follows.Remove(followeeId);
+        return _userService.UnfollowAsync(user, followeeID);
+    }
 
-        return Task.FromResult("ok");
+    public Task<List<CheepDTO>> GetCheepsFromUserId(string userId, int PageNumber)
+    {
+        return _cheepRepository.getCheepsFromUserId(userId, PageNumber);
+    }
+
+    public Task<string> LikeCheep(User currentUser, int cheepId)
+    {
+        return _cheepRepository.LikeCheep(currentUser, cheepId);
+    }
+
+    public Task<string> UnLikeCheep(User currentUser, int cheepId)
+    {
+        return _cheepRepository.UnLikeCheep(currentUser, cheepId);
     }
 }

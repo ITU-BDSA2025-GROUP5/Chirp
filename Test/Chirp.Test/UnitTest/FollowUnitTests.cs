@@ -21,10 +21,18 @@ public class FollowUnitTests
     private readonly ICheepService _service;
 
     public List<string> followedUsers { get; set; } = new();
-
+    private readonly CheepService _Cheepservice;
+    private readonly CheepRepositoryFake _CheepRepoFake;
+    private readonly UserRepositoryFake _userRepoFake;
+    private readonly UserServiceFake _userServiceFake;
+    
     public FollowUnitTests()
-    {
-    _service = new CheepServiceFake();
+    
+    { 
+        _userRepoFake = new UserRepositoryFake();
+        _CheepRepoFake = new CheepRepositoryFake();
+        _userServiceFake = new UserServiceFake(_userRepoFake); 
+    _service = new CheepService(_CheepRepoFake,_userServiceFake);
     }
 
 
