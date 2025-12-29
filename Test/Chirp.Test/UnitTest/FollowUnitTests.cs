@@ -22,7 +22,7 @@ public class FollowUnitTests
         _userRepoFake = new UserRepositoryFake();
         _CheepRepoFake = new CheepRepositoryFake();
         _userServiceFake = new UserServiceFake(_userRepoFake); 
-    _service = new CheepService(_CheepRepoFake,_userServiceFake);
+        _service = new CheepService(_CheepRepoFake,_userServiceFake);
     }
 
 

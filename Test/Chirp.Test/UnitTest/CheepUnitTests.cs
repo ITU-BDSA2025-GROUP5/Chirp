@@ -9,14 +9,17 @@ namespace Chirp.Tests.UnitTest;
 [Collection("sqlite-db")]
 public class CheepServiceTests
 {
-    //fakes for isolated testing
-   // private readonly CheepServiceFake _CheepserviceFake;
+ 
 
     //real for testing
     
     
     //private readonly CheepService _service;
    // private readonly CheepRepository _cheepRepo;
+    
+    // fake for service methods
+    private readonly CheepServiceFake _cheepserviceFake;
+
    // private readonly UserRepositoryFake _userRepo;
    //private readonly SqliteInMemoryDbFixture _fixture;
    private readonly CheepRepository _realCheepRepo;
@@ -27,11 +30,11 @@ public class CheepServiceTests
         _context = fixture.CreateContext(); 
         _realCheepRepo = new CheepRepository(_context);
 
-        // 
-       // var userRepoFake = new UserRepositoryFake();
-       // var cheepRepoFake = new CheepRepositoryFake();
-       // var userServiceFake = new UserServiceFake(userRepoFake); 
-       // var CheepserviceFake = new CheepServiceFake(cheepRepoFake, userServiceFake);
+        // ... existing fake setup code remains
+        var userRepoFake = new UserRepositoryFake();
+        var cheepRepoFake = new CheepRepositoryFake();
+        var userServiceFake = new UserServiceFake(userRepoFake); 
+        _cheepserviceFake = new CheepServiceFake(cheepRepoFake, userServiceFake);
     }
 
     [Fact]
@@ -91,7 +94,7 @@ public class CheepServiceTests
     }
     
     
-    // idk why aspnetusers is empty. in memory database setup broken?
+    // idk why it fails rn
     [Fact(Skip = "Missing AspNetUsers table. Fix database setup.")]
     public async Task GetCheepsFromUserId_ReturnsEmptyListWhenUserHasNoCheepssimple()
     {
@@ -216,6 +219,44 @@ public class CheepServiceTests
         Assert.Equal(user.Id, result[0].User.Id);
         Assert.Equal(user.UserName, result[0].User.UserName);
         Assert.Equal(user.Email, result[0].User.Email);
+    }
+    
+    [Fact]
+    public async Task LikeAPostTest()
+    {
+       
+        var testUser = HelperClasses.createRandomUser();
+        var cheep = HelperClasses.createRandomCheepDTO(testUser);
+ 
+        await _cheepserviceFake.InsertCheepAsync(cheep);
+ 
+       
+        var cheeps = await _cheepserviceFake.getCheepsFromUser(testUser, 0);
+        var cheepId = cheeps[0].CheepId;
+ 
+        var result = await _cheepserviceFake.LikeCheep(testUser, cheepId);
+        Assert.Equal("Success", result);
+     
+    }
+    
+    [Fact]
+    public async Task UnLikeAPostTest()
+    {
+       
+        var testUser = HelperClasses.createRandomUser();
+        var cheep = HelperClasses.createRandomCheepDTO(testUser);
+ 
+        await _cheepserviceFake.InsertCheepAsync(cheep);
+ 
+       
+        var cheeps = await _cheepserviceFake.getCheepsFromUser(testUser, 0);
+        var cheepId = cheeps[0].CheepId;
+ 
+        var result = await _cheepserviceFake.LikeCheep(testUser, cheepId);
+        Assert.Equal("Success", result);
+     
+        var result2 = await _cheepserviceFake.UnLikeCheep(testUser, cheepId);
+        Assert.Equal("Success", result2);
     }
     
 }
