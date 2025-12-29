@@ -9,7 +9,7 @@ public interface ICheepService
     Task<User?> findUserByEmail(string email);
     Task<User?> findUserByName(string name);
 
-    Task<List<CheepDTO>> getCheepsFromUser(User user, int page);
+    Task<List<CheepDTO?>> getCheepsFromUser(User user, int page);
 
     Task<User?> FindTimelineByUserNameAsync(string userName);
 
@@ -22,7 +22,7 @@ public interface ICheepService
 
 
     Task<String> UnfollowUser(User user, string followeeID);
-    Task<List<CheepDTO>> GetCheepsFromUserId(string userId,int PageNumber);
+    Task<List<CheepDTO>?> GetCheepsFromUserId(string userId, int PageNumber);
     Task<string> LikeCheep(User currentUser, int cheepId);
     Task<string> UnLikeCheep(User currentUser, int cheepId);
 }

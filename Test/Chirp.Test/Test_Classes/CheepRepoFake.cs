@@ -28,7 +28,7 @@ public class CheepRepositoryFake : ICheepRepository
         return Task.FromResult(cheeps);
     }
 
-    public Task<List<CheepDTO>?> getCheepsFromUserId(string userId,int PageNumber)
+    public Task<List<CheepDTO>> getCheepsFromUserId(string userId, int PageNumber)
     {
         var cheeps = _cheeps.Where(c => c.User.Id == userId).ToList();
         return Task.FromResult<List<CheepDTO>?>(cheeps);

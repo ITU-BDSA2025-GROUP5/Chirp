@@ -78,7 +78,7 @@ public class CheepRepository : ICheepRepository
         return cheeps;
     }
 
-    public async Task<List<CheepDTO>?> getCheepsFromUserId(string userId,int PageNumber)
+    public async Task<List<CheepDTO>> getCheepsFromUserId(string userId, int PageNumber)
     {
         const int pageSize = 32;
         var skip = Math.Max(0, (PageNumber - 1) * pageSize);
