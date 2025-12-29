@@ -67,7 +67,7 @@ public class CheepServiceTests
         var user = HelperClasses.createRandomUser();
         var cheep = HelperClasses.createRandomCheepDTO(user);
         await _cheepRepoFake.InsertNewCheepAsync(cheep);
-        var cheeps = await _serviceFake.GetCheepsFromUserId(user.Id);
+        var cheeps = await _serviceFake.GetCheepsFromUserId(user.Id,0);
         
         Assert.NotNull(cheeps);
         Assert.NotEmpty(cheeps);

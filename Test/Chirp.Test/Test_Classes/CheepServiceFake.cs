@@ -12,7 +12,7 @@ public class CheepServiceFake() : ICheepService
     public Task<List<CheepDTO>> GetCheepsAsync(int page)
         => Task.FromResult(new List<CheepDTO>());
 
-    public Task<List<CheepDTO>> GetCheepsFromUserId(string userId)
+    public Task<List<CheepDTO>> GetCheepsFromUserId(string userId,int PageNumber)
         => Task.FromResult(new List<CheepDTO>());
 
     public Task<string> LikeCheep(User currentUser, int cheepId)
