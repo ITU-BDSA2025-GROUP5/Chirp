@@ -25,5 +25,6 @@
     &lt;TestId&gt;NUnit3x::62EE459B-FEF4-0BE8-0E30-158CFDB19555::net8.0::PlaywrightTests.RegisterPageUI.RegisterHasGithubButtonAndItsClickable&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::62EE459B-FEF4-0BE8-0E30-158CFDB19555::net8.0::PlaywrightTests.RegisterPageUI.RegisterPageLoadsAndHasCorrectTitleShows&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::62EE459B-FEF4-0BE8-0E30-158CFDB19555::net8.0::PlaywrightTests.End2EndUserJourney.TestEnd2EndUserJourney&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::62EE459B-FEF4-0BE8-0E30-158CFDB19555::net8.0::PlaywrightTests.End2EndUserJourney.UserCanGoToRegisterPageAndRegister&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

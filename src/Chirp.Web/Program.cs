@@ -61,7 +61,7 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<CheepDbContext>();
     db.Database.Migrate();
     DbInitializer.SeedDatabase(db);
-    Console.WriteLine("I tried");        
+    //Console.WriteLine("I tried");        
 }
 
 

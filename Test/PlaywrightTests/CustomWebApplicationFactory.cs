@@ -42,7 +42,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 
             services.AddSingleton<DbConnection>(_ =>
             {
-                var connection = new SqliteConnection("DataSource=:memory:");
+                var connection = new SqliteConnection("Data Source=file:chirp-tests?mode=memory&cache=shared");
                 connection.Open();
                 return connection;
             });
@@ -69,8 +69,16 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         });
 
         // 4. Start the Kestrel host
-        _kestrelHost = builder.Build();
-        _kestrelHost.Start();
+        try
+        {
+            _kestrelHost = builder.Build();
+            _kestrelHost.Start();
+        }
+        catch (Exception ex)
+        {
+            TestContext.WriteLine(ex.ToString());
+            throw;
+        }
 
         // 5. Tell WebApplicationFactory clients to use this URL
         ClientOptions.BaseAddress = new Uri(kestrelUrl);
@@ -79,7 +87,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         using (var scope = _kestrelHost.Services.CreateScope())
         {
             var context = scope.ServiceProvider.GetRequiredService<CheepDbContext>();
-            context.Database.Migrate();
+            context.Database.EnsureCreated();
         }
 
         // 7. Return the TestServer host (keeps WebApplicationFactory happy)
