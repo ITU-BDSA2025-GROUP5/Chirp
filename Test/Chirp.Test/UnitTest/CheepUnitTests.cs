@@ -11,13 +11,13 @@ namespace Chirp.Tests.UnitTest;
 public class CheepServiceTests
 {
     //fakes for isolated testing
-   // private readonly CheepServiceFake _CheepserviceFake;
+   private readonly CheepServiceFake _CheepserviceFake;
 
     //real for testing
     
     
-    //private readonly CheepService _service;
-   // private readonly CheepRepository _cheepRepo;
+    private readonly CheepService _service;
+    private readonly CheepRepository _cheepRepo;
    // private readonly UserRepositoryFake _userRepo;
    private readonly SqliteInMemoryDbFixture _fixture;
    private readonly CheepRepository _realCheepRepo;
@@ -32,7 +32,7 @@ public class CheepServiceTests
         var userRepoFake = new UserRepositoryFake();
         var cheepRepoFake = new CheepRepositoryFake();
         var userServiceFake = new UserServiceFake(userRepoFake); 
-       // var CheepserviceFake = new CheepServiceFake(cheepRepoFake, userServiceFake);
+        var CheepserviceFake = new CheepServiceFake(cheepRepoFake, userServiceFake);
     }
 
     [Fact]
