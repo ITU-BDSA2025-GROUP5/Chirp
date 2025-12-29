@@ -13,7 +13,7 @@ public class CheepServiceTests
     private readonly CheepServiceFake _CheepserviceFake;
     private readonly CheepRepositoryFake _CheepRepoFake;
     private readonly UserRepositoryFake _userRepoFake;
-    private readonly UserServiceFake _userServiceFake; // Added UserServiceFake
+    private readonly UserServiceFake _userServiceFake;
 
     //real for testing
     
