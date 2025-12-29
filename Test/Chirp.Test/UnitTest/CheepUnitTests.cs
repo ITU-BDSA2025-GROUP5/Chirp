@@ -1,3 +1,4 @@
+using System.Reflection;
 using Chirp.Domain;
 using Chirp.Infrastructure;
 using Chirp.Tests.Infrastructure;
@@ -81,4 +82,23 @@ public class CheepServiceTests
         Assert.NotEmpty(cheeps);
         Assert.Equal(cheep.Text, cheeps[0].Text);
     }
+
+    [Fact]
+    public async Task likeAPost()
+    {
+        
+        var testUser = HelperClasses.createRandomUser();
+        var cheep = HelperClasses.createRandomCheepDTO(testUser);
+
+        await _CheepserviceFake.InsertCheepAsync(cheep);
+
+        var cheeps = await _CheepserviceFake.getCheepsFromUser(testUser, 0);
+        var cheepId = cheeps[0].CheepId;
+
+        var result = await _CheepserviceFake.LikeCheep(testUser, cheepId);
+        Assert.Equal(result, "Success");
+      
+    }
+
+    
 }

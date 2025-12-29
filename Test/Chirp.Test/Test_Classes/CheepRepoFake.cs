@@ -35,12 +35,28 @@ public class CheepRepositoryFake : ICheepRepository
     }
 
     public Task<string> LikeCheep(User currentUser, int cheepId)
-    {
-        throw new NotImplementedException();
-    }
+{
+    var cheep = _cheeps.FirstOrDefault(c => c.CheepId == cheepId);
+    if (cheep == null)
+        return Task.FromResult("Cheep not found");
 
-    public Task<string> UnLikeCheep(User currentUser, int cheepId)
-    {
-        throw new NotImplementedException();
-    }
+    cheep.Likes ??= new List<string>();
+
+    if (!cheep.Likes.Contains(currentUser.Id))
+        cheep.Likes.Add(currentUser.Id);
+
+    return Task.FromResult("Success");
+}
+
+public Task<string> UnLikeCheep(User currentUser, int cheepId)
+{
+    var cheep = _cheeps.FirstOrDefault(c => c.CheepId == cheepId);
+    if (cheep == null)
+        return Task.FromResult("Cheep not found");
+
+    if (cheep.Likes != null)
+        cheep.Likes.Remove(currentUser.Id);
+
+    return Task.FromResult("Success");
+}
 }
