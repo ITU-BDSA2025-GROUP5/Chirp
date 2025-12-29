@@ -31,13 +31,13 @@ Below is a diagram visualising the relations between our different entities.
 
 
 ## Architecture — In the small
-Our project follows the principles in Onion Architechture, where the presentation, the infrastructure and the domain are sepereated into layers. This minimalizes coupling and supports maintainability as well as testability. 
+Our project follows the principles in Onion Architecture, where the presentation, the infrastructure and the domain are separated into layers. This minimalizes coupling and supports maintainability as well as testability. 
 
 The presentation happens in the Web layer, which handles application startup as well as user interaction.
 
-The Infrastructure layer acts as an intermediary between User Interface and the core logic. managing data persistance, repositories as well as database migrations among other things.
+The Infrastructure layer acts as an intermediary between User Interface and the core logic. managing data persistence, repositories as well as database migrations among other things.
 
-The Domain layer is compleatly independent, since the dependencies are directed inward. This ensures that the core logic is not affected by things happening in the infrastructure layer. 
+The Domain layer is completely independent, since the dependencies are directed inward. This ensures that the core logic is not affected by things happening in the infrastructure layer. 
 ![Architecture in the small diagram](images/inTheSmall.png)
 
 ## Architecture of deployed application
@@ -141,11 +141,12 @@ The LLMs that was used was:
 
 LLMs was used for:
 - Explain and understand ASP.NET core concepts besides the Microsoft documentation.
-- Some error messages was fed to LLMs to help indentify errors.
+- Some error messages was fed to LLMs to help identify errors.
 - Write html for the UI.
 - Assisting in writing of workflows
+- Assisting in phrasing of documentation
 
 The responses were genuinely helpful in understanding the ASP.NET core, writing html for UI and assisting with workflow.
-LLMs responses regarding errors, can be very helpful to indentify the problem, but you have to be careful when looking at its solutions. In our experience, it’s far more reliable to trace through the code yourself and use the LLM’s error analysis as a hint rather than a prescription. Blindly following its solutions can lead into a spiral of new errors.
+LLMs responses regarding errors, can be very helpful to identify the problem, but you have to be careful when looking at its solutions. In our experience, it’s far more reliable to trace through the code yourself and use the LLM’s error analysis as a hint rather than a prescription. Blindly following its solutions can lead into a spiral of new errors.
 
-Overall we like to beleive that the use of LLMs has helped the development of the project. That said, as mentioned above, we have experienced that you should not blindly follow LLMs solutions, because you can end up in a spiral of new errors and issues. Instead we experienced, we benefited more from tracing through the code yourself, or using pen and paper to make it clear for you, how to solve the error.
+Overall we like to believe that the use of LLMs has helped the development of the project. That said, as mentioned above, we have experienced that you should not blindly follow LLMs solutions, because you can end up in a spiral of new errors and issues. Instead, we experienced, that we benefited more from tracing through the code yourself, or using pen and paper to make it clear for you, how to solve the error.
