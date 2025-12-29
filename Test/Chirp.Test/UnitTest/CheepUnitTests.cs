@@ -94,7 +94,7 @@ public class CheepServiceTests
     }
     
     
-    // idk why it fails rn
+    // inmemory database setup wrong no user tables,
     [Fact(Skip = "Missing AspNetUsers table. Fix database setup.")]
     public async Task GetCheepsFromUserId_ReturnsEmptyListWhenUserHasNoCheepssimple()
     {
