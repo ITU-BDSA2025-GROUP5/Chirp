@@ -14,14 +14,29 @@ public class Cheep_Integration_Test
     private readonly UserRepository _userRepository;
     private readonly CheepService _CheepService;
     private readonly UserService _UserService;
+    private readonly SqliteInMemoryDbFixture _fixture;
 
     public Cheep_Integration_Test(SqliteInMemoryDbFixture fixture)
     {
+        _fixture = fixture;
         _context = fixture.CreateContext();
         _cheepRepository = new CheepRepository(_context);
         _userRepository = new UserRepository(_context);
         _UserService = new UserService(_userRepository);
         _CheepService = new CheepService(_cheepRepository, _UserService);
+    }
+    
+    [Fact]
+    public async Task SeedDatabaseTest()
+    {
+        _fixture.ResetDatabase();
+        
+        Assert.Empty(_context.Cheeps);
+        
+        DbInitializer.SeedDatabase(_context);
+        
+        Assert.NotEmpty(_context.Cheeps);
+        Assert.True(_context.Users.Any(u => u.UserName == "Jacqualine Gilcoine"));
     }
     
     [Fact]
@@ -41,8 +56,6 @@ public class Cheep_Integration_Test
         Assert.NotEmpty(Cheeps);
         Assert.Equal(cheep.Text, Cheeps[0].Text);
     }
-    
-    
     
     
   [Fact]
