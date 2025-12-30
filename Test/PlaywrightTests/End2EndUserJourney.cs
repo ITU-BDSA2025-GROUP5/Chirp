@@ -7,6 +7,10 @@ namespace PlaywrightTests;
 [TestFixture]
 public class End2EndUserJourney : PlaywrightTestBase
 {
+    /// <summary>
+    /// This is testing that you can go from homepage to the register page
+    /// and register a new account and click confirm your account
+    /// </summary>
     [Test, Order(1)]
     public async Task UserCanGoToRegisterPageAndRegister()
     {
@@ -24,6 +28,12 @@ public class End2EndUserJourney : PlaywrightTestBase
         await Page.GetByRole(AriaRole.Link, new() { Name = "Click here to confirm your account" }).ClickAsync();
     }
 
+    /// <summary>
+    /// This tests that the registered user from test 1 can login
+    /// write and post a cheep
+    /// It is shown on "my timeline"
+    /// </summary>
+    
     [Test, Order(2)]
     public async Task UserCanNowGoAndLogin_PostACheep_SeeItOnOwnTimeline()
     {

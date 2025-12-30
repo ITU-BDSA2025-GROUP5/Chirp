@@ -10,6 +10,10 @@ using Microsoft.Extensions.Logging;
 
 namespace Chirp.PlaywrightTests;
 
+/// <summary>
+/// This class is used to host a connection to run the playwright tests in browser without having to run the program
+/// </summary>
+
 public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 {
     private IHost? _kestrelHost;

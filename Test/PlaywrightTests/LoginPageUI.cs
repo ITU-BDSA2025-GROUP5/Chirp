@@ -11,6 +11,9 @@ namespace PlaywrightTests;
 public class LoginPageUI : PlaywrightTestBase
 {
     
+    /// <summary>
+    /// Setup before each test, to test the login ui page
+    /// </summary>
     [SetUp]
     public async Task GoToLoginPage()
     {
@@ -21,6 +24,9 @@ public class LoginPageUI : PlaywrightTestBase
     
     // all following test will be for when users are not logged in
     
+    /// <summary>
+    /// The login page has the right title showing on the browsers tab
+    /// </summary>
     [Test]
     public async Task LoginPageLoadsAndHasCorrectTitle()
     {
@@ -28,6 +34,9 @@ public class LoginPageUI : PlaywrightTestBase
         await Expect(Page).ToHaveTitleAsync(new Regex("Log in"));
     }
 
+    /// <summary>
+    /// Login page ui text is showing
+    /// </summary>
     [Test]
     public async Task LoginPageLoadsAndHasCorrectContent()
     {
@@ -35,6 +44,9 @@ public class LoginPageUI : PlaywrightTestBase
         await Expect(Page.GetByText("Use another service to log in.")).ToBeVisibleAsync();
     }
 
+    /// <summary>
+    /// Login page has ui for login button
+    /// </summary>
     [Test]
     public async Task LoginPageHasLoginButton()
     {
@@ -42,12 +54,18 @@ public class LoginPageUI : PlaywrightTestBase
     
     }
     
+    /// <summary>
+    /// Login page has ui for github login button
+    /// </summary>
     [Test]
     public async Task LoginPageHasGithubLoginButton()
     {
         await Expect(Page.GetByRole(AriaRole.Button, new() { Name = "GitHub" })).ToBeVisibleAsync();
     }
 
+    /// <summary>
+    /// Login page input field ui is showing
+    /// </summary>
     [Test]
     public async Task LoginPageHasInputFields()
     {
@@ -56,6 +74,9 @@ public class LoginPageUI : PlaywrightTestBase
         await Expect(Page.GetByLabel("Password")).ToBeVisibleAsync();
     }
     
+    /// <summary>
+    /// Login page checkbox ui showing
+    /// </summary>
     [Test]
     public async Task LoginPageHasRememberMeCheckbox()
     {
@@ -63,6 +84,11 @@ public class LoginPageUI : PlaywrightTestBase
         await Expect(Page.GetByRole(AriaRole.Checkbox, new() { Name = "Remember me?" })).ToBeVisibleAsync();
     }
     
+    /// <summary>
+    /// Login page has links to forget password
+    /// resend email confirmation
+    /// register as new user
+    /// </summary>
     [Test]
     public async Task LoginPageHasLinks()
     {
