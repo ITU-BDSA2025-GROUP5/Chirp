@@ -21,6 +21,7 @@
     &lt;TestId&gt;xUnit::2950003C-88C8-4849-818C-E9DBEFB1A35C::net8.0::Chirp.Tests.UnitTest.IdentityUserTests.CreateUserWithInCorrectPassword&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::2950003C-88C8-4849-818C-E9DBEFB1A35C::net8.0::Chirp.Tests.UnitTest.CheepServiceTests&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::2950003C-88C8-4849-818C-E9DBEFB1A35C::net8.0::FollowUnitTests&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::2950003C-88C8-4849-818C-E9DBEFB1A35C::net8.0::FollowIntegrationTests.FollowAUser&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f9f50fbb_002D00b7_002D4659_002Daf32_002D6089837b7b17/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="FollowUnitTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;

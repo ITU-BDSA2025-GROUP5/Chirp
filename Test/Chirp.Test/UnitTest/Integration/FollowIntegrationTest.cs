@@ -69,8 +69,6 @@ public class FollowIntegrationTests
         _fixture.ResetDatabase();
         
         var (follower, followee) = await CreateUsersAsync();
-
-        // Use UserService ONLY for follow operations
         var result = await _userService.FollowAsync(follower, followee.Id);
 
         result.Should().NotBeNull();
@@ -132,19 +130,4 @@ public class FollowIntegrationTests
         var followedUsersAfter = await _userService.GetFollowingsAsync(follower);
         followedUsersAfter.Should().NotContain(followee.Id);
     }
-   
-    /* no users 
-    [Fact] 
-    public async Task findUserByName()
-    {
-        var name = "validname";
-        var user = new User { UserName = name, Email = "Very_Much_an_email@itu.dk" , Cheeps = new List<Cheep>() };
-        
-        _userRepository.addUser(user);
-
-        var result = await _userRepository.findUserByName(name);
-
-        Assert.Equal(user, result);
-    }
-    */
 }
