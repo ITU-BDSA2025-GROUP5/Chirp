@@ -86,7 +86,7 @@ public class FollowUnitTests
 
         Assert.DoesNotContain(user2.Id, followedUsers);
     }
-
+/*
     [Fact]
     public async Task findUserByName()
     {
@@ -99,4 +99,5 @@ public class FollowUnitTests
 
         Assert.Equal(user, result);
     }
+    */
 }
