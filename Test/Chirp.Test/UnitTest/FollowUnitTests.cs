@@ -1,4 +1,5 @@
 
+using System.Reflection;
 using Chirp.Domain;
 using Chirp.Infrastructure;
 
@@ -11,6 +12,7 @@ public class FollowUnitTests
     private readonly ICheepService _service;
 
     public List<string> followedUsers { get; set; } = new();
+    //private readonly CheepService? _CheepServicefake;
     private readonly CheepRepositoryFake _CheepRepoFake;
     private readonly UserRepositoryFake _userRepoFake;
     private readonly UserServiceFake _userServiceFake;
@@ -82,5 +84,31 @@ public class FollowUnitTests
         followedUsers = await _service.getFollowings(user);
 
         Assert.DoesNotContain(user2.Id, followedUsers);
+    }
+
+    [Fact]
+    public async Task findUserByName()
+    {
+        var name = "validname";
+        var user = new User { UserName = name, Email = "Very_Much_an_email@itu.dk" , Cheeps = new List<Cheep>() };
+        
+        _userRepoFake.addUser(user);
+
+        var result = await _service.findUserByName(name);
+
+        Assert.Equal(user, result);
+    }
+
+    [Fact]
+    public async Task findUserByEmail()
+    {
+        var email = "Very_Much_an_email@itu.dk";
+        var user = new User { UserName = "validname", Email = email, Cheeps = new List<Cheep>() };
+        
+        _userRepoFake.addUser(user);
+
+        var result = await _service.findUserByEmail(email);
+
+        Assert.Equal(user, result);
     }
 }

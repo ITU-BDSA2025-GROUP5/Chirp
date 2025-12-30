@@ -9,7 +9,7 @@ public class UserRepositoryFake : IUserRepository
 
     public Task<User?> findUserByName(string name)
     {
-        return Task.FromResult(_users.FirstOrDefault(u => u.Name == name));
+        return Task.FromResult(_users.FirstOrDefault(u => u.UserName == name));
     }
 
     public Task<User?> findUserByEmail(string email)

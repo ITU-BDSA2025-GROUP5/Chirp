@@ -1,49 +1,51 @@
-using Chirp.Domain;
-using Chirp.Infrastructure;
+using System.Text;
 using Chirp.Tests.Infrastructure;
-using Chirp.Tests.Mock_Stub_Classes;
+using Chirp.Infrastructure;
+using Chirp.Domain;
 using Chirp.Tests.Tools_to_Test;
-
-namespace Chirp.Tests.UnitTest;
-
+using Microsoft.AspNetCore.Identity;
+using Xunit;
 [Collection("sqlite-db")]
-public class CheepServiceTests
+
+public class Cheep_Integration_Test
 {
- 
-
-    //real for testing
-    
-    
-    //private readonly CheepService _service;
-   // private readonly CheepRepository _cheepRepo;
-    
-    // fake for service methods
-    
-    
-    private readonly CheepServiceFake _CheepServicefake;
-    
-   // private readonly UserRepositoryFake _userRepo;
-   //private readonly SqliteInMemoryDbFixture _fixture;
-   private readonly CheepRepository _cheepRepository;
     private readonly CheepDbContext _context;
+    private readonly CheepRepository _cheepRepository;
+    private readonly UserRepository _userRepository;
+    private readonly CheepService _CheepService;
+    private readonly UserService _UserService;
 
-    public CheepServiceTests(SqliteInMemoryDbFixture fixture)
+    public Cheep_Integration_Test(SqliteInMemoryDbFixture fixture)
     {
-        _context = fixture.CreateContext(); 
+        _context = fixture.CreateContext();
         _cheepRepository = new CheepRepository(_context);
-
-        // ... existing fake setup code remains
-        var userRepoFake = new UserRepositoryFake();
-        var cheepRepo = new CheepRepository(_context);
-        var userServiceFake = new UserServiceFake(userRepoFake); 
-        
-        _CheepServicefake = new CheepServiceFake(cheepRepo, userServiceFake);
-
-        
-        
+        _userRepository = new UserRepository(_context);
+        _UserService = new UserService(_userRepository);
+        _CheepService = new CheepService(_cheepRepository, _UserService);
     }
-
+    
     [Fact]
+    public async Task Get_Cheeps_From_Author_Is_Usable()
+    {
+        
+        var testUser = HelperClasses.createRandomUser();
+        _context.Users.Add(testUser);
+        await _context.SaveChangesAsync();
+
+        var cheep = HelperClasses.createRandomCheep(testUser);
+        _context.Cheeps.Add(cheep);
+        await _context.SaveChangesAsync(); 
+        
+        var Cheeps = await _CheepService.getCheepsFromUser(testUser, 0);
+        Assert.NotNull(Cheeps);
+        Assert.NotEmpty(Cheeps);
+        Assert.Equal(cheep.Text, Cheeps[0].Text);
+    }
+    
+    
+    
+    
+  [Fact]
     public async Task GetCheepsFromUserId_ReturnsCorrectCheepsForUser()
     {
         // Arrange
@@ -100,8 +102,8 @@ public class CheepServiceTests
     }
     
     
-    // inmemory database setup wrong no user tables,
-    [Fact(Skip = "Missing AspNetUsers table. Fix database setup.")]
+    // inmemory database setup wrong no user tables, error works in integration
+    [Fact]
     public async Task GetCheepsFromUserId_ReturnsEmptyListWhenUserHasNoCheepssimple()
     {
        
@@ -116,7 +118,7 @@ public class CheepServiceTests
         Assert.NotNull(result);
         Assert.Empty(result);
     }
-    [Fact(Skip = "Missing AspNetUsers table. Fix database setup.")]
+    [Fact]
     
     public async Task GetCheepsFromUserId_ReturnsEmptyListWhenUserHasNoCheeps()
     {
@@ -234,13 +236,13 @@ public class CheepServiceTests
         var testUser = HelperClasses.createRandomUser();
         var cheep = HelperClasses.createRandomCheepDTO(testUser);
  
-        await _CheepServicefake.InsertCheepAsync(cheep);
+        await _CheepService.InsertCheepAsync(cheep);
  
        
-        var cheeps = await _CheepServicefake.getCheepsFromUser(testUser, 0);
+        var cheeps = await _CheepService.getCheepsFromUser(testUser, 0);
         var cheepId = cheeps[0].CheepId;
  
-        var result = await _CheepServicefake.LikeCheep(testUser, cheepId);
+        var result = await _CheepService.LikeCheep(testUser, cheepId);
         Assert.Equal("Success", result);
      
     }
@@ -252,16 +254,16 @@ public class CheepServiceTests
         var testUser = HelperClasses.createRandomUser();
         var cheep = HelperClasses.createRandomCheepDTO(testUser);
  
-        await _CheepServicefake.InsertCheepAsync(cheep);
+        await _CheepService.InsertCheepAsync(cheep);
  
        
-        var cheeps = await _CheepServicefake.getCheepsFromUser(testUser, 0);
+        var cheeps = await _CheepService.getCheepsFromUser(testUser, 0);
         var cheepId = cheeps[0].CheepId;
  
-        var result = await _CheepServicefake.LikeCheep(testUser, cheepId);
+        var result = await _CheepService.LikeCheep(testUser, cheepId);
         Assert.Equal("Success", result);
      
-        var result2 = await _CheepServicefake.UnLikeCheep(testUser, cheepId);
+        var result2 = await _CheepService.UnLikeCheep(testUser, cheepId);
         Assert.Equal("Success", result2);
     }
     
@@ -273,13 +275,14 @@ public class CheepServiceTests
         var cheep = HelperClasses.createRandomCheepDTO(testUser);
         var cheep2 = HelperClasses.createRandomCheepDTO(testUser);
 
-        await _CheepServicefake.InsertCheepAsync(cheep);
-        await _CheepServicefake.InsertCheepAsync(cheep2);
+        await _CheepService.InsertCheepAsync(cheep);
+        await _CheepService.InsertCheepAsync(cheep2);
 
 
-       var result3 = await _CheepServicefake.GetCheepsAsync(1);
-       Assert.NotNull(result3);
+        var result3 = await _CheepService.GetCheepsAsync(1);
+        Assert.NotNull(result3);
 
        
     }
+    
 }
