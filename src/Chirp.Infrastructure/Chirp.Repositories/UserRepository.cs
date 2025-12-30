@@ -100,8 +100,6 @@ public class UserRepository : IUserRepository
     /// <returns>Returns a string indicating whether the unfollow operation was successful</returns>
     public async Task<String> UnfollowUser(User user, string followeeID)
     {
-        Console.WriteLine("UserId is = " + user.Id);
-        Console.WriteLine("FollowerId is = " + followeeID);
         var follow = await _dbContext.Follows.FirstOrDefaultAsync(f => f.FollowerId == user.Id && f.FolloweeId == followeeID);
 
         if (follow == null)

@@ -700,7 +700,6 @@ public static class DbInitializer
             db.Users.AddRange(Users);
             db.Cheeps.AddRange(cheeps);
             db.SaveChanges();
-            Console.WriteLine("eyyyyooo");
         }
     }
 }

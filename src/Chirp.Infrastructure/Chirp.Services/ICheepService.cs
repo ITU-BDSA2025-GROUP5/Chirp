@@ -9,7 +9,7 @@ public interface ICheepService
     Task<User?> findUserByEmail(string email);
     Task<User?> findUserByName(string name);
 
-    Task<List<CheepDTO?>> getCheepsFromUser(User user, int page);
+    Task<List<CheepDTO>> getCheepsFromUser(User user, int page);
 
     Task<User?> FindTimelineByUserNameAsync(string userName);
 
