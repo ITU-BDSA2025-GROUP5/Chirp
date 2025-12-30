@@ -1,42 +1,39 @@
+using Chirp.Infrastructure;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Chirp.Infrastructure;
-namespace Chirp.Tests.Infrastructure
 
+public class SqliteInMemoryDbFixture : IDisposable
 {
-    public class SqliteInMemoryDbFixture : IDisposable
+    private readonly SqliteConnection _keepAliveConnection;
+    public DbContextOptions<CheepDbContext> Options { get; }
+
+    public SqliteInMemoryDbFixture()
     {
-        private readonly SqliteConnection _keepAliveConnection;
-        public DbContextOptions<CheepDbContext> Options { get; }
+        _keepAliveConnection = new SqliteConnection("Data Source=:memory:;Cache=Shared");
+        _keepAliveConnection.Open();
 
-        public SqliteInMemoryDbFixture()
-        {
-            _keepAliveConnection = new SqliteConnection("Data Source=:memory:;Cache=Shared");
-            _keepAliveConnection.Open();
+        Options = new DbContextOptionsBuilder<CheepDbContext>()
+            .UseSqlite(_keepAliveConnection)
+            .EnableSensitiveDataLogging()
+            .Options;
 
-            Options = new DbContextOptionsBuilder<CheepDbContext>()
-                .UseSqlite(_keepAliveConnection)
-                .EnableSensitiveDataLogging()
-                .Options;
+        using var ctx = CreateContext();
+        ctx.Database.EnsureDeleted();
+        ctx.Database.EnsureCreated(); // Use EnsureCreated instead of Migrate
+    }
 
-            using var ctx = CreateContext();
-            ctx.Database.EnsureDeleted();
-            ctx.Database.Migrate();
-        }
+    public CheepDbContext CreateContext() => new CheepDbContext(Options);
 
-        public CheepDbContext CreateContext() => new CheepDbContext(Options);
+    public void ResetDatabase()
+    {
+        using var ctx = CreateContext();
+        ctx.Database.EnsureDeleted();
+        ctx.Database.EnsureCreated(); // Use EnsureCreated
+    }
 
-        public void ResetDatabase()
-        {
-            using var ctx = CreateContext();
-            ctx.Database.EnsureDeleted();
-            ctx.Database.Migrate();
-        }
-
-        public void Dispose()
-        {
-            _keepAliveConnection.Close();
-            _keepAliveConnection.Dispose();
-        }
+    public void Dispose()
+    {
+        _keepAliveConnection.Close();
+        _keepAliveConnection.Dispose();
     }
 }

@@ -1,20 +1,10 @@
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using FluentAssertions;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
+
 using Chirp.Domain;
 using Chirp.Infrastructure;
-using Chirp.Tests.Infrastructure;
-using Chirp.Tests.Tools_to_Test;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+
 using Chirp.Tests.Mock_Stub_Classes;
 
-using Xunit;
+
 
 public class FollowUnitTests
 {
@@ -54,10 +44,11 @@ public class FollowUnitTests
 
         
         var result = await _service.followUser(user, user2.Id);
-
+        
         followedUsers = await _service.getFollowings(user);
 
         Assert.Contains(user2.Id, followedUsers);
+        Assert.NotNull(result);
     }
 
     [Fact]

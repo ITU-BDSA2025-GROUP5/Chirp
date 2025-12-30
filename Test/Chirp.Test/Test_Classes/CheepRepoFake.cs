@@ -23,19 +23,35 @@ public class CheepRepositoryFake : ICheepRepository
         return Task.FromResult(cheeps);
     }
 
-    public Task<List<CheepDTO>?> getCheepsFromUserId(string userId,int PageNumber)
+    public Task<List<CheepDTO>> getCheepsFromUserId(string userId, int PageNumber)
     {
         var cheeps = _cheeps.Where(c => c.User.Id == userId).ToList();
-        return Task.FromResult<List<CheepDTO>?>(cheeps);
+        return Task.FromResult<List<CheepDTO>>(cheeps);
     }
 
     public Task<string> LikeCheep(User currentUser, int cheepId)
-    {
-        throw new NotImplementedException();
-    }
+{
+    var cheep = _cheeps.FirstOrDefault(c => c.CheepId == cheepId);
+    if (cheep == null)
+        return Task.FromResult("Cheep not found");
 
-    public Task<string> UnLikeCheep(User currentUser, int cheepId)
-    {
-        throw new NotImplementedException();
-    }
+    cheep.Likes ??= new List<string>();
+
+    if (!cheep.Likes.Contains(currentUser.Id))
+        cheep.Likes.Add(currentUser.Id);
+
+    return Task.FromResult("Success");
+}
+
+public Task<string> UnLikeCheep(User currentUser, int cheepId)
+{
+    var cheep = _cheeps.FirstOrDefault(c => c.CheepId == cheepId);
+    if (cheep == null)
+        return Task.FromResult("Cheep not found");
+
+    if (cheep.Likes != null)
+        cheep.Likes.Remove(currentUser.Id);
+
+    return Task.FromResult("Success");
+}
 }

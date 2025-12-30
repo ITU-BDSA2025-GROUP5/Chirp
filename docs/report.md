@@ -75,9 +75,20 @@ The middleware pipeline and Server/Kestrel lifeline is added as lifelines to com
 # Process
 
 ## Build, test, release, and deployment
+Below are our three activity diagrams showing our different workflows:
+
+Workflow for Building and Testing:
+![UML Activity Diagram for building and testing](images/Build_Test_diagram.jpg)
+
+Workflow for deployment for Azure:
+![UML Activity Diagram for Deployment for Azure](images/Azure_deployment.jpg)
+
+Workflow for making new releases:
+![UML Activity Diagram for Releasing](images/Uml_Release.jpg)
 
 ## Team work
-<strong>Kommentar:</strong> Vi sætter screenshot a project board ind, når vi færdige med alt kode.
+![Overview of our Project Board](images/ProjectBoard.png)
+As of handing in our program, we still have a few unsolved issues. In our case we haven't solved the new feature of automatically logging a user in when they've registered with Github, and are still working on our ReadMe. These are not mandatory features, but shows that you can keep on polishing this project forever, with more and more new features.
 
 ![Workflow for issue created](images/Issue_Workflow.jpg)
 This is a illustration which briefly shows the flow of an issue being created to the feature being merged into main.
