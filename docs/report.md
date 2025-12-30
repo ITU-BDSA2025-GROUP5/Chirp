@@ -43,7 +43,7 @@ The Domain layer is completely independent, since the dependencies are directed 
 ## Architecture of deployed application
 Users send HTTPS requests from their browser (the client) to our application hosted on Azure. Azure runs our ASP.NET Core server, which processes requests using Razor Pages. The server accesses data from a SQLite database via Entity Framework Core and handles user authentication with ASP.NET Core Identity.
 
-![Arhcitecture of Deployed application](images/Chirpdeploymentarchitecture.jpg) 
+![Arhcitecture of Deployed application](images/OverView_Deployment_UML.jpg) 
 
 ## User activities
 A user activity diagram showing what an unauthorized user can do and how they become authorized. 
