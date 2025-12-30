@@ -132,4 +132,5 @@ public class FollowIntegrationTests
         var followedUsersAfter = await _userService.GetFollowingsAsync(follower);
         followedUsersAfter.Should().NotContain(followee.Id);
     }
+    
 }
