@@ -75,7 +75,7 @@ The middleware pipeline and Server/Kestrel lifeline is added as lifelines to com
 # Process
 
 ## Build, test, release, and deployment
-![UML Activity Diagram for building and testing](images/Build_Test_diagram%.jpg)
+![UML Activity Diagram for building and testing](images/Build_Test_diagram.jpg)
 
 ![UML Activity Diagram for Deployment for Azure](images/Azure_deployment.jpg)
 
