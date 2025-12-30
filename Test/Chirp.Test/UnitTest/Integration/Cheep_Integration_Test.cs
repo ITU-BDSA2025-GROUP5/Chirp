@@ -80,9 +80,13 @@ public class Cheep_Integration_Test
         await _context.SaveChangesAsync();
         
         var result = await _cheepRepository.getCheepsFromUserId(user.Id, 1);
+        var result2 = await _CheepService.GetCheepsFromUserId(user.Id, 1);  
         
         Assert.NotNull(result);
+        Assert.NotNull(result2);
+        
         Assert.Equal(2, result.Count);
+        Assert.Equal(result.Count, result2.Count);
         Assert.All(result, cheep => Assert.Equal(user.Id, cheep.User.Id));
         Assert.True(result[0].TimeStamp >= result[1].TimeStamp);
     }
