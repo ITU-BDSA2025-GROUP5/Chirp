@@ -9,6 +9,10 @@ using System;
 
 namespace Chirp.Razor.Pages;
 
+/// <summary>
+/// Represents the public timeline page of Chirp, displaying all cheeps and allowing
+/// authenticated users to post new messages, follow/unfollow other users, and like/unlike cheeps.
+/// </summary>
 public class PublicModel : PageModel
 {
     private readonly ICheepService _service;
@@ -24,6 +28,11 @@ public class PublicModel : PageModel
         _service = service;
     }
 
+    /// <summary>
+    /// Handles GET requests to the public timeline page.
+    /// Retrieves the current user's data (if authenticated) and loads paginated cheeps.
+    /// </summary>
+    /// <returns>The <see cref="IActionResult"/> representing the rendered page.</returns>
     public async Task<IActionResult> OnGetAsync()
     {
         PageNumber = Math.Max(1, PageNumber);
@@ -36,7 +45,7 @@ public class PublicModel : PageModel
             if (user != null)
             {
                 CurrentUser = user;
-                Console.WriteLine("The current user is " + CurrentUser.Name);
+
             }
             if (CurrentUser != null)
             {
@@ -46,6 +55,11 @@ public class PublicModel : PageModel
         return Page();
     }
 
+    /// <summary>
+    /// Handles POST requests for creating a new cheep.
+    /// </summary>
+    /// <param name="Input">The text content of the new cheep.</param>
+    /// <returns>A redirect to the public timeline after successfully posting.</returns>
     public async Task<IActionResult> OnPostNewMessageAsync(String Input)
     {
         if (User.Identity?.IsAuthenticated == false || User.Identity?.Name == null)
@@ -55,7 +69,6 @@ public class PublicModel : PageModel
         var user = await _service.findUserByName(User.Identity.Name);
         if (user == null)
         {
-            Console.WriteLine("No corresponding User found to login");
             return Page();
         }
         await _service.InsertCheepAsync(new CheepDTO
@@ -67,9 +80,13 @@ public class PublicModel : PageModel
         return RedirectToPage("Public");
     }
 
+    /// <summary>
+    /// Handles POST requests for following another user.
+    /// </summary>
+    /// <param name="followeeId">The ID of the user to follow.</param>
+    /// <returns>A redirect to the public timeline after updating the follow list.</returns>
     public async Task<IActionResult> OnPostFollowAsync(string followeeId)
     {
-        Console.WriteLine("This activates");
         UserName = User.Identity?.Name;
         if (string.IsNullOrEmpty(UserName))
             return Unauthorized();
@@ -79,77 +96,79 @@ public class PublicModel : PageModel
 
         var ack = await _service.followUser(CurrentUser, followeeId);
         followedUsers = await _service.getFollowings(CurrentUser);
-        Console.WriteLine(ack);
         return RedirectToPage("./Public");
 
     }
 
+    /// <summary>
+    /// Handles POST requests for unfollowing a user.
+    /// </summary>
+    /// <param name="unfolloweeId">The ID of the user to unfollow.</param>
+    /// <returns>A redirect to the public timeline after the unfollow action.</returns>
     public async Task<IActionResult> OnPostUnfollowAsync(string unfolloweeId)
     {
-        Console.WriteLine("UnFollow activates");
         UserName = User.Identity?.Name;
         if (string.IsNullOrEmpty(UserName))
         {
-            Console.WriteLine("Sorry hombre pt. 1");
             return Unauthorized();
         }
 
         var CurrentUser = await _service.findUserByName(UserName);
         if (CurrentUser == null)
         {
-            Console.WriteLine("Sorry hombre pt. 2");
             return Unauthorized();
         }
 
         var ack = await _service.UnfollowUser(CurrentUser, unfolloweeId);
         followedUsers = await _service.getFollowings(CurrentUser);
-        Console.WriteLine(ack);
 
         return RedirectToPage("./Public");
     }
 
+    /// <summary>
+    /// Handles POST requests for unliking a cheep.
+    /// </summary>
+    /// <param name="cheepId">The ID of the cheep to unlike.</param>
+    /// <returns>A redirect to the public timeline after the unlike action.</returns>
     public async Task<IActionResult> OnPostUnLikeAsync(int cheepId)
     {
-        Console.WriteLine("UnLike activates");
         UserName = User.Identity?.Name;
         if (string.IsNullOrEmpty(UserName))
         {
-            Console.WriteLine("Sorry hombre pt. 3");
             return Unauthorized();
         }
 
         var CurrentUser = await _service.findUserByName(UserName);
         if (CurrentUser == null)
         {
-            Console.WriteLine("Sorry hombre pt. 4");
             return Unauthorized();
         }
 
         var ack = await _service.UnLikeCheep(CurrentUser, cheepId);
-        Console.WriteLine(ack);
 
         return RedirectToPage("./Public");
     }
     
+    /// <summary>
+    /// Handles POST requests for liking a cheep.
+    /// </summary>
+    /// <param name="cheepId">The ID of the cheep to like.</param>
+    /// <returns>A redirect to the public timeline after the like action.</returns>
     public async Task<IActionResult> OnPostLikeAsync(int cheepId)
     {
-        Console.WriteLine("Like activates");
         UserName = User.Identity?.Name;
         if (string.IsNullOrEmpty(UserName))
         {
-            Console.WriteLine("Sorry hombre pt. 5");
             return Unauthorized();
         }
 
         var CurrentUser = await _service.findUserByName(UserName);
         if (CurrentUser == null)
         {
-            Console.WriteLine("Sorry hombre pt. 6");
             return Unauthorized();
         }
 
         var ack = await _service.LikeCheep(CurrentUser, cheepId);
-        Console.WriteLine(ack);
 
         return RedirectToPage("./Public");
     }

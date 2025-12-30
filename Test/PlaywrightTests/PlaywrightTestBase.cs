@@ -4,6 +4,11 @@ using NUnit.Framework;
 
 namespace Chirp.PlaywrightTests;
 
+
+/// <summary>
+/// This class is using the WebApplicationFactory class to create a client so playwright can run test
+/// in browser, without having us to run the application.
+/// </summary>
 [TestFixture]
 public class PlaywrightTestBase : PageTest
 {

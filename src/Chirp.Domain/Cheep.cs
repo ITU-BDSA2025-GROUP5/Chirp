@@ -1,6 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 namespace Chirp.Domain;
 
+/// <summary>
+/// Represents a cheep in the chirp application
+/// A cheep is a short message,. containing a maximum of 160 characters. 
+/// </summary>
 public class Cheep
 {
     public int CheepId { get; set; }

@@ -1,10 +1,13 @@
 ---
 title: _Chirp!_ Project Report
-subtitle: ITU BDSA 2025 Group `<5>`
+subtitle: ITU BDSA 2025 Group <5>
 author:
 - "Oscar Dalsgaard Jakobsen <osja@itu.dk>"
 - "Niels Laier Jensen <niej@itu.dk>"
-- "Adrian Hoff <adho@itu.dk>"
+- "Tobias Oliver Nielsen <toon@itu.dk>"
+- "Martin Antonius Jæger <maraj@itu.dk>"
+- "Carl Frederik Thomsen <cfth@itu.dk>"
+
 numbersections: true
 ---
 
@@ -28,19 +31,19 @@ Below is a diagram visualising the relations between our different entities.
 
 
 ## Architecture — In the small
-Our project follows the principles in Onion Architechture, where the presentation, the infrastructure and the domain are sepereated into layers. This minimalizes coupling and supports maintainability as well as testability. 
+Our project follows the principles in Onion Architecture, where the presentation, the infrastructure and the domain are separated into layers. This minimalizes coupling and supports maintainability as well as testability. 
 
 The presentation happens in the Web layer, which handles application startup as well as user interaction.
 
-The Infrastructure layer acts as an intermediary between User Interface and the core logic. managing data persistance, repositories as well as database migrations among other things.
+The Infrastructure layer acts as an intermediary between User Interface and the core logic. managing data persistence, repositories as well as database migrations among other things.
 
-The Domain layer is compleatly independent, since the dependencies are directed inward. This ensures that the core logic is not affected by things happening in the infrastructure layer. 
+The Domain layer is completely independent, since the dependencies are directed inward. This ensures that the core logic is not affected by things happening in the infrastructure layer. 
 ![Architecture in the small diagram](images/inTheSmall.png)
 
 ## Architecture of deployed application
 Users send HTTPS requests from their browser (the client) to our application hosted on Azure. Azure runs our ASP.NET Core server, which processes requests using Razor Pages. The server accesses data from a SQLite database via Entity Framework Core and handles user authentication with ASP.NET Core Identity.
 
-![Arhcitecture of Deployed application](images/Chirpdeploymentarchitecture.jpg) 
+![Arhcitecture of Deployed application](images/OverView_Deployment_UML.png) 
 
 ## User activities
 A user activity diagram showing what an unauthorized user can do and how they become authorized. 
@@ -72,9 +75,20 @@ The middleware pipeline and Server/Kestrel lifeline is added as lifelines to com
 # Process
 
 ## Build, test, release, and deployment
+Below are our three activity diagrams showing our different workflows:
+
+Workflow for Building and Testing:
+![UML Activity Diagram for building and testing](images/Build_Test_diagram.jpg)
+
+Workflow for deployment for Azure:
+![UML Activity Diagram for Deployment for Azure](images/Azure_deployment.jpg)
+
+Workflow for making new releases:
+![UML Activity Diagram for Releasing](images/Uml_Release.jpg)
 
 ## Team work
-<strong>Kommentar:</strong> Vi sætter screenshot a project board ind, når vi færdige med alt kode.
+![Overview of our Project Board](images/ProjectBoard.png)
+As of handing in our program, we still have a few unsolved issues. In our case we haven't solved the new feature of automatically logging a user in when they've registered with Github, and are still working on our ReadMe. These are not mandatory features, but shows that you can keep on polishing this project forever, with more and more new features.
 
 ![Workflow for issue created](images/Issue_Workflow.jpg)
 This is a illustration which briefly shows the flow of an issue being created to the feature being merged into main.
@@ -115,7 +129,19 @@ Open a browser and go to:
 Now you should be at the public timeline for Chirp!
 
 ## How to run test suite locally
-<strong>Kommentar:</strong> Vi skriver lige den her done, når vi har styr på testene.
+Open root project folder
+Go to the Test folder:
+<pre>cd Test</pre>
+
+Install PlayWright:
+<pre>pwsh bin/Debug/net8.0/playwright.ps1 install</pre>
+You will need to have powershell to run this command
+
+Build the project:
+<pre>dotnet build</pre>
+
+To run all tests:
+<pre> dotnet test </pre>
 
 # Ethics
 
@@ -138,11 +164,13 @@ The LLMs that was used was:
 
 LLMs was used for:
 - Explain and understand ASP.NET core concepts besides the Microsoft documentation.
-- Some error messages was fed to LLMs to help indentify errors.
+- Some error messages was fed to LLMs to help identify errors.
 - Write html for the UI.
 - Assisting in writing of workflows
+- Assisting in phrasing of documentation
+- Helping building the WebApplicationFactory for Playwrightests
 
 The responses were genuinely helpful in understanding the ASP.NET core, writing html for UI and assisting with workflow.
-LLMs responses regarding errors, can be very helpful to indentify the problem, but you have to be careful when looking at its solutions. In our experience, it’s far more reliable to trace through the code yourself and use the LLM’s error analysis as a hint rather than a prescription. Blindly following its solutions can lead into a spiral of new errors.
+LLMs responses regarding errors, can be very helpful to identify the problem, but you have to be careful when looking at its solutions. In our experience, it’s far more reliable to trace through the code yourself and use the LLM’s error analysis as a hint rather than a prescription. Blindly following its solutions can lead into a spiral of new errors.
 
-Overall we like to beleive that the use of LLMs has helped the development of the project. That said, as mentioned above, we have experienced that you should not blindly follow LLMs solutions, because you can end up in a spiral of new errors and issues. Instead we experienced, we benefited more from tracing through the code yourself, or using pen and paper to make it clear for you, how to solve the error.
+Overall we like to believe that the use of LLMs has helped the development of the project. That said, as mentioned above, we have experienced that you should not blindly follow LLMs solutions, because you can end up in a spiral of new errors and issues. Instead, we experienced, that we benefited more from tracing through the code yourself, or using pen and paper to make it clear for you, how to solve the error.

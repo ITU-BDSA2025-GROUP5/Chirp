@@ -18,7 +18,6 @@ public class FollowUnitTests
     private readonly UserServiceFake _userServiceFake;
     
     public FollowUnitTests()
-    
     { 
         _userRepoFake = new UserRepositoryFake();
         _CheepRepoFake = new CheepRepositoryFake();

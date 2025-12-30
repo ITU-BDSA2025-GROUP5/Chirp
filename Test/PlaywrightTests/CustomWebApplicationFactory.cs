@@ -10,47 +10,34 @@ using Microsoft.Extensions.Logging;
 
 namespace Chirp.PlaywrightTests;
 
+/// <summary>
+/// This class is used to host a connection to run the playwright tests in browser without having to run the program
+/// </summary>
+
 public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 {
     private IHost? _kestrelHost;
-
+    private SqliteConnection? _keepAlive;
+    
     protected override IHost CreateHost(IHostBuilder builder)
     {
         // 1. Service configuration for BOTH hosts
         builder.ConfigureServices(services =>
         {
-            // Suppress logging
-            services.AddLogging(logging =>
-            {
-                logging.ClearProviders();
-            });
+            services.AddLogging(logging => logging.ClearProviders());
 
-            // Replace CheepDbContext with in-memory SQLite
             var dbContextDescriptor = services.SingleOrDefault(
                 d => d.ServiceType == typeof(DbContextOptions<CheepDbContext>));
             if (dbContextDescriptor != null)
-            {
                 services.Remove(dbContextDescriptor);
-            }
 
-            var dbConnectionDescriptor = services.SingleOrDefault(
-                d => d.ServiceType == typeof(DbConnection));
-            if (dbConnectionDescriptor != null)
-            {
-                services.Remove(dbConnectionDescriptor);
-            }
+            var connectionString = "Data Source=file:chirp-tests?mode=memory&cache=shared";
+            _keepAlive = new SqliteConnection(connectionString);
+            _keepAlive.Open();
 
-            services.AddSingleton<DbConnection>(_ =>
+            services.AddDbContext<CheepDbContext>(options =>
             {
-                var connection = new SqliteConnection("Data Source=file:chirp-tests?mode=memory&cache=shared");
-                connection.Open();
-                return connection;
-            });
-
-            services.AddDbContext<CheepDbContext>((sp, options) =>
-            {
-                var connection = sp.GetRequiredService<DbConnection>();
-                options.UseSqlite(connection);
+                options.UseSqlite(connectionString);
             });
         });
 
@@ -99,6 +86,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         if (disposing)
         {
             _kestrelHost?.Dispose();
+            _keepAlive?.Dispose();
         }
 
         base.Dispose(disposing);
