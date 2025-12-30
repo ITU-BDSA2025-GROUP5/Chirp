@@ -64,9 +64,10 @@ public class CheepServiceFake : ICheepService
         return _userService.UnfollowAsync(user, followeeID);
     }
 
-    public Task<List<CheepDTO>?> GetCheepsFromUserId(string userId, int PageNumber)
+    public async Task<List<CheepDTO>?> GetCheepsFromUserId(string userId, int PageNumber)
     {
-        return _cheepRepository.getCheepsFromUserId(userId, PageNumber);
+        var cheeps = await _cheepRepository.getCheepsFromUserId(userId, PageNumber);
+        return cheeps ?? null; 
     }
 
     public Task<string> LikeCheep(User currentUser, int cheepId)
