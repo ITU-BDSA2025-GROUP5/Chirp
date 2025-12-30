@@ -1,4 +1,5 @@
 
+using System.Reflection;
 using Chirp.Domain;
 using Chirp.Infrastructure;
 
@@ -84,5 +85,18 @@ public class FollowUnitTests
         followedUsers = await _service.getFollowings(user);
 
         Assert.DoesNotContain(user2.Id, followedUsers);
+    }
+
+    [Fact]
+    public async Task findUserByName()
+    {
+        var name = "validname";
+        var user = new User { UserName = name, Email = "Very_Much_an_email@itu.dk" , Cheeps = new List<Cheep>() };
+        
+        _userRepoFake.addUser(user);
+
+        var result = await _service.findUserByName(name);
+
+        Assert.Equal(user, result);
     }
 }
