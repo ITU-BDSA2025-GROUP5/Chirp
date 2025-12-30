@@ -99,4 +99,17 @@ public class FollowUnitTests
 
         Assert.Equal(user, result);
     }
+
+    [Fact]
+    public async Task findUserByEmail()
+    {
+        var email = "Very_Much_an_email@itu.dk";
+        var user = new User { UserName = "validname", Email = email, Cheeps = new List<Cheep>() };
+        
+        _userRepoFake.addUser(user);
+
+        var result = await _service.findUserByEmail(email);
+
+        Assert.Equal(user, result);
+    }
 }
