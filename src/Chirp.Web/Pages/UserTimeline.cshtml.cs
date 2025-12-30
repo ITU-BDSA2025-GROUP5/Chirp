@@ -6,6 +6,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Chirp.Razor.Pages;
 
+/// <summary>
+/// Represents the timeline page for a specific user in Chirp.
+/// Displays the user's own cheeps and, if viewing their own profile,
+/// also includes cheeps from users they follow.
+/// </summary>
 public class UserTimelineModel : PageModel
 {
     private readonly ICheepService _service;
@@ -28,6 +33,13 @@ public class UserTimelineModel : PageModel
         _service = service;
     }
 
+    /// <summary>
+    /// Handles GET requests to display a user's timeline.
+    /// Loads the cheeps authored by the target user, and if the current user
+    /// is viewing their own timeline, also loads cheeps from their followings.
+    /// </summary>
+    /// <param name="author">The username of the timeline author.</param>
+    /// <returns>The <see cref="IActionResult"/> representing the rendered timeline page.</returns>
     public async Task<IActionResult> OnGet(string author)
 {
     UserName = User.Identity?.Name;
@@ -65,6 +77,11 @@ public class UserTimelineModel : PageModel
     return Page();
 }
 
+    /// <summary>
+    /// Handles POST requests for unfollowing another user from their timeline page.
+    /// </summary>
+    /// <param name="unfolloweeId">The ID of the user to unfollow.</param>
+    /// <returns>A redirect to the updated timeline page.</returns>
     public async Task<IActionResult> OnPostUnfollowAsync(string unfolloweeId)
     {
         Console.WriteLine("UnFollow activates");

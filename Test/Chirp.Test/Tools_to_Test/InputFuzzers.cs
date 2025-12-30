@@ -2,11 +2,20 @@ using System.Text;
 
 namespace Chirp.Tests.Tools_to_Test;
 
+/// <summary>
+/// Provides utility methods for generating randomized or mutated string inputs,
+/// primarily used for fuzz testing and robustness validation.
+/// </summary>
 public class InputFuzzers
 {
     private static readonly Random _rand = new Random();
 
-    // Generate a random string of given length
+    /// <summary>
+    /// Generates a random string of the specified length using
+    /// letters, digits, and special characters.
+    /// </summary>
+    /// <param name="length">The desired length of the random string.</param>
+    /// <returns>A randomly generated string.</returns>
     public static string RandomString(int length)
     {
         const string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%^&*";
@@ -17,7 +26,13 @@ public class InputFuzzers
         }
         return sb.ToString();
     }
-    // String mutation device  randomly moves chars in String to random pos.
+    
+    /// <summary>
+    /// Randomly mutates a single character in the given string by replacing
+    /// it with a random printable ASCII character.
+    /// </summary>
+    /// <param name="input">The input string to mutate.</param>
+    /// <returns>A new string with one randomly altered character.</returns>
     public static string RandomMutation(string input)
     {
         var chars = input.ToCharArray();
@@ -26,6 +41,13 @@ public class InputFuzzers
         return new string(chars);
     }
 
+    /// <summary>
+    /// Generates a random "sentence" made up of random strings and spaces,
+    /// simulating a more natural text-like input for testing.
+    /// </summary>
+    /// <returns>
+    /// A randomized sentence-like string between 50 and 160 characters long.
+    /// </returns>
     public static string RandomSentence()
     {
         int randomLength = _rand.Next(50, 121);

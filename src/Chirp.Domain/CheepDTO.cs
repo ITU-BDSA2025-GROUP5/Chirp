@@ -1,5 +1,8 @@
 namespace Chirp.Domain;
 
+/// <summary>
+/// A data transfer object for cheeps.
+/// </summary>
 public class CheepDTO
 {
     public  int CheepId { get; set; }

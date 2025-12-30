@@ -1,5 +1,8 @@
 namespace Chirp.Domain;
 
+/// <summary>
+/// Follow is used for tracking who follows whom.
+/// </summary>
 public class Follow
 {
     public required string FollowerId { get; set; }

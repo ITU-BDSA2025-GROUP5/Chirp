@@ -4,6 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Infrastructure;
 
+/// <summary>
+/// Represents the Entity Framework Core database context for the Chirp application.
+/// Inherits from <see cref="IdentityDbContext{TUser}"/> to include ASP.NET Identity tables,
+/// and defines entity sets and relationships for users, cheeps, and follows.
+/// </summary>
 public class CheepDbContext : IdentityDbContext<User>
 {
     public DbSet<Cheep> Cheeps { get; set; } = default!;
@@ -13,6 +18,10 @@ public class CheepDbContext : IdentityDbContext<User>
     public CheepDbContext(DbContextOptions<CheepDbContext> options) : base(options)
     { }
 
+    /// <summary>
+    /// Configures entity relationships, keys, and constraints for the EF Core model.
+    /// </summary>
+    /// <param name="b">The <see cref="ModelBuilder"/> used to configure entity mappings.</param>
     protected override void OnModelCreating(ModelBuilder b)
     {
         base.OnModelCreating(b);
