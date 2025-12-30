@@ -18,23 +18,29 @@ public class CheepServiceTests
    // private readonly CheepRepository _cheepRepo;
     
     // fake for service methods
-    private readonly CheepServiceFake _cheepserviceFake;
-
+    
+    
+    private readonly CheepServiceFake _CheepServicefake;
+    
    // private readonly UserRepositoryFake _userRepo;
    //private readonly SqliteInMemoryDbFixture _fixture;
-   private readonly CheepRepository _realCheepRepo;
+   private readonly CheepRepository _cheepRepository;
     private readonly CheepDbContext _context;
 
     public CheepServiceTests(SqliteInMemoryDbFixture fixture)
     {
         _context = fixture.CreateContext(); 
-        _realCheepRepo = new CheepRepository(_context);
+        _cheepRepository = new CheepRepository(_context);
 
         // ... existing fake setup code remains
         var userRepoFake = new UserRepositoryFake();
-        var cheepRepoFake = new CheepRepositoryFake();
+        var cheepRepo = new CheepRepository(_context);
         var userServiceFake = new UserServiceFake(userRepoFake); 
-        _cheepserviceFake = new CheepServiceFake(cheepRepoFake, userServiceFake);
+        
+        _CheepServicefake = new CheepServiceFake(cheepRepo, userServiceFake);
+
+        
+        
     }
 
     [Fact]
@@ -83,7 +89,7 @@ public class CheepServiceTests
         await _context.SaveChangesAsync();
         
         // Act
-        var result = await _realCheepRepo.getCheepsFromUserId(user.Id, 1);
+        var result = await _cheepRepository.getCheepsFromUserId(user.Id, 1);
         
         // Assert
         Assert.NotNull(result);
@@ -104,7 +110,7 @@ public class CheepServiceTests
         var userId = "some-nonexistent-user-id";
     
         // Act
-        var result = await _realCheepRepo.getCheepsFromUserId(userId, 1);
+        var result = await _cheepRepository.getCheepsFromUserId(userId, 1);
     
         // Assert
         Assert.NotNull(result);
@@ -133,7 +139,7 @@ public class CheepServiceTests
         await _context.SaveChangesAsync();
         
         // Act
-        var result = await _realCheepRepo.getCheepsFromUserId(user.Id, 1);
+        var result = await _cheepRepository.getCheepsFromUserId(user.Id, 1);
         
         // Assert
         Assert.NotNull(result);
@@ -147,7 +153,7 @@ public class CheepServiceTests
         var nonExistentUserId = "non-existent-user-id";
         
         // Act
-        var result = await _realCheepRepo.getCheepsFromUserId(nonExistentUserId, 1);
+        var result = await _cheepRepository.getCheepsFromUserId(nonExistentUserId, 1);
         
         // Assert
         Assert.NotNull(result);
@@ -184,7 +190,7 @@ public class CheepServiceTests
         await _context.SaveChangesAsync();
         
         // Act - page number 0 should be treated as page 1
-        var result = await _realCheepRepo.getCheepsFromUserId(user.Id, 0);
+        var result = await _cheepRepository.getCheepsFromUserId(user.Id, 0);
         
         // Assert
         Assert.NotNull(result);
@@ -210,7 +216,7 @@ public class CheepServiceTests
         await _context.SaveChangesAsync();
         
         // Act
-        var result = await _realCheepRepo.getCheepsFromUserId(user.Id, 1);
+        var result = await _cheepRepository.getCheepsFromUserId(user.Id, 1);
         
         // Assert
         Assert.NotNull(result);
@@ -228,13 +234,13 @@ public class CheepServiceTests
         var testUser = HelperClasses.createRandomUser();
         var cheep = HelperClasses.createRandomCheepDTO(testUser);
  
-        await _cheepserviceFake.InsertCheepAsync(cheep);
+        await _CheepServicefake.InsertCheepAsync(cheep);
  
        
-        var cheeps = await _cheepserviceFake.getCheepsFromUser(testUser, 0);
+        var cheeps = await _CheepServicefake.getCheepsFromUser(testUser, 0);
         var cheepId = cheeps[0].CheepId;
  
-        var result = await _cheepserviceFake.LikeCheep(testUser, cheepId);
+        var result = await _CheepServicefake.LikeCheep(testUser, cheepId);
         Assert.Equal("Success", result);
      
     }
@@ -246,17 +252,34 @@ public class CheepServiceTests
         var testUser = HelperClasses.createRandomUser();
         var cheep = HelperClasses.createRandomCheepDTO(testUser);
  
-        await _cheepserviceFake.InsertCheepAsync(cheep);
+        await _CheepServicefake.InsertCheepAsync(cheep);
  
        
-        var cheeps = await _cheepserviceFake.getCheepsFromUser(testUser, 0);
+        var cheeps = await _CheepServicefake.getCheepsFromUser(testUser, 0);
         var cheepId = cheeps[0].CheepId;
  
-        var result = await _cheepserviceFake.LikeCheep(testUser, cheepId);
+        var result = await _CheepServicefake.LikeCheep(testUser, cheepId);
         Assert.Equal("Success", result);
      
-        var result2 = await _cheepserviceFake.UnLikeCheep(testUser, cheepId);
+        var result2 = await _CheepServicefake.UnLikeCheep(testUser, cheepId);
         Assert.Equal("Success", result2);
     }
     
+    [Fact] 
+    public async Task ReadCheeps()
+    {
+       
+        var testUser = HelperClasses.createRandomUser();
+        var cheep = HelperClasses.createRandomCheepDTO(testUser);
+        var cheep2 = HelperClasses.createRandomCheepDTO(testUser);
+
+        await _CheepServicefake.InsertCheepAsync(cheep);
+        await _CheepServicefake.InsertCheepAsync(cheep2);
+
+
+       var result3 = await _CheepServicefake.GetCheepsAsync(1);
+       Assert.NotNull(result3);
+
+       
+    }
 }

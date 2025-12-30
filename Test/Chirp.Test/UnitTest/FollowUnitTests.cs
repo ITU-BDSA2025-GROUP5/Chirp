@@ -11,7 +11,7 @@ public class FollowUnitTests
     private readonly ICheepService _service;
 
     public List<string> followedUsers { get; set; } = new();
-    //private readonly CheepService? _Cheepservice;
+    //private readonly CheepService? _CheepServicefake;
     private readonly CheepRepositoryFake _CheepRepoFake;
     private readonly UserRepositoryFake _userRepoFake;
     private readonly UserServiceFake _userServiceFake;
