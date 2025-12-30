@@ -45,7 +45,7 @@ public class PublicModel : PageModel
             if (user != null)
             {
                 CurrentUser = user;
-                Console.WriteLine("The current user is " + CurrentUser.Name);
+
             }
             if (CurrentUser != null)
             {
@@ -69,7 +69,6 @@ public class PublicModel : PageModel
         var user = await _service.findUserByName(User.Identity.Name);
         if (user == null)
         {
-            Console.WriteLine("No corresponding User found to login");
             return Page();
         }
         await _service.InsertCheepAsync(new CheepDTO
@@ -88,7 +87,6 @@ public class PublicModel : PageModel
     /// <returns>A redirect to the public timeline after updating the follow list.</returns>
     public async Task<IActionResult> OnPostFollowAsync(string followeeId)
     {
-        Console.WriteLine("This activates");
         UserName = User.Identity?.Name;
         if (string.IsNullOrEmpty(UserName))
             return Unauthorized();
@@ -98,7 +96,6 @@ public class PublicModel : PageModel
 
         var ack = await _service.followUser(CurrentUser, followeeId);
         followedUsers = await _service.getFollowings(CurrentUser);
-        Console.WriteLine(ack);
         return RedirectToPage("./Public");
 
     }
@@ -110,24 +107,20 @@ public class PublicModel : PageModel
     /// <returns>A redirect to the public timeline after the unfollow action.</returns>
     public async Task<IActionResult> OnPostUnfollowAsync(string unfolloweeId)
     {
-        Console.WriteLine("UnFollow activates");
         UserName = User.Identity?.Name;
         if (string.IsNullOrEmpty(UserName))
         {
-            Console.WriteLine("Sorry hombre pt. 1");
             return Unauthorized();
         }
 
         var CurrentUser = await _service.findUserByName(UserName);
         if (CurrentUser == null)
         {
-            Console.WriteLine("Sorry hombre pt. 2");
             return Unauthorized();
         }
 
         var ack = await _service.UnfollowUser(CurrentUser, unfolloweeId);
         followedUsers = await _service.getFollowings(CurrentUser);
-        Console.WriteLine(ack);
 
         return RedirectToPage("./Public");
     }
@@ -139,23 +132,19 @@ public class PublicModel : PageModel
     /// <returns>A redirect to the public timeline after the unlike action.</returns>
     public async Task<IActionResult> OnPostUnLikeAsync(int cheepId)
     {
-        Console.WriteLine("UnLike activates");
         UserName = User.Identity?.Name;
         if (string.IsNullOrEmpty(UserName))
         {
-            Console.WriteLine("Sorry hombre pt. 3");
             return Unauthorized();
         }
 
         var CurrentUser = await _service.findUserByName(UserName);
         if (CurrentUser == null)
         {
-            Console.WriteLine("Sorry hombre pt. 4");
             return Unauthorized();
         }
 
         var ack = await _service.UnLikeCheep(CurrentUser, cheepId);
-        Console.WriteLine(ack);
 
         return RedirectToPage("./Public");
     }
@@ -167,23 +156,19 @@ public class PublicModel : PageModel
     /// <returns>A redirect to the public timeline after the like action.</returns>
     public async Task<IActionResult> OnPostLikeAsync(int cheepId)
     {
-        Console.WriteLine("Like activates");
         UserName = User.Identity?.Name;
         if (string.IsNullOrEmpty(UserName))
         {
-            Console.WriteLine("Sorry hombre pt. 5");
             return Unauthorized();
         }
 
         var CurrentUser = await _service.findUserByName(UserName);
         if (CurrentUser == null)
         {
-            Console.WriteLine("Sorry hombre pt. 6");
             return Unauthorized();
         }
 
         var ack = await _service.LikeCheep(CurrentUser, cheepId);
-        Console.WriteLine(ack);
 
         return RedirectToPage("./Public");
     }

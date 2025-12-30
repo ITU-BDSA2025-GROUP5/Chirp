@@ -93,7 +93,7 @@ public class CheepRepository : ICheepRepository
     /// <param name="userId">The unique identifier of the user whose cheeps to retrieve.</param>
     /// <param name="page">The page number to retrieve.</param>
     /// <returns>A list of <see cref="CheepDTO"/> objects authored by the specified userId.</returns>
-    public async Task<List<CheepDTO>?> getCheepsFromUserId(string userId,int page)
+    public async Task<List<CheepDTO>> getCheepsFromUserId(string userId, int page)
     {
         const int pageSize = 32;
         var skip = Math.Max(0, (page - 1) * pageSize);
@@ -143,7 +143,7 @@ public class CheepRepository : ICheepRepository
         }
         else
         {
-            Console.WriteLine("error time");
+            Console.WriteLine("Error when liking");
         }
         await _dbContext.SaveChangesAsync();
 

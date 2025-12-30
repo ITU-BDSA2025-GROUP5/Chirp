@@ -97,13 +97,11 @@ namespace Chirp.Razor.web.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                Console.WriteLine("I stop here");
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
             if (!ModelState.IsValid)
             {
-                Console.WriteLine("I stop here pt 2");
                 await LoadAsync(user);
                 return Page();
             }
@@ -113,7 +111,6 @@ namespace Chirp.Razor.web.Areas.Identity.Pages.Account.Manage
                 var setResult = await _userManager.SetUserNameAsync(user, Input.Username!);
                 if (!setResult.Succeeded)
                 {
-                    Console.WriteLine("I stop here pt 3");
                     foreach (var e in setResult.Errors)
                         ModelState.AddModelError(string.Empty, e.Description);
                     await LoadAsync(user);
@@ -136,7 +133,6 @@ namespace Chirp.Razor.web.Areas.Identity.Pages.Account.Manage
             }
             if (Input.ProfilePicture != null)
             {
-                Console.WriteLine("but what about here???");
                 using var memoryStream = new MemoryStream();
                 await Input.ProfilePicture.CopyToAsync(memoryStream);
 
@@ -144,13 +140,10 @@ namespace Chirp.Razor.web.Areas.Identity.Pages.Account.Manage
 
                 if (user != null)
                 {
-                    Console.WriteLine("Im trying to update the picture");
                     user.ProfilePicture = profilePictureBytes;
                     await _userManager.UpdateAsync(user);
                 }
             }
-
-            Console.WriteLine("I als get here ????");
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             if (Input.PhoneNumber != phoneNumber)
             {
