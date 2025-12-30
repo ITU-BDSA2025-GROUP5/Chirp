@@ -118,7 +118,19 @@ Open a browser and go to:
 Now you should be at the public timeline for Chirp!
 
 ## How to run test suite locally
-<strong>Kommentar:</strong> Vi skriver lige den her done, når vi har styr på testene.
+Open root project folder
+Go to the Test folder:
+<pre>cd Test</pre>
+
+Install PlayWright:
+<pre>pwsh bin/Debug/net8.0/playwright.ps1 install</pre>
+You will need to have powershell to run this command
+
+Build the project:
+<pre>dotnet build</pre>
+
+To run all tests:
+<pre> dotnet test </pre>
 
 # Ethics
 
@@ -145,6 +157,7 @@ LLMs was used for:
 - Write html for the UI.
 - Assisting in writing of workflows
 - Assisting in phrasing of documentation
+- Helping building the WebApplicationFactory for Playwrightests
 
 The responses were genuinely helpful in understanding the ASP.NET core, writing html for UI and assisting with workflow.
 LLMs responses regarding errors, can be very helpful to identify the problem, but you have to be careful when looking at its solutions. In our experience, it’s far more reliable to trace through the code yourself and use the LLM’s error analysis as a hint rather than a prescription. Blindly following its solutions can lead into a spiral of new errors.
