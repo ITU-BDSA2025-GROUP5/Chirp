@@ -108,10 +108,9 @@ To make sure dependencies are installed
 In Chirp folder run:
 <pre>dotnet restore</pre>
 
-Configure user-secrets for OAuth:
+Configure user-secrets for OAuth Github:
 <pre>
 cd src\Chirp.Web
-dotnet user-secrets init
 dotnet user-secrets set "Authentication:GitHub:ClientId" "Ov23li69eign4jFgBjYv" 
 dotnet user-secrets set "Authentication:GitHub:ClientSecret" "5627aad084cd9a29aeb79c5339cc6a8d9db22c6e"
 </pre>
@@ -129,19 +128,23 @@ Open a browser and go to:
 Now you should be at the public timeline for Chirp!
 
 ## How to run test suite locally
-Open root project folder
-Go to the Test folder:
-<pre>cd Test</pre>
+Install [Powershell](https://learn.microsoft.com/en-us/powershell/scripting/install/install-powershell?view=powershell-7.5) (if not already installed)
+
+Before we can run all the test we need to install Playwright
+Go to the Test and then the PlayWrightTests folder:
+<pre>
+cd Test/PlayWrightTests
+</pre>
 
 Install PlayWright:
 <pre>pwsh bin/Debug/net8.0/playwright.ps1 install</pre>
 You will need to have 'Powershell' to run this command
 
-Build the project:
-<pre>dotnet build</pre>
+Go back into the Test folder
+<pre>cd..</pre>
 
 To run all tests:
-<pre> dotnet test </pre>
+<pre>dotnet test</pre>
 
 # Ethics
 

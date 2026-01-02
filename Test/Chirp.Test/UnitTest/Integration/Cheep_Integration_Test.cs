@@ -14,14 +14,29 @@ public class Cheep_Integration_Test
     private readonly UserRepository _userRepository;
     private readonly CheepService _CheepService;
     private readonly UserService _UserService;
+    private readonly SqliteInMemoryDbFixture _fixture;
 
     public Cheep_Integration_Test(SqliteInMemoryDbFixture fixture)
     {
+        _fixture = fixture;
         _context = fixture.CreateContext();
         _cheepRepository = new CheepRepository(_context);
         _userRepository = new UserRepository(_context);
         _UserService = new UserService(_userRepository);
         _CheepService = new CheepService(_cheepRepository, _UserService);
+    }
+    
+    [Fact]
+    public async Task SeedDatabaseTest()
+    {
+        _fixture.ResetDatabase();
+        
+        Assert.Empty(_context.Cheeps);
+        
+        DbInitializer.SeedDatabase(_context);
+        
+        Assert.NotEmpty(_context.Cheeps);
+        Assert.True(_context.Users.Any(u => u.UserName == "Jacqualine Gilcoine"));
     }
     
     [Fact]
@@ -43,107 +58,46 @@ public class Cheep_Integration_Test
     }
     
     
-    
-    
   [Fact]
     public async Task GetCheepsFromUserId_ReturnsCorrectCheepsForUser()
     {
-        // Arrange
-        // Create a user and add to database
         var user = HelperClasses.createRandomUser();
         await _context.Users.AddAsync(user);
         await _context.SaveChangesAsync();
         
-        // Create cheeps for this user
-        var cheep1 = new Cheep 
-        { 
-            Text = "Test cheep 1",
-            UserId = user.Id,
-            User = user,
-            TimeStamp = DateTime.Now.AddMinutes(-10)
-        };
+        var cheep1 = HelperClasses.createRandomCheep(user);
+        var cheep2 = HelperClasses.createRandomCheep(user);
         
-        var cheep2 = new Cheep 
-        { 
-            Text = "Test cheep 2",
-            UserId = user.Id,
-            User = user,
-            TimeStamp = DateTime.Now.AddMinutes(-5)
-        };
-        
-        // Create another user with different cheeps
         var otherUser = HelperClasses.createRandomUser();
         await _context.Users.AddAsync(otherUser);
         await _context.SaveChangesAsync();
         
-        var otherCheep = new Cheep 
-        { 
-            Text = "Other user's cheep",
-            UserId = otherUser.Id,
-            User = otherUser,
-            TimeStamp = DateTime.Now
-        };
+        var otherCheep = HelperClasses.createRandomCheep(otherUser);
         
-        // Insert all cheeps
         await _context.Cheeps.AddAsync(cheep1);
         await _context.Cheeps.AddAsync(cheep2);
         await _context.Cheeps.AddAsync(otherCheep);
         await _context.SaveChangesAsync();
         
-        // Act
         var result = await _cheepRepository.getCheepsFromUserId(user.Id, 1);
+        var result2 = await _CheepService.GetCheepsFromUserId(user.Id, 1);  
         
-        // Assert
         Assert.NotNull(result);
+        Assert.NotNull(result2);
+        
         Assert.Equal(2, result.Count);
+        Assert.Equal(result.Count, result2.Count);
         Assert.All(result, cheep => Assert.Equal(user.Id, cheep.User.Id));
-        // Should be ordered by timestamp descending (newest first)
         Assert.True(result[0].TimeStamp >= result[1].TimeStamp);
     }
     
-    
-    // inmemory database setup wrong no user tables, error works in integration
     [Fact]
-    public async Task GetCheepsFromUserId_ReturnsEmptyListWhenUserHasNoCheepssimple()
-    {
-       
-    
-        // Arrange
-        var userId = "some-nonexistent-user-id";
-    
-        // Act
-        var result = await _cheepRepository.getCheepsFromUserId(userId, 1);
-    
-        // Assert
-        Assert.NotNull(result);
-        Assert.Empty(result);
-    }
-    [Fact]
-    
     public async Task GetCheepsFromUserId_ReturnsEmptyListWhenUserHasNoCheeps()
     {
-        // Arrange
-        var user = HelperClasses.createRandomUser(); // This user is not saved to the database.
+        var userId = "some-nonexistent-user-id";
         
-        // Create another user with cheeps to ensure we're filtering correctly
-        var otherUser = HelperClasses.createRandomUser();
-        await _context.Users.AddAsync(otherUser);
-        await _context.SaveChangesAsync();
+        var result = await _cheepRepository.getCheepsFromUserId(userId, 1);
         
-        var otherCheep = new Cheep 
-        { 
-            Text = "Other user's cheep",
-            UserId = otherUser.Id,
-            User = otherUser,
-            TimeStamp = DateTime.Now
-        };
-        await _context.Cheeps.AddAsync(otherCheep);
-        await _context.SaveChangesAsync();
-        
-        // Act
-        var result = await _cheepRepository.getCheepsFromUserId(user.Id, 1);
-        
-        // Assert
         Assert.NotNull(result);
         Assert.Empty(result);
     }
@@ -151,13 +105,9 @@ public class Cheep_Integration_Test
     [Fact]
     public async Task GetCheepsFromUserId_ReturnsEmptyListForNonExistentUserId()
     {
-        // Arrange
         var nonExistentUserId = "non-existent-user-id";
-        
-        // Act
         var result = await _cheepRepository.getCheepsFromUserId(nonExistentUserId, 1);
         
-        // Assert
         Assert.NotNull(result);
         Assert.Empty(result);
     }
@@ -165,36 +115,20 @@ public class Cheep_Integration_Test
     [Fact]
     public async Task GetCheepsFromUserId_PageNumberLessThanOne_ReturnsFirstPage()
     {
-        // Arrange
+        
         var user = HelperClasses.createRandomUser();
         await _context.Users.AddAsync(user);
         await _context.SaveChangesAsync();
         
-        // Create a few cheeps
-        var cheep1 = new Cheep 
-        { 
-            Text = "Test cheep 1",
-            UserId = user.Id,
-            User = user,
-            TimeStamp = DateTime.Now.AddMinutes(-10)
-        };
-        
-        var cheep2 = new Cheep 
-        { 
-            Text = "Test cheep 2",
-            UserId = user.Id,
-            User = user,
-            TimeStamp = DateTime.Now.AddMinutes(-5)
-        };
+        var cheep1 = HelperClasses.createRandomCheep(user);
+        var cheep2 = HelperClasses.createRandomCheep(user);
         
         await _context.Cheeps.AddAsync(cheep1);
         await _context.Cheeps.AddAsync(cheep2);
         await _context.SaveChangesAsync();
         
-        // Act - page number 0 should be treated as page 1
         var result = await _cheepRepository.getCheepsFromUserId(user.Id, 0);
         
-        // Assert
         Assert.NotNull(result);
         Assert.Equal(2, result.Count);
     }
@@ -202,25 +136,17 @@ public class Cheep_Integration_Test
     [Fact]
     public async Task GetCheepsFromUserId_IncludesUserInformation()
     {
-        // Arrange
+        
         var user = HelperClasses.createRandomUser();
         await _context.Users.AddAsync(user);
         await _context.SaveChangesAsync();
         
-        var cheep = new Cheep 
-        { 
-            Text = "Test cheep",
-            UserId = user.Id,
-            User = user,
-            TimeStamp = DateTime.Now
-        };
+        var cheep = HelperClasses.createRandomCheep(user);
         await _context.Cheeps.AddAsync(cheep);
         await _context.SaveChangesAsync();
         
-        // Act
         var result = await _cheepRepository.getCheepsFromUserId(user.Id, 1);
         
-        // Assert
         Assert.NotNull(result);
         Assert.Single(result);
         Assert.NotNull(result[0].User);
@@ -255,8 +181,7 @@ public class Cheep_Integration_Test
         var cheep = HelperClasses.createRandomCheepDTO(testUser);
  
         await _CheepService.InsertCheepAsync(cheep);
- 
-       
+        
         var cheeps = await _CheepService.getCheepsFromUser(testUser, 0);
         var cheepId = cheeps[0].CheepId;
  
