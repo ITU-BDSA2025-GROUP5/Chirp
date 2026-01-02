@@ -104,7 +104,7 @@ git clone https://github.com/ITU-BDSA2025-GROUP5/Chirp.git
 cd Chirp
 </pre>
 
-To make sure dependencies are installed  
+To make sure dependencies are installed 
 In Chirp folder run:
 <pre>dotnet restore</pre>
 
@@ -145,6 +145,14 @@ Go back into the Test folder
 
 To run all tests:
 <pre>dotnet test</pre>
+
+<Strong>Test coverage:</Strong>
+[Test Coverage](images/TestCoverageCompromised.png)
+
+In our unit tests and integration tests, we focus on testing core methods, ensuring functionality, and using the Act–Assert pattern for readability.
+
+We used PlayWright for making end-to-end and UI tests. The reason Chirp.Web has low test coverage, it's because of all of the scaffoled files.
+
 
 # Ethics
 
