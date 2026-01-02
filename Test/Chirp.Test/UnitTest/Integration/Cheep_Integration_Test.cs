@@ -37,6 +37,7 @@ public class Cheep_Integration_Test
         
         Assert.NotEmpty(_context.Cheeps);
         Assert.True(_context.Users.Any(u => u.UserName == "Jacqualine Gilcoine"));
+        await Task.CompletedTask;
     }
     
     [Fact]
