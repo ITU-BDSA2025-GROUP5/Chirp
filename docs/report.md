@@ -23,11 +23,11 @@ A 'User' is an entity who can write new Cheeps, and follow other Users. The rela
 The 'Cheep' entity is the posts in the Chirp application. An author can write many Cheeps, which explains the one-to-many relation.
 - Follow
 
-The 'Follow' table keeps track of which users follow who, which can both be linked through UserID's, or an entity of a User class.
+The 'Follow' table keeps track of which users follow who, which can both be linked through UserId's, or an entity of a User class.
 
-Below is a diagram visualising the relations between our different entities.
+Below is a diagram visualizing the relations between our different entities.
 
-![Illustration of the _Chirp!_ data model as UML class diagram.](images/domain_model.png)
+![Illustration of the '_Chirp!_' data model as UML class diagram.](images/domain_model.png)
 
 
 ## Architecture — In the small
@@ -35,15 +35,15 @@ Our project follows the principles in Onion Architecture, where the presentation
 
 The presentation happens in the Web layer, which handles application startup as well as user interaction.
 
-The Infrastructure layer acts as an intermediary between User Interface and the core logic. managing data persistence, repositories as well as database migrations among other things.
+The Infrastructure layer acts as an intermediary between User Interface and the core logic. Managing data persistence, repositories as well as database migrations among other things.
 
 The Domain layer is completely independent, since the dependencies are directed inward. This ensures that the core logic is not affected by things happening in the infrastructure layer. 
 ![Architecture in the small diagram](images/inTheSmall.png)
 
 ## Architecture of deployed application
-Users send HTTPS requests from their browser (the client) to our application hosted on Azure. Azure runs our ASP.NET Core server, which processes requests using Razor Pages. The server accesses data from a SQLite database via Entity Framework Core and handles user authentication with ASP.NET Core Identity.
+Users send HTTPS requests from their browser (the client) to our application hosted on Azure. Azure runs our ASP.NET Core server, which processes request using Razor Pages. The server accesses data from a SQLite database via Entity Framework Core and handles user authentication with ASP.NET Core Identity.
 
-![Arhcitecture of Deployed application](images/OverView_Deployment_UML.png) 
+![Architecture of Deployed application](images/OverView_Deployment_UML.png) 
 
 ## User activities
 A user activity diagram showing what an unauthorized user can do and how they become authorized. 
@@ -57,8 +57,8 @@ A user activity diagram showing the actions available to an authorized user, suc
 A user activity diagram showing the entire process of an unauthorized user becoming authorized and how they can interact with Chirp!
 ![Entire user activity diagram](images/Entire_user_activity_diagram.png)
 
-## Sequence of functionality/calls trough _Chirp!_
-This illustrates the flow of messages and data sent through our Chirp application. It is ilustrated for a unauthorized user sending a HTTP request to root endpoint, and ending up with a completely rendered web-page returned to the user.
+## Sequence of functionality/calls through _Chirp!_
+This illustrates the flow of messages and data sent through our Chirp application. It is illustrated for an unauthorized user sending an HTTP request to root endpoint, and ending up with a completely rendered web-page returned to the user.
 ![Sequence Diagram for Chirp unauthorized user](images/Sequence_diagram.jpg)
 
 Small comments on the middleware pipeline:  
@@ -135,7 +135,7 @@ Go to the Test folder:
 
 Install PlayWright:
 <pre>pwsh bin/Debug/net8.0/playwright.ps1 install</pre>
-You will need to have powershell to run this command
+You will need to have 'Powershell' to run this command
 
 Build the project:
 <pre>dotnet build</pre>
@@ -146,7 +146,7 @@ To run all tests:
 # Ethics
 
 ## License
-We have chosen the MIT license, which is a common used license. The MIT license is a permissive license, which provides more freedom, if there were other who wanted to reuse the software. 
+We have chosen the MIT license, which is a commonly used license. The MIT license is a permissive license, which provides more freedom, if there were other who wanted to reuse the software. 
 This includes:
 - Commercial use
 - Modification
@@ -162,15 +162,15 @@ The LLMs that was used was:
 - CoPilot
 - Gemini
 
-LLMs was used for:
+LLM's was used for:
 - Explain and understand ASP.NET core concepts besides the Microsoft documentation.
-- Some error messages was fed to LLMs to help identify errors.
-- Write html for the UI.
+- Some error messages was fed to LLM's to help identify errors.
+- Write HTML/CSS for the UI.
 - Assisting in writing of workflows
 - Assisting in phrasing of documentation
-- Helping building the WebApplicationFactory for Playwrightests
+- Helping build the WebApplicationFactory for Playwrightests
 
-The responses were genuinely helpful in understanding the ASP.NET core, writing html for UI and assisting with workflow.
-LLMs responses regarding errors, can be very helpful to identify the problem, but you have to be careful when looking at its solutions. In our experience, it’s far more reliable to trace through the code yourself and use the LLM’s error analysis as a hint rather than a prescription. Blindly following its solutions can lead into a spiral of new errors.
+The responses were genuinely helpful in understanding the ASP.NET core, writing HTML for UI and assisting with workflow.
+LLM's responses regarding errors, can be very helpful to identify the problem, but you have to be careful when looking at its solutions. In our experience, it’s far more reliable to trace through the code yourself and use the LLM’s error analysis as a hint rather than a prescription. Blindly following its solutions can lead into a spiral of new errors.
 
-Overall we like to believe that the use of LLMs has helped the development of the project. That said, as mentioned above, we have experienced that you should not blindly follow LLMs solutions, because you can end up in a spiral of new errors and issues. Instead, we experienced, that we benefited more from tracing through the code yourself, or using pen and paper to make it clear for you, how to solve the error.
+Overall we like to believe that the use of LLM's has helped the development of the project. That said, as mentioned above, we have experienced that you should not blindly follow LLM's solutions, because you can end up in a spiral of new errors and issues. Instead, we experienced, that we benefited more from tracing through the code yourself, or using pen and paper to make it clear for you, how to solve the error.
