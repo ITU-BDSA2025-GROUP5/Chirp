@@ -104,7 +104,7 @@ git clone https://github.com/ITU-BDSA2025-GROUP5/Chirp.git
 cd Chirp
 </pre>
 
-To make sure dependencies are installed  
+To make sure dependencies are installed <br>
 In Chirp folder run:
 <pre>dotnet restore</pre>
 
@@ -130,7 +130,7 @@ Now you should be at the public timeline for Chirp!
 ## How to run test suite locally
 Install [Powershell](https://learn.microsoft.com/en-us/powershell/scripting/install/install-powershell?view=powershell-7.5) (if not already installed)
 
-Before we can run all the test we need to install Playwright
+Before we can run all the test we need to install Playwright <br>
 Go to the Test and then the PlayWrightTests folder:
 <pre>
 cd Test/PlayWrightTests
@@ -145,6 +145,14 @@ Go back into the Test folder
 
 To run all tests:
 <pre>dotnet test</pre>
+
+<Strong>Test coverage:</Strong>
+![Test Coverage](images/TestCoverageCompromised.png)
+
+In our unit tests and integration tests, we focus on testing core methods, ensuring functionality, and using the Act–Assert pattern for readability.
+
+We used PlayWright for making end-to-end and UI tests. The reason Chirp.Web has low test coverage, it's because of all of the scaffoled files.
+
 
 # Ethics
 
@@ -177,3 +185,6 @@ The responses were genuinely helpful in understanding the ASP.NET core, writing 
 LLM's responses regarding errors, can be very helpful to identify the problem, but you have to be careful when looking at its solutions. In our experience, it’s far more reliable to trace through the code yourself and use the LLM’s error analysis as a hint rather than a prescription. Blindly following its solutions can lead into a spiral of new errors.
 
 Overall we like to believe that the use of LLM's has helped the development of the project. That said, as mentioned above, we have experienced that you should not blindly follow LLM's solutions, because you can end up in a spiral of new errors and issues. Instead, we experienced, that we benefited more from tracing through the code yourself, or using pen and paper to make it clear for you, how to solve the error.
+
+## Appendix
+![Test full coverage report](images/TestCoverageAppendix.png)
