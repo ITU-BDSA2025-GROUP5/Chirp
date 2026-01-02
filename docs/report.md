@@ -104,7 +104,7 @@ git clone https://github.com/ITU-BDSA2025-GROUP5/Chirp.git
 cd Chirp
 </pre>
 
-To make sure dependencies are installed 
+To make sure dependencies are installed <br>
 In Chirp folder run:
 <pre>dotnet restore</pre>
 
@@ -130,7 +130,7 @@ Now you should be at the public timeline for Chirp!
 ## How to run test suite locally
 Install [Powershell](https://learn.microsoft.com/en-us/powershell/scripting/install/install-powershell?view=powershell-7.5) (if not already installed)
 
-Before we can run all the test we need to install Playwright (<br>)
+Before we can run all the test we need to install Playwright <br>
 Go to the Test and then the PlayWrightTests folder:
 <pre>
 cd Test/PlayWrightTests
